@@ -5,7 +5,7 @@
 It lets visitors explore beautiful homes, view detailed property showrooms with photos and amenities, and make bookings in just a few clicks.   
 With a modern navy-and-golden theme, responsive design, and seamless navigation, Wangwana delivers a premium yet local experience for travelers. 
 
-Check out the live site here: [Wangwana.com](https://bblasio.github.io/web-development-week-8-Assignment-/)   
+Check out the live site here: [Wangwana.com](https://github.com/Bblasio/wangwana_air_bnb.git)   
 
 ## Project Purpose  
 The purpose of this project is to showcase a functional property booking platform where users can:  
