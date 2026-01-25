@@ -21,34 +21,14 @@ The purpose of this project is to showcase a functional property booking platfor
 - Booking Form: Simple form for check-in and check-out dates on property pages. 
 - Custom Styling: Reflects the "Wangwana" logo with navy and golden-orange accents, using Google Fonts (Inter and Lora). 
 
-## Project Structure
-```
-web-development-week-8-Assignment-/ 
-├── assets/
-│   ├── images/         # Property and logo images 
-│   ├── rooms/          # Room-specific images 
-│   └── icons/          # Favicon 
-├── css/
-│   ├── reset.css       # CSS reset for consistency
-│   └── main.css        # Main styles with Bootstrap integration
-├── js/
-│   └── main.js         # JavaScript file 
-├── index.html          # Home page
-├── listings.html       # Property listings page
-├── property.html       # Dynamic property showroom page
-├── book.html           # Booking confirmation or detailed booking page
-├── about.html          # About page (placeholder)
-├── contact.html        # Contact page (placeholder)
-└── README.md           # This file
+
 ```
 ## Installation 
 
  1. Clone the repository 
-git clone https://github.com/bblasio/web-development-week-8-Assignment-.git 
+git clone https://github.com/Bblasio/wangwana_air_bnb.git
 
  2. Navigate into the project folder 
-cd web-development-week-8-Assignment-
-
  3. Open the project 
 - Option A: Open index.html directly in your browser 
 - Option B: Use Live Server (VS Code extension) for best experience  
@@ -74,7 +54,7 @@ cd web-development-week-8-Assignment-
 
 ## 3. Live Deployment  
     Hosted via GitHub Pages: 
-    https://bblasio.github.io/web-development-week-8-Assignment-/ 
+    https://https://bblasio.github.io/wangwana_air_bnb/
 
    ## Contact 
 For questions or feedback, reach out via:  
