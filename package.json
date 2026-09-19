@@ -4,9 +4,14 @@
   "description": "A simple multi-page Wangwana Airbnb website",
   "main": "index.html",
   "scripts": {
-    "start": "echo 'Open index.html in your browser'"
+    "dev": "node server.js",
+    "build": "echo 'Build complete'",
+    "start": "node server.js",
+    "lint": "node -c server.js js/main.js js/utils.js js/properties.js js/property-detail.js js/book.js js/favorites.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "express": "^5.2.1"
+  },
   "devDependencies": {},
   "author": "Your Name",
   "license": "MIT"

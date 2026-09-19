@@ -3,48 +3,468 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Wangwana Airbnb - About</title>
+  <title>About Wangwana Airbnb - The Uber for Airbnbs in Kisumu</title>
+  <meta name="description" content="Discover how Wangwana Airbnb operates like Uber for Kisumu City — connecting verified Airbnb hosts directly with travelers with zero prepayments and pay-on-arrival assurance.">
+  <meta property="og:title" content="About Wangwana Airbnb - Kisumu's Direct Airbnb Network">
+  <meta property="og:description" content="Connecting Kisumu property owners with visitors. A localized, direct Airbnb connection platform spanning Kisumu City exclusively.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="icon" href="assets/icons/favicon.ico">
+  <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
-  <!-- Navbar  -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="assets/images/Logo.jpg" alt="Airbnb Logo">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
+        <span>Wangwana <span class="text-gold">Airbnb</span></span>
+        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="listings.html">Listings</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="listings.html">All Stays</a></li>
+          <li class="nav-item"><a class="nav-link active" href="about.html">About Kisumu Network</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact (0703165843)</a></li>
+          <li class="nav-item ms-lg-2">
+            <button type="button" class="btn btn-sm btn-outline-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+              <i class="bi bi-house-add me-1"></i> List Your House
+            </button>
+          </li>
+          <li class="nav-item">
+            <a href="listings.html" class="btn btn-sm btn-primary">Book a Stay</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- About Section -->
- <section class="container my-5">
-  <h2>About Us</h2>
-  <p><strong>Wangwana Stays</strong> is a locally owned Airbnb business offering a variety of quality homes across Kisumu County. Whether you are here for work, leisure, or family visits, we provide spaces that combine comfort, affordability, and a true sense of home.</p>
-  
-  <p>Rooted in Kisumu’s culture and hospitality, our mission is to give every guest a warm experience that reflects the beauty of the lakeside city. From short getaways to longer stays, we make it easy for you to relax and feel at home.</p>
-  
-  <p>With multiple holdings across Kisumu, we aim to be the most trusted choice for both local and international travelers seeking safe, stylish, and convenient stays in the region.</p>
-</section>
+  <main class="py-5">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a href="index.html" class="text-gold">Home</a></li>
+          <li class="breadcrumb-item active text-muted" aria-current="page">About Our Kisumu Platform</li>
+        </ol>
+      </nav>
 
+      <!-- Hero Header -->
+      <div class="row align-items-center mb-5 pb-3">
+        <div class="col-lg-7 mb-4 mb-lg-0">
+          <span class="badge-kisumu-pill mb-3">
+            <i class="bi bi-geo-alt-fill text-gold"></i> The Uber for Airbnbs in Kisumu City
+          </span>
+          <h1 class="display-5 fw-bold mb-3">Connecting Kisumu Homeowners with Stays Seekers</h1>
+          <p class="lead text-muted mb-4">
+            Just like hailing an Uber connects a rider directly to an available car, <strong>Wangwana Airbnb</strong> operates as an on-demand stay network built exclusively for <strong>Kisumu City</strong>.
+          </p>
+          <p class="text-light mb-4">
+            We eliminate the frustration of distant international booking engines by bridging local Kisumu hosts who have furnished properties with guests looking for clean, verified accommodation. Best of all: <strong>zero upfront deposits</strong>. You inspect your stay and pay on arrival.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="listings.html" class="btn btn-primary">
+              <i class="bi bi-search me-1"></i> Browse Kisumu Stays
+            </a>
+            <button type="button" class="btn btn-outline-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+              <i class="bi bi-house-add me-1"></i> Become a Kisumu Host Partner
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="position-relative">
+            <img src="assets/rooms/outside.beach.jpg" class="img-fluid rounded-4 shadow-lg border border-secondary" alt="Wangwana Beach House Kisumu" style="width: 100%; height: 380px; object-fit: cover;">
+            <div class="position-absolute bottom-0 end-0 bg-dark p-3 m-3 rounded-3 border border-secondary shadow">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-patch-check-fill text-gold fs-1"></i>
+                <div>
+                  <div class="fw-bold text-light">100% Kisumu Focused</div>
+                  <div class="small text-gold">Pay on Arrival Guarantee</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <!-- Footer  -->
-  <footer>
-    <p>&copy; 2025 Wangwana</p>
+      <!-- The Two-Sided Network Explained -->
+      <div class="surface-card p-4 p-md-5 my-5">
+        <div class="text-center max-w-700 mx-auto mb-5">
+          <span class="badge bg-gold-subtle text-gold px-3 py-1 rounded-pill small fw-bold">Two-Sided Marketplace</span>
+          <h2 class="mt-2 mb-2">How the Kisumu Connection Works</h2>
+          <p class="text-muted small">
+            Inspired by ride-hailing networks, Wangwana serves both Kisumu residents with spaces and travelers in search of trusted hospitality.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <!-- Side A: For Customers / Guests -->
+          <div class="col-lg-6">
+            <div class="p-4 rounded-4 border border-info border-opacity-50 h-100 bg-dark-surface d-flex flex-column">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-info text-dark fw-bold px-3 py-2">
+                  <i class="bi bi-person-walking me-1"></i> 1. For Travelers & Guests
+                </span>
+                <span class="badge-poa"><i class="bi bi-shield-check"></i> Zero Prepayment</span>
+              </div>
+              <h3 class="h5 text-light mb-3">Fast, Safe & Transparent Stays</h3>
+              <ul class="list-unstyled d-flex flex-column gap-3 text-muted small flex-grow-1">
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Browse Real Kisumu Locations:</strong> Filter properties across Milimani, Riat Hills, Dunga Beach, and Tom Mboya with interactive multi-photo carousels.</div>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Instant Reservation Without Card:</strong> You don't need a credit card or advance M-Pesa deposit. Reserve your dates with a simple 3-field form.</div>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Direct WhatsApp Connection:</strong> Chat directly with the local host or our concierge team at <strong class="text-light">0703165843</strong> for arrival instructions.</div>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Inspect First, Pay on Arrival:</strong> Arrive at the house, verify the cleanliness and amenities, and pay the host upon receiving the keys.</div>
+                </li>
+              </ul>
+              <a href="listings.html" class="btn btn-outline-info w-100 mt-3">Browse Available Stays</a>
+            </div>
+          </div>
+
+          <!-- Side B: For Kisumu Hosts / Property Owners -->
+          <div class="col-lg-6">
+            <div class="p-4 rounded-4 border border-warning border-opacity-50 h-100 bg-dark-surface d-flex flex-column">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-2">
+                  <i class="bi bi-house-door-fill me-1"></i> 2. For Kisumu Property Owners
+                </span>
+                <span class="badge bg-dark border border-secondary text-gold small">Kisumu Only</span>
+              </div>
+              <h3 class="h5 text-light mb-3">Monetize Your Furnished Kisumu Property</h3>
+              <ul class="list-unstyled d-flex flex-column gap-3 text-muted small flex-grow-1">
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Simple Registration:</strong> Have an apartment, villa, or serviced guest wing in Kisumu? Register your house in under 2 minutes through our portal.</div>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Free Ground Verification:</strong> Our on-the-ground team visits your property, verifies security and amenities, and captures free high-res photos.</div>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Matched with Verified Travelers:</strong> We match corporate delegates, lakeside tourists, and diaspora families directly to your calendar.</div>
+                </li>
+                <li class="d-flex align-items-start gap-2">
+                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
+                  <div><strong class="text-light">Direct Cash & M-Pesa Settlement:</strong> Guests pay directly to your account upon arrival. No third-party foreign banks holding your income.</div>
+                </li>
+              </ul>
+              <button type="button" class="btn btn-outline-gold w-100 mt-3" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+                <i class="bi bi-house-add me-1"></i> List Your Kisumu Property
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Why Kisumu Exclusively? -->
+      <div class="my-5 py-3">
+        <div class="text-center max-w-700 mx-auto mb-5">
+          <span class="text-gold fw-semibold text-uppercase small">Hyper-Local Focus</span>
+          <h2 class="mt-1">Why Exclusively Kisumu City?</h2>
+          <p class="text-muted">By concentrating 100% of our operations within Kisumu County, we deliver unmatched quality and responsiveness.</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="surface-card h-100 p-4">
+              <i class="bi bi-person-check text-gold fs-2 mb-3 d-block"></i>
+              <h5>In-Person Inspections</h5>
+              <p class="text-muted small mb-0">
+                We physically walk into every listed property in Kisumu. No misleading photos or unverified hosts can enter our network.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="surface-card h-100 p-4">
+              <i class="bi bi-shield-check text-gold fs-2 mb-3 d-block"></i>
+              <h5>Zero Booking Fraud</h5>
+              <p class="text-muted small mb-0">
+                Since guests pay only after inspecting the home in person, there is zero risk of paying for non-existent properties.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="surface-card h-100 p-4">
+              <i class="bi bi-geo-alt text-gold fs-2 mb-3 d-block"></i>
+              <h5>Curated Neighborhoods</h5>
+              <p class="text-muted small mb-0">
+                Specialized in Kisumu's premier areas: Milimani executive living, scenic Riat Hill villas, and tranquil Dunga beachfronts.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="surface-card h-100 p-4">
+              <i class="bi bi-telephone-inbound-fill text-gold fs-2 mb-3 d-block"></i>
+              <h5>24/7 Local Concierge</h5>
+              <p class="text-muted small mb-0">
+                Direct phone and WhatsApp assistance via <strong>0703165843</strong>. Our team is stationed right here on Oginga Odinga Street.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="my-5">
+        <h3 class="mb-4 text-center">Frequently Asked Questions</h3>
+        <div class="accordion" id="faqAccordion" style="max-width: 800px; margin: 0 auto;">
+          <div class="accordion-item bg-dark text-light border border-secondary mb-3 rounded overflow-hidden">
+            <h2 class="accordion-header" id="headingZero">
+              <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
+                How is Wangwana like Uber for Kisumu Airbnbs?
+              </button>
+            </h2>
+            <div id="collapseZero" class="accordion-collapse collapse show" aria-labelledby="headingZero" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-muted small">
+                Uber connects passengers needing a ride directly to nearby drivers. Wangwana connects visitors seeking verified stays in Kisumu directly to local Kisumu homeowners who have vacant furnished apartments or villas. Both sides connect with zero friction, and settlement happens seamlessly upon arrival.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item bg-dark text-light border border-secondary mb-3 rounded overflow-hidden">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Do I need to pay online before checking in?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-muted small">
+                <strong>No upfront payment is required!</strong> You reserve your preferred stay with your phone number and dates. When you arrive at the property in Kisumu, you inspect the room and amenities. Once satisfied, you pay the host directly via Lipa Na M-Pesa or cash.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item bg-dark text-light border border-secondary mb-3 rounded overflow-hidden">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                How do Kisumu homeowners list their houses?
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-muted small">
+                Simply click the <strong>"List Your House"</strong> button on any page and submit your property details. Our Kisumu verification team will contact you via WhatsApp/Phone (0703165843) to schedule a physical walkthrough and onboarding.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item bg-dark text-light border border-secondary mb-3 rounded overflow-hidden">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                What is the official contact number for inquiries?
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-muted small">
+                Our central Kisumu host hotline is <strong>0703165843</strong>. You can call or chat with us on WhatsApp 24/7 for booking assistance, host onboarding, or directions to any property.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating WhatsApp Contact Button -->
+  <a href="https://wa.me/254703165843?text=Hello%20Wangwana%20Stays,%20I%20have%20an%20inquiry%20about%20Kisumu%20Airbnbs" target="_blank" class="whatsapp-float-btn" title="Chat on WhatsApp (0703165843)">
+    <i class="bi bi-whatsapp fs-5"></i>
+    <span>Chat on WhatsApp</span>
+  </a>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img src="assets/images/Logo.jpg" alt="Wangwana Logo" style="height: 38px; width: 38px; border-radius: 8px; object-fit: cover;">
+            <h5 class="mb-0">Wangwana Airbnb</h5>
+          </div>
+          <p class="small text-muted mb-3">
+            Kisumu City's premier direct Airbnb connection network — bridging local homeowners with guests looking for verified, clean, and secure stays with 100% pay on arrival.
+          </p>
+          <div class="d-flex flex-column gap-2 text-muted">
+            <a href="tel:0703165843" class="small"><i class="bi bi-telephone-fill text-gold me-2"></i><strong>0703165843</strong> (Kisumu Direct Line)</a>
+            <a href="https://wa.me/254703165843" target="_blank" class="small"><i class="bi bi-whatsapp text-success me-2"></i>WhatsApp: 0703165843</a>
+            <a href="mailto:info@wangwana.co.ke" class="small"><i class="bi bi-envelope-fill text-gold me-2"></i>info@wangwana.co.ke</a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="listings.html">All Stays</a></li>
+            <li><a href="about.html">About Kisumu Network</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li>
+              <a href="#" class="text-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+                <i class="bi bi-house-add me-1"></i>List Your Kisumu House
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6">
+          <h5>Kisumu Neighborhoods</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="listings.html">Milimani Apartments</a></li>
+            <li><a href="listings.html">Riat Hills Villas</a></li>
+            <li><a href="listings.html">Dunga Waterfront Stays</a></li>
+            <li><a href="listings.html">Tom Mboya Suites</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-12">
+          <h5>Kisumu City Hub</h5>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-geo-alt-fill text-gold me-1"></i> Oginga Odinga Street, Kisumu City, Kenya
+          </p>
+          <p class="small text-muted mb-3">
+            Exclusively serving Kisumu: Milimani, Riat Hills, Dunga Beach, & Tom Mboya.
+          </p>
+          <span class="badge bg-gold-subtle text-gold py-2 px-3">
+            <i class="bi bi-clock-history me-1"></i> Host Concierge: 24/7 (0703165843)
+          </span>
+        </div>
+      </div>
+      <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
+        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <div class="d-flex gap-3 mt-2 mt-sm-0">
+          <a href="about.html">Terms & Conditions</a>
+          <a href="about.html">Privacy Policy</a>
+          <a href="contact.html">Help Desk</a>
+        </div>
+      </div>
+    </div>
   </footer>
+
+  <!-- Host Listing Modal (List Your Kisumu House) -->
+  <div class="modal fade" id="hostListingModal" tabindex="-1" aria-labelledby="hostListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark border-secondary text-light">
+        <div class="modal-header border-secondary">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 rounded bg-gold-subtle text-gold">
+              <i class="bi bi-house-door-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0" id="hostListingModalLabel">List Your Kisumu Airbnb</h5>
+              <small class="text-muted">Connect your property directly with traveling guests in Kisumu</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div id="host-listing-result"></div>
+          
+          <form id="hostListingForm" novalidate>
+            <div class="alert alert-info py-2 px-3 small mb-4 d-flex align-items-center gap-2">
+              <i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>
+              <div>
+                <strong>Kisumu City Only:</strong> We exclusively connect homeowners in Milimani, Riat Hills, Dunga Beach, Tom Mboya, and Kisumu CBD.
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="hostName" class="form-label small fw-semibold">Your Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostName" placeholder="e.g. Samuel Otieno" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="hostPhone" class="form-label small fw-semibold">Phone / WhatsApp Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="hostPhone" placeholder="e.g. 0703165843" required>
+                <div class="invalid-feedback">Please provide an active phone number.</div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="hostPropertyTitle" class="form-label small fw-semibold">Property / House Title <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostPropertyTitle" placeholder="e.g. Lake Breeze 2-Bedroom Haven" required>
+                <div class="invalid-feedback">Please enter a descriptive title.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostNeighborhood" class="form-label small fw-semibold">Kisumu Area <span class="text-danger">*</span></label>
+                <select class="form-select" id="hostNeighborhood" required>
+                  <option value="" disabled selected>Select Area</option>
+                  <option value="Milimani">Milimani (City Center)</option>
+                  <option value="Riat Hills">Riat Hills</option>
+                  <option value="Dunga Beach">Dunga Beach Waterfront</option>
+                  <option value="Tom Mboya">Tom Mboya Estate</option>
+                  <option value="Kisumu CBD">Kisumu CBD</option>
+                  <option value="Other Kisumu">Other Kisumu Area</option>
+                </select>
+                <div class="invalid-feedback">Please choose the area.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPropertyType" class="form-label small fw-semibold">Property Type</label>
+                <select class="form-select" id="hostPropertyType">
+                  <option value="Entire Apartment" selected>Entire Apartment</option>
+                  <option value="Executive Villa">Executive Villa</option>
+                  <option value="Guest Suite">Guest Suite</option>
+                  <option value="Lakeside Cottage">Lakeside Cottage</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostBedrooms" class="form-label small fw-semibold">Bedrooms</label>
+                <select class="form-select" id="hostBedrooms">
+                  <option value="1">1 Bedroom</option>
+                  <option value="2" selected>2 Bedrooms</option>
+                  <option value="3">3 Bedrooms</option>
+                  <option value="4+">4+ Bedrooms</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPrice" class="form-label small fw-semibold">Proposed Nightly Rate (KES) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="hostPrice" placeholder="e.g. 6500" min="2000" step="500" required>
+                <div class="invalid-feedback">Please enter proposed nightly rate.</div>
+              </div>
+
+              <div class="col-12">
+                <label for="hostAmenities" class="form-label small fw-semibold">Key Amenities Available</label>
+                <input type="text" class="form-control" id="hostAmenities" placeholder="e.g. High-speed WiFi, Solar Backup, Gated Parking, Smart TV, Lake View">
+              </div>
+
+              <div class="col-12 mt-4">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary small mb-3">
+                  <div class="d-flex align-items-center gap-2 text-success fw-bold mb-1">
+                    <i class="bi bi-cash-coin"></i> Direct Guest Payments (Pay on Arrival)
+                  </div>
+                  <p class="text-muted mb-0">
+                    Guests pay directly to your M-Pesa or Bank account upon arrival. Wangwana does not hold your funds.
+                  </p>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                  <i class="bi bi-send me-2"></i> Submit Property for Kisumu Onboarding
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/main.js"></script>

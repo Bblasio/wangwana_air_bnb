@@ -1,0 +1,139 @@
+[
+  {
+    "id": "whitehouse",
+    "agencyRef": "WNG-MLM-01",
+    "name": "White House Serviced Residence",
+    "location": "Milimani, Kisumu City",
+    "neighborhood": "Milimani",
+    "price": 10500,
+    "monthlyLease": 185000,
+    "rating": 4.94,
+    "reviewsCount": 34,
+    "beds": 2,
+    "baths": 2,
+    "guests": 4,
+    "type": "Serviced Apartment",
+    "status": "Available",
+    "badge": "Agency Managed",
+    "images": [
+      "assets/images/whitehouse.jpg",
+      "assets/rooms/living room whitehouse.jpg",
+      "assets/rooms/bedroom, whitehouse.jpg",
+      "assets/rooms/kitchen whitehouse.jpg",
+      "assets/rooms/outside, whitehouse.jpg"
+    ],
+    "description": "An agency-represented two-bedroom luxury residence in prime Milimani. Maintained directly by Wangwana Agency with daily housekeeping, chef-fitted kitchen, high-speed fiber connectivity, and dedicated on-site concierge.",
+    "amenities": [
+      "Fast Fiber WiFi",
+      "Fully Fitted Kitchen",
+      "Secure Free Parking",
+      "24/7 Security Guard",
+      "Smart TV & Netflix",
+      "Washing Machine",
+      "Balcony with Garden View",
+      "Backup Power Generator"
+    ]
+  },
+  {
+    "id": "delpiero",
+    "agencyRef": "WNG-RHT-02",
+    "name": "Delpiero Luxury Hilltop Villa",
+    "location": "Riat Hills, Kisumu",
+    "neighborhood": "Riat Hills",
+    "price": 15200,
+    "monthlyLease": 290000,
+    "rating": 4.98,
+    "reviewsCount": 46,
+    "beds": 3,
+    "baths": 3,
+    "guests": 6,
+    "type": "Executive Villa",
+    "status": "Available",
+    "badge": "Exclusive Mandate",
+    "images": [
+      "assets/images/delpiero.jpg",
+      "assets/rooms/livingroom.delpiero.jpg",
+      "assets/rooms/bedroom.delpiero.jpg",
+      "assets/rooms/kitchen.delpier.jpg",
+      "assets/rooms/outside.delpiero.jpg"
+    ],
+    "description": "Perched upon the prestigious Riat Hills with uncompromised panoramic vistas of Kisumu City and Lake Victoria. Managed exclusively by Wangwana Agency, offering master en-suite bedrooms, open-plan architectural living, sunset veranda, and private grounds.",
+    "amenities": [
+      "Panoramic Lake & City View",
+      "High-Speed WiFi",
+      "Chef-Grade Kitchen",
+      "En-Suite Bathrooms",
+      "Private Terrace & Garden",
+      "24/7 Manned Gate & CCTV",
+      "Standby Generator",
+      "BBQ Facility"
+    ]
+  },
+  {
+    "id": "beach",
+    "agencyRef": "WNG-DNG-03",
+    "name": "Dunga Beachfront Waterfront Villa",
+    "location": "Dunga Beachfront, Kisumu",
+    "neighborhood": "Dunga Beach",
+    "price": 16000,
+    "monthlyLease": 310000,
+    "rating": 4.92,
+    "reviewsCount": 29,
+    "beds": 3,
+    "baths": 2.5,
+    "guests": 6,
+    "type": "Waterfront Residence",
+    "status": "Available",
+    "badge": "Waterfront Mandate",
+    "images": [
+      "assets/images/beach.jpg",
+      "assets/rooms/outside.beach.jpg",
+      "assets/rooms/livingroom.beach.jpg",
+      "assets/rooms/bedroom.beach.jpg",
+      "assets/rooms/kitchen.beach.jpg"
+    ],
+    "description": "A waterfront sanctuary situated on the tranquil shores of Lake Victoria in Dunga. Managed by Wangwana Real Estate with private lakeside garden, outdoor entertaining terrace, private jetty access, and full security perimeter.",
+    "amenities": [
+      "Direct Lakeside Access",
+      "Private Lawn & Sunset Patio",
+      "Outdoor Dining & BBQ Grill",
+      "High-Speed WiFi",
+      "Fully Equipped Kitchen",
+      "Free On-Premises Parking",
+      "Quiet Natural Atmosphere",
+      "24/7 Security"
+    ]
+  },
+  {
+    "id": "victoria",
+    "agencyRef": "WNG-TMB-04",
+    "name": "Victoria Executive Corporate Suite",
+    "location": "Tom Mboya Estate, Kisumu",
+    "neighborhood": "Tom Mboya",
+    "price": 8800,
+    "monthlyLease": 140000,
+    "rating": 4.88,
+    "reviewsCount": 21,
+    "beds": 1,
+    "baths": 1,
+    "guests": 2,
+    "type": "Executive Studio",
+    "status": "Available",
+    "badge": "Corporate Suite",
+    "images": [
+      "assets/images/property 3.jpg",
+      "assets/rooms/pexels-jonathanborba-30628725.jpg",
+      "assets/rooms/pexels-matthew-2148834898-30298283.jpg"
+    ],
+    "description": "Tailor-crafted for corporate executives, medical consultants, and NGO travelers on short or extended assignments. Fully managed by Wangwana Agency in a private gated compound in Tom Mboya, minutes from the Kisumu CBD.",
+    "amenities": [
+      "Dedicated Ergonomic Workstation",
+      "High-Speed Fiber WiFi",
+      "Compact Equipped Kitchenette",
+      "Smart TV with Streaming",
+      "Solar Hot Water",
+      "Secure Gated Compound",
+      "Self Check-in Available"
+    ]
+  }
+]

@@ -4,143 +4,455 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wangwana Airbnb - Property Detail</title>
+  <meta name="description" content="Detailed overview, high-resolution photo gallery, amenities, and instant booking calculator for Wangwana Stays in Kisumu.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="icon" href="assets/icons/favicon.ico">
+  <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
-  <!-- Navbar (same as index.html) -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="assets/images/Logo.jpg" alt="Airbnb Logo">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
+        <span>Wangwana <span class="text-gold">Airbnb</span></span>
+        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="listings.html">Listings</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="listings.html">All Stays</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Kisumu Network</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact (0703165843)</a></li>
+          <li class="nav-item ms-lg-2">
+            <button type="button" class="btn btn-sm btn-outline-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+              <i class="bi bi-house-add me-1"></i> List Your House
+            </button>
+          </li>
+          <li class="nav-item">
+            <a href="tel:0703165843" class="btn btn-sm btn-primary">
+              <i class="bi bi-telephone-fill me-1"></i> 0703165843
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Property Detail -->
-  <!-- Property Listings -->
-<section class="container my-5">
-  <h2 class="mb-4">Our Homes in Kisumu</h2>
-
-  <!-- White House Apartment -->
-  <div class="mb-5">
-    <h3>White House Apartment</h3>
-    <div id="whitehouseCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="assets/rooms/living room whitehouse.jpg" class="d-block w-100 rounded" alt="White House Living Room">
-        </div>
-        <div class="carousel-item">
-          <img src="assets/rooms/bedroom, whitehouse.jpg" class="d-block w-100 rounded" alt="White House Bedroom">
-        </div>
-        <div class="carousel-item">
-          <img src="assets/rooms/outside, whitehouse.jpg" class="d-block w-100 rounded" alt="White House Environment">
+  <main class="py-4">
+    <div class="container">
+      <!-- Breadcrumb & Property Switcher -->
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 small">
+            <li class="breadcrumb-item"><a href="index.html" class="text-gold">Home</a></li>
+            <li class="breadcrumb-item"><a href="listings.html" class="text-gold">Listings</a></li>
+            <li class="breadcrumb-item active text-muted" id="prop-type-badge">Apartment</li>
+          </ol>
+        </nav>
+        <div class="d-flex align-items-center gap-2">
+          <label for="propertySwitcher" class="text-muted small fw-semibold text-nowrap mb-0">Switch Property:</label>
+          <select id="propertySwitcher" class="form-select form-select-sm" style="min-width: 260px;">
+            <!-- Populated via js/property-detail.js -->
+          </select>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#whitehouseCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#whitehouseCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-    <p><strong>Description:</strong> A comfortable apartment in the city center.</p>
-    <p><strong>Price:</strong> KSH 10,500 / night</p>
-    <p><strong>Amenities:</strong> WiFi, Kitchen, Parking, 24/7 Security</p>
-   <button type="button" class="btn btn-primary" onclick="window.location.href='index.html#listings'">
-  Book Now
-</button>
 
-  </div>
-
-  <!-- Delpiero Home -->
-  <div class="mb-5">
-    <h3>Delpiero Home</h3>
-    <div id="delpieroCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="assets/rooms/livingroom.delpiero.jpg" class="d-block w-100 rounded" alt="Delpiero Living Room">
+      <!-- Header Title & Badges -->
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start mb-3">
+        <div>
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+            <span class="badge bg-gold-subtle text-gold px-2 py-1" id="prop-badge">Featured Stay</span>
+            <span class="text-warning small"><i class="bi bi-star-fill"></i> <strong id="prop-rating">4.94</strong></span>
+            <span class="text-muted small" id="prop-reviews">(34 verified reviews)</span>
+          </div>
+          <h1 class="h2 mb-1" id="prop-title">White House Apartment</h1>
+          <p class="text-muted mb-0">
+            <i class="bi bi-geo-alt-fill text-gold me-1"></i> <span id="prop-location">Milimani, Kisumu City</span>
+          </p>
         </div>
-        <div class="carousel-item">
-          <img src="assets/rooms/bedroom.delpiero.jpg" class="d-block w-100 rounded" alt="Delpiero Bedroom">
-        </div>
-        <div class="carousel-item">
-          <img src="assets/rooms/outside.delpiero.jpg" class="d-block w-100 rounded" alt="Delpiero Environment">
+        <div class="mt-3 mt-md-0 d-flex align-items-center gap-2">
+          <button type="button" id="detail-favorite-btn" class="btn btn-outline-light d-flex align-items-center gap-2" title="Save to favorites" aria-label="Toggle favorite">
+            <i class="bi bi-heart" id="detail-favorite-icon"></i> <span id="detail-favorite-text">Save</span>
+          </button>
+          <a href="#" id="direct-book-link" class="btn btn-primary">
+            <i class="bi bi-calendar-check me-1"></i> Reserve Now
+          </a>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#delpieroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#delpieroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-    <p><strong>Description:</strong> A cozy home with a modern touch and lakeside charm.</p>
-    <p><strong>Price:</strong> KSH 15,200 / night</p>
-    <p><strong>Amenities:</strong> WiFi, Kitchen, Balcony, Lake View</p>
-   <button type="button" class="btn btn-primary" onclick="window.location.href='index.html#listings'">
-  Book Now
-</button>
 
-  </div>
-
-  <!-- Beach House -->
-  <div class="mb-5">
-    <h3>Beach House</h3>
-    <div id="beachCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="assets/rooms/outside.beach.jpg" class="d-block w-100 rounded" alt="Beach House Exterior">
+      <!-- High-Res Interactive Gallery -->
+      <div class="mb-5">
+        <div class="position-relative mb-2">
+          <img id="prop-main-image" src="assets/images/whitehouse.jpg" class="gallery-main-img" alt="Property Main View">
+          <div class="position-absolute bottom-0 start-0 m-3 p-2 rounded bg-dark bg-opacity-75 text-light small">
+            <i class="bi bi-camera me-1"></i> Click any thumbnail below to preview room photos
+          </div>
         </div>
-        <div class="carousel-item">
-          <img src="assets/rooms/livingroom.beach.jpg" class="d-block w-100 rounded" alt="Beach House Interior">
-        </div>
-        <div class="carousel-item">
-          <img src="assets/rooms/bedroom.beach.jpg" class="d-block w-100 rounded" alt="Beach House Sunset">
+        <!-- Thumbnail Strip -->
+        <div class="row g-2" id="prop-thumbnail-strip">
+          <!-- Populated by JS -->
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#beachCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#beachCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+
+      <!-- Main Content & Sticky Booking Widget -->
+      <div class="row g-4">
+        <!-- Left Column: Specs, Description, Amenities, Location -->
+        <div class="col-lg-8">
+          <!-- Key Specs Highlights -->
+          <div class="surface-card mb-4 p-3">
+            <div class="row text-center g-3">
+              <div class="col-4 border-end border-secondary">
+                <i class="bi bi-people-fill text-gold fs-4 d-block mb-1"></i>
+                <div class="small fw-bold" id="prop-guests-count">4 Guests</div>
+                <div class="text-muted" style="font-size: 0.75rem;">Capacity</div>
+              </div>
+              <div class="col-4 border-end border-secondary">
+                <i class="bi bi-door-open-fill text-gold fs-4 d-block mb-1"></i>
+                <div class="small fw-bold" id="prop-beds-count">2 Bedrooms</div>
+                <div class="text-muted" style="font-size: 0.75rem;">Bed Spaces</div>
+              </div>
+              <div class="col-4">
+                <i class="bi bi-droplet-fill text-gold fs-4 d-block mb-1"></i>
+                <div class="small fw-bold" id="prop-baths-count">2 Bathrooms</div>
+                <div class="text-muted" style="font-size: 0.75rem;">En-Suite & Shared</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description Section -->
+          <div class="surface-card mb-4">
+            <h4 class="h5 mb-3">About This Stay</h4>
+            <p id="prop-description" class="text-muted" style="line-height: 1.7;">
+              Comfortable, clean, and modern living right in the heart of Kisumu. Enjoy high-speed fiber internet, fully equipped chef kitchen, and private parking.
+            </p>
+            <div class="p-3 bg-dark-elevated rounded border border-secondary mt-3">
+              <div class="d-flex align-items-center gap-2 text-gold small fw-semibold mb-1">
+                <i class="bi bi-info-circle-fill"></i> Dedicated Hosting Standard
+              </div>
+              <p class="small text-muted mb-0">
+                Self check-in with on-site host assistance available. Daily housekeeping service upon request. Strict sanitation standards maintained.
+              </p>
+            </div>
+          </div>
+
+          <!-- Amenities Grid -->
+          <div class="surface-card mb-4">
+            <h4 class="h5 mb-3">What This Place Offers</h4>
+            <div class="row" id="prop-amenities-list">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Kisumu Location Guide -->
+          <div class="surface-card mb-4">
+            <h4 class="h5 mb-3">Location & Neighborhood</h4>
+            <p class="text-muted small mb-3">
+              Located in one of Kisumu's most secure and peaceful residential corridors, giving you easy access to business hubs and leisure attractions:
+            </p>
+            <div class="row g-2 small text-muted">
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-airplane text-gold"></i>
+                <span>Kisumu International Airport: <strong>12 min drive</strong></span>
+              </div>
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-water text-gold"></i>
+                <span>Lake Victoria Shores & Dunga: <strong>8 min drive</strong></span>
+              </div>
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-bag-check text-gold"></i>
+                <span>West End & Mega Plaza: <strong>5 min drive</strong></span>
+              </div>
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-shield-check text-gold"></i>
+                <span>Kisumu Impala Sanctuary: <strong>7 min drive</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- House Rules & Policies -->
+          <div class="surface-card">
+            <h4 class="h5 mb-3">House Rules & Policies</h4>
+            <div class="row g-3 small text-muted">
+              <div class="col-sm-6">
+                <div><i class="bi bi-clock me-1 text-gold"></i> <strong>Check-in:</strong> After 2:00 PM</div>
+                <div class="mt-2"><i class="bi bi-clock-history me-1 text-gold"></i> <strong>Check-out:</strong> Before 11:00 AM</div>
+              </div>
+              <div class="col-sm-6">
+                <div><i class="bi bi-ban me-1 text-gold"></i> <strong>Smoking:</strong> No smoking indoors</div>
+                <div class="mt-2"><i class="bi bi-volume-mute me-1 text-gold"></i> <strong>Quiet Hours:</strong> 10:00 PM – 7:00 AM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Live Booking Calculator Widget -->
+        <div class="col-lg-4">
+          <div class="sticky-booking-widget">
+            <div class="d-flex justify-content-between align-items-baseline mb-3">
+              <div>
+                <span class="fs-3 fw-bold text-gold" id="calc-base-price">KSH 10,500</span>
+                <span class="text-muted small"> / night</span>
+              </div>
+              <span class="badge bg-dark border border-secondary text-warning">
+                <i class="bi bi-star-fill me-1"></i> Highly Rated
+              </span>
+            </div>
+
+            <!-- Date & Guest inputs -->
+            <div class="p-3 bg-dark-elevated rounded border border-secondary mb-3">
+              <div class="row g-2">
+                <div class="col-6">
+                  <label for="calcCheckIn" class="form-label small text-muted mb-1">Check-in</label>
+                  <input type="date" id="calcCheckIn" class="form-control form-control-sm">
+                </div>
+                <div class="col-6">
+                  <label for="calcCheckOut" class="form-label small text-muted mb-1">Check-out</label>
+                  <input type="date" id="calcCheckOut" class="form-control form-control-sm">
+                </div>
+                <div class="col-12 mt-2">
+                  <label for="calcGuests" class="form-label small text-muted mb-1">Guests</label>
+                  <select id="calcGuests" class="form-select form-select-sm">
+                    <option value="1">1 Guest</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option>
+                    <option value="6">6 Guests</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Calculation Breakdown -->
+            <div class="small mb-3">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Rate (<span id="calc-total-nights">2 nights</span>):</span>
+                <span class="text-light fw-semibold" id="calc-subtotal">KSH 21,000</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">One-time Sanitization Fee:</span>
+                <span class="text-light fw-semibold">KSH 1,500</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Service & Platform Fee:</span>
+                <span class="text-success fw-semibold">FREE</span>
+              </div>
+              <hr class="border-secondary my-2">
+              <div class="d-flex justify-content-between fs-6 fw-bold">
+                <span>Estimated Total:</span>
+                <span class="text-gold" id="calc-grand-total">KSH 22,500</span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <a href="book.html" id="calc-submit-book-btn" class="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center gap-2 mb-2">
+              <i class="bi bi-lightning-charge-fill"></i> Proceed to Reservation
+            </a>
+
+            <p class="text-center text-muted" style="font-size: 0.75rem;">
+              You won't be charged yet. Payment supported via M-Pesa or Card upon check-in.
+            </p>
+
+            <div class="border-top border-secondary pt-3 mt-3 text-center">
+              <span class="text-muted small d-block mb-2">Need immediate host clarification?</span>
+              <a href="https://wa.me/254703165843?text=Hello%20Wangwana%20Stays,%20I%20have%20an%20inquiry%20about%20a%20Kisumu%20property" target="_blank" class="btn btn-sm btn-outline-success w-100">
+                <i class="bi bi-whatsapp me-1"></i> Message Host on WhatsApp (0703165843)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p><strong>Description:</strong> A beachfront escape perfect for relaxation and leisure.</p>
-    <p><strong>Price:</strong> KSH 16,000 / night</p>
-    <p><strong>Amenities:</strong> WiFi, Kitchen, Private Beach Access, Parking</p>
-   <button type="button" class="btn btn-primary" onclick="window.location.href='index.html#listings'">
-  Book Now
-</button>
+  </main>
 
-  </div>
-</section>
-
-  <!-- Footer  -->
-  <footer>
-    <p>&copy; 2025 wangwana</p>
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img src="assets/images/Logo.jpg" alt="Wangwana Logo" style="height: 38px; width: 38px; border-radius: 8px; object-fit: cover;">
+            <h5 class="mb-0">Wangwana Airbnb</h5>
+          </div>
+          <p class="small text-muted mb-3">
+            Kisumu City's premier direct Airbnb connection network — bridging local homeowners with guests looking for verified, clean, and secure stays with 100% pay on arrival.
+          </p>
+          <div class="d-flex flex-column gap-2 text-muted">
+            <a href="tel:0703165843" class="small"><i class="bi bi-telephone-fill text-gold me-2"></i><strong>0703165843</strong> (Kisumu Direct Line)</a>
+            <a href="https://wa.me/254703165843" target="_blank" class="small"><i class="bi bi-whatsapp text-success me-2"></i>WhatsApp: 0703165843</a>
+            <a href="mailto:info@wangwana.co.ke" class="small"><i class="bi bi-envelope-fill text-gold me-2"></i>info@wangwana.co.ke</a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="listings.html">All Stays</a></li>
+            <li><a href="about.html">About Kisumu Network</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li>
+              <a href="#" class="text-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+                <i class="bi bi-house-add me-1"></i>List Your Kisumu House
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6">
+          <h5>Kisumu Locations</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="listings.html">Milimani Executive</a></li>
+            <li><a href="listings.html">Riat Hills Retreat</a></li>
+            <li><a href="listings.html">Dunga Lakeside</a></li>
+            <li><a href="listings.html">Tom Mboya Suites</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-12">
+          <h5>Kisumu City Hub</h5>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-geo-alt-fill text-gold me-1"></i> Oginga Odinga Street, Kisumu City
+          </p>
+          <p class="small text-muted mb-3">
+            <i class="bi bi-clock-history text-gold me-1"></i> Host Concierge: 24/7 (0703165843)
+          </p>
+          <span class="badge bg-gold-subtle text-gold py-2 px-3">
+            <i class="bi bi-shield-check me-1"></i> Pay on Arrival Guaranteed
+          </span>
+        </div>
+      </div>
+      <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
+        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <div class="d-flex gap-3 mt-2 mt-sm-0">
+          <a href="about.html">Terms & Conditions</a>
+          <a href="about.html">Privacy Policy</a>
+          <a href="contact.html">Help Desk</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
+  <!-- Host Listing Modal (List Your Kisumu House) -->
+  <div class="modal fade" id="hostListingModal" tabindex="-1" aria-labelledby="hostListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark border-secondary text-light">
+        <div class="modal-header border-secondary">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 rounded bg-gold-subtle text-gold">
+              <i class="bi bi-house-door-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0" id="hostListingModalLabel">List Your Kisumu Airbnb</h5>
+              <small class="text-muted">Connect your property directly with traveling guests in Kisumu</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div id="host-listing-result"></div>
+          
+          <form id="hostListingForm" novalidate>
+            <div class="alert alert-info py-2 px-3 small mb-4 d-flex align-items-center gap-2">
+              <i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>
+              <div>
+                <strong>Kisumu City Only:</strong> We exclusively connect homeowners in Milimani, Riat Hills, Dunga Beach, Tom Mboya, and Kisumu CBD.
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="hostName" class="form-label small fw-semibold">Your Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostName" placeholder="e.g. Samuel Otieno" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="hostPhone" class="form-label small fw-semibold">Phone / WhatsApp Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="hostPhone" placeholder="e.g. 0703165843" required>
+                <div class="invalid-feedback">Please provide an active phone number.</div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="hostPropertyTitle" class="form-label small fw-semibold">Property / House Title <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostPropertyTitle" placeholder="e.g. Lake Breeze 2-Bedroom Haven" required>
+                <div class="invalid-feedback">Please enter a descriptive title.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostNeighborhood" class="form-label small fw-semibold">Kisumu Area <span class="text-danger">*</span></label>
+                <select class="form-select" id="hostNeighborhood" required>
+                  <option value="" disabled selected>Select Area</option>
+                  <option value="Milimani">Milimani (City Center)</option>
+                  <option value="Riat Hills">Riat Hills</option>
+                  <option value="Dunga Beach">Dunga Beach Waterfront</option>
+                  <option value="Tom Mboya">Tom Mboya Estate</option>
+                  <option value="Kisumu CBD">Kisumu CBD</option>
+                  <option value="Other Kisumu">Other Kisumu Area</option>
+                </select>
+                <div class="invalid-feedback">Please choose the area.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPropertyType" class="form-label small fw-semibold">Property Type</label>
+                <select class="form-select" id="hostPropertyType">
+                  <option value="Entire Apartment" selected>Entire Apartment</option>
+                  <option value="Executive Villa">Executive Villa</option>
+                  <option value="Guest Suite">Guest Suite</option>
+                  <option value="Lakeside Cottage">Lakeside Cottage</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostBedrooms" class="form-label small fw-semibold">Bedrooms</label>
+                <select class="form-select" id="hostBedrooms">
+                  <option value="1">1 Bedroom</option>
+                  <option value="2" selected>2 Bedrooms</option>
+                  <option value="3">3 Bedrooms</option>
+                  <option value="4+">4+ Bedrooms</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPrice" class="form-label small fw-semibold">Proposed Nightly Rate (KES) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="hostPrice" placeholder="e.g. 6500" min="2000" step="500" required>
+                <div class="invalid-feedback">Please enter proposed nightly rate.</div>
+              </div>
+
+              <div class="col-12">
+                <label for="hostAmenities" class="form-label small fw-semibold">Key Amenities Available</label>
+                <input type="text" class="form-control" id="hostAmenities" placeholder="e.g. High-speed WiFi, Solar Backup, Gated Parking, Smart TV, Lake View">
+              </div>
+
+              <div class="col-12 mt-4">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary small mb-3">
+                  <div class="d-flex align-items-center gap-2 text-success fw-bold mb-1">
+                    <i class="bi bi-cash-coin"></i> Direct Guest Payments (Pay on Arrival)
+                  </div>
+                  <p class="text-muted mb-0">
+                    Guests pay directly to your M-Pesa or Bank account upon arrival. Wangwana does not hold your funds.
+                  </p>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                  <i class="bi bi-send me-2"></i> Submit Property for Kisumu Onboarding
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/property-detail.js"></script>
 </body>
 </html>

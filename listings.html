@@ -3,74 +3,384 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wangwana Airbnb - Listings</title>
+  <title>Wangwana Airbnb - Kisumu Stays & Direct Host Network</title>
+  <meta name="description" content="Browse verified serviced apartments, villas, and lakeside homes across Kisumu City with zero advance payments and pay-on-arrival guarantee.">
+  <meta property="og:title" content="Wangwana Airbnb - Kisumu Stays & Direct Host Network">
+  <meta property="og:description" content="Browse verified serviced apartments, villas, and lakeside homes across Kisumu City with zero advance payments and pay-on-arrival guarantee.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="icon" href="assets/icons/favicon.ico">
+  <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
-  <!-- Navbar (same as index.html) -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="assets/images/Logo.jpg" alt="Airbnb Logo">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
+        <span>Wangwana <span class="text-gold">Airbnb</span></span>
+        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="listings.html">Listings</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link active" href="listings.html">All Stays</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Kisumu Network</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact (0703165843)</a></li>
+          <li class="nav-item ms-lg-2">
+            <button type="button" class="btn btn-sm btn-outline-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+              <i class="bi bi-house-add me-1"></i> List Your House
+            </button>
+          </li>
+          <li class="nav-item">
+            <a href="tel:0703165843" class="btn btn-sm btn-primary">
+              <i class="bi bi-telephone-fill me-1"></i> 0703165843
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Listings Section -->
-  <section class="container my-5">
-    <h2>All Listings</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card">
-          <img src="assets/images/whitehouse.jpg" class="card-img-top" alt="Property 1">
-          <div class="card-body">
-            <h5 class="card-title">White House Apartment</h5>
-            <p class="card-text">KSH 10,500/night</p>
-            <a href="property.html" class="btn btn-primary">View Details</a>
+  <main class="py-5">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="mb-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="index.html" class="text-gold">Home</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">Kisumu Stays</li>
+          </ol>
+        </nav>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge-kisumu-pill"><i class="bi bi-geo-alt-fill text-gold"></i> Kisumu City Only</span>
+              <span class="badge-poa"><i class="bi bi-shield-check"></i> Pay on Arrival</span>
+            </div>
+            <h1 class="h2 mb-1">Explore Available Kisumu Airbnbs</h1>
+            <p class="text-muted mb-0">Direct connection with local homeowners in Milimani, Riat Hills, Dunga Beach, & Tom Mboya</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-sm btn-outline-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+              <i class="bi bi-house-add me-1"></i> Own a House in Kisumu? List with Us
+            </button>
+            <span id="listings-count-badge" class="badge bg-gold-subtle text-gold px-3 py-2 fs-6">
+              4 Stays Available
+            </span>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <img src="assets/images/delpiero.jpg" class="card-img-top" alt="Property 2">
-          <div class="card-body">
-            <h5 class="card-title">Delpiero  Villa</h5>
-            <p class="card-text">KSH 15,200/night</p>
-            <a href="property.html" class="btn btn-primary">View Details</a>
-          </div>
+
+      <!-- Filter & Sort Bar -->
+      <div class="filter-toolbar d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <!-- Neighborhood filter buttons -->
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <span class="text-muted small fw-semibold me-1"><i class="bi bi-funnel"></i> Filter:</span>
+          <button type="button" class="filter-btn filter-chip-btn active" data-filter="all">All Kisumu</button>
+          <button type="button" class="filter-btn filter-chip-btn" data-filter="Milimani">Milimani</button>
+          <button type="button" class="filter-btn filter-chip-btn" data-filter="Riat Hills">Riat Hills</button>
+          <button type="button" class="filter-btn filter-chip-btn" data-filter="Dunga Beach">Dunga Beach</button>
+          <button type="button" class="filter-btn filter-chip-btn" data-filter="Tom Mboya">Tom Mboya</button>
+          <button type="button" id="favFilterBtn" class="filter-btn filter-chip-btn text-light border-danger-subtle" data-filter="favorites" title="View your saved favorites">
+            <i class="bi bi-heart-fill text-danger me-1"></i> Saved (<span class="favorites-count-badge">0</span>)
+          </button>
+        </div>
+
+        <!-- Sorting buttons -->
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <span class="text-muted small fw-semibold me-1"><i class="bi bi-arrow-down-up"></i> Sort:</span>
+          <button type="button" id="sortPriceLowHighBtn" class="filter-btn" data-sort-order="asc">
+            <i class="bi bi-sort-numeric-down me-1"></i> Price: Low to High
+          </button>
+          <button type="button" id="sortPriceHighLowBtn" class="filter-btn" data-sort-order="desc">
+            <i class="bi bi-sort-numeric-up-alt me-1"></i> Price: High to Low
+          </button>
+          <select id="sortSelect" class="form-select form-select-sm d-inline-block w-auto ms-lg-2" aria-label="Sort options">
+            <option value="asc">Price: Low to High</option>
+            <option value="desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <img src="assets/images/beach.jpg" class="card-img-top" alt="Property 3">
-          <div class="card-body">
-            <h5 class="card-title">Beach House</h5>
-            <p class="card-text">KSH 16,000/night</p>
-            <a href="property.html" class="btn btn-primary">View Details</a>
+
+      <div id="sort-status-message" class="alert alert-info py-2 px-3 small d-none" role="status"></div>
+
+      <!-- Listings Grid (Rendered dynamically with multi-photo Bootstrap Carousels) -->
+      <div class="row" id="listings-container">
+        <!-- Skeleton Loading Cards (Spanning responsive 3-column grid) -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4 skeleton-card-wrapper" aria-hidden="true">
+          <div class="skeleton-card h-100">
+            <div class="skeleton-media skeleton-shimmer">
+              <div class="position-absolute top-0 start-0 m-3 skeleton-pill skeleton-shimmer" style="width: 85px; background: rgba(255,255,255,0.08);"></div>
+              <div class="position-absolute top-0 end-0 m-3 skeleton-pill skeleton-shimmer" style="width: 75px; background: rgba(255,255,255,0.08);"></div>
+            </div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-shimmer mb-2" style="height: 14px; width: 45%; border-radius: 4px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-2" style="height: 22px; width: 85%; border-radius: 6px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-1" style="height: 12px; width: 100%; border-radius: 4px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-3" style="height: 12px; width: 70%; border-radius: 4px;"></div>
+              <div class="d-flex gap-2 mb-3">
+                <div class="skeleton-chip skeleton-shimmer" style="width: 65px;"></div>
+                <div class="skeleton-chip skeleton-shimmer" style="width: 60px;"></div>
+                <div class="skeleton-chip skeleton-shimmer" style="width: 60px;"></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-secondary border-opacity-25">
+                <div class="skeleton-line skeleton-shimmer" style="height: 24px; width: 90px; border-radius: 6px;"></div>
+                <div class="d-flex gap-2">
+                  <div class="skeleton-btn skeleton-shimmer" style="width: 70px;"></div>
+                  <div class="skeleton-btn skeleton-shimmer" style="width: 70px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 mb-4 skeleton-card-wrapper" aria-hidden="true">
+          <div class="skeleton-card h-100">
+            <div class="skeleton-media skeleton-shimmer">
+              <div class="position-absolute top-0 start-0 m-3 skeleton-pill skeleton-shimmer" style="width: 85px; background: rgba(255,255,255,0.08);"></div>
+              <div class="position-absolute top-0 end-0 m-3 skeleton-pill skeleton-shimmer" style="width: 75px; background: rgba(255,255,255,0.08);"></div>
+            </div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-shimmer mb-2" style="height: 14px; width: 50%; border-radius: 4px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-2" style="height: 22px; width: 80%; border-radius: 6px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-1" style="height: 12px; width: 100%; border-radius: 4px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-3" style="height: 12px; width: 65%; border-radius: 4px;"></div>
+              <div class="d-flex gap-2 mb-3">
+                <div class="skeleton-chip skeleton-shimmer" style="width: 65px;"></div>
+                <div class="skeleton-chip skeleton-shimmer" style="width: 60px;"></div>
+                <div class="skeleton-chip skeleton-shimmer" style="width: 60px;"></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-secondary border-opacity-25">
+                <div class="skeleton-line skeleton-shimmer" style="height: 24px; width: 90px; border-radius: 6px;"></div>
+                <div class="d-flex gap-2">
+                  <div class="skeleton-btn skeleton-shimmer" style="width: 70px;"></div>
+                  <div class="skeleton-btn skeleton-shimmer" style="width: 70px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 mb-4 skeleton-card-wrapper" aria-hidden="true">
+          <div class="skeleton-card h-100">
+            <div class="skeleton-media skeleton-shimmer">
+              <div class="position-absolute top-0 start-0 m-3 skeleton-pill skeleton-shimmer" style="width: 85px; background: rgba(255,255,255,0.08);"></div>
+              <div class="position-absolute top-0 end-0 m-3 skeleton-pill skeleton-shimmer" style="width: 75px; background: rgba(255,255,255,0.08);"></div>
+            </div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-shimmer mb-2" style="height: 14px; width: 40%; border-radius: 4px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-2" style="height: 22px; width: 90%; border-radius: 6px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-1" style="height: 12px; width: 100%; border-radius: 4px;"></div>
+              <div class="skeleton-line skeleton-shimmer mb-3" style="height: 12px; width: 75%; border-radius: 4px;"></div>
+              <div class="d-flex gap-2 mb-3">
+                <div class="skeleton-chip skeleton-shimmer" style="width: 65px;"></div>
+                <div class="skeleton-chip skeleton-shimmer" style="width: 60px;"></div>
+                <div class="skeleton-chip skeleton-shimmer" style="width: 60px;"></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-secondary border-opacity-25">
+                <div class="skeleton-line skeleton-shimmer" style="height: 24px; width: 90px; border-radius: 6px;"></div>
+                <div class="d-flex gap-2">
+                  <div class="skeleton-btn skeleton-shimmer" style="width: 70px;"></div>
+                  <div class="skeleton-btn skeleton-shimmer" style="width: 70px;"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </main>
 
-  <!-- Footer (same as index.html) -->
-  <footer>
-    <p>&copy; 2025 Wangwana</p>
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/254703165843?text=Hello%20Wangwana%20Stays,%20I%20am%20interested%20in%20one%20of%20your%20Kisumu%20listings" target="_blank" class="whatsapp-float-btn" title="Chat on WhatsApp (0703165843)">
+    <i class="bi bi-whatsapp fs-5"></i>
+    <span>Chat on WhatsApp</span>
+  </a>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img src="assets/images/Logo.jpg" alt="Wangwana Logo" style="height: 38px; width: 38px; border-radius: 8px; object-fit: cover;">
+            <h5 class="mb-0">Wangwana Airbnb</h5>
+          </div>
+          <p class="small text-muted mb-3">
+            Kisumu City's premier direct Airbnb connection network — bridging local homeowners with guests looking for verified, clean, and secure stays with 100% pay on arrival.
+          </p>
+          <div class="d-flex flex-column gap-2 text-muted">
+            <a href="tel:0703165843" class="small"><i class="bi bi-telephone-fill text-gold me-2"></i><strong>0703165843</strong> (Kisumu Direct Line)</a>
+            <a href="https://wa.me/254703165843" target="_blank" class="small"><i class="bi bi-whatsapp text-success me-2"></i>WhatsApp: 0703165843</a>
+            <a href="mailto:info@wangwana.co.ke" class="small"><i class="bi bi-envelope-fill text-gold me-2"></i>info@wangwana.co.ke</a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="listings.html">All Stays</a></li>
+            <li><a href="about.html">About Kisumu Network</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li>
+              <a href="#" class="text-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+                <i class="bi bi-house-add me-1"></i>List Your Kisumu House
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6">
+          <h5>Kisumu Locations</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="listings.html">Milimani Executive</a></li>
+            <li><a href="listings.html">Riat Hills Retreat</a></li>
+            <li><a href="listings.html">Dunga Lakeside</a></li>
+            <li><a href="listings.html">Tom Mboya Suites</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-12">
+          <h5>Kisumu City Hub</h5>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-geo-alt-fill text-gold me-1"></i> Oginga Odinga Street, Kisumu City
+          </p>
+          <p class="small text-muted mb-3">
+            <i class="bi bi-clock-history text-gold me-1"></i> Host Concierge: 24/7 (0703165843)
+          </p>
+          <span class="badge bg-gold-subtle text-gold py-2 px-3">
+            <i class="bi bi-shield-check me-1"></i> Pay on Arrival Guaranteed
+          </span>
+        </div>
+      </div>
+      <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
+        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <div class="d-flex gap-3 mt-2 mt-sm-0">
+          <a href="about.html">Terms & Conditions</a>
+          <a href="about.html">Privacy Policy</a>
+          <a href="contact.html">Help Desk</a>
+        </div>
+      </div>
+    </div>
   </footer>
+
+  <!-- Host Listing Modal (List Your Kisumu House) -->
+  <div class="modal fade" id="hostListingModal" tabindex="-1" aria-labelledby="hostListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark border-secondary text-light">
+        <div class="modal-header border-secondary">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 rounded bg-gold-subtle text-gold">
+              <i class="bi bi-house-door-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0" id="hostListingModalLabel">List Your Kisumu Airbnb</h5>
+              <small class="text-muted">Connect your property directly with traveling guests in Kisumu</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div id="host-listing-result"></div>
+          
+          <form id="hostListingForm" novalidate>
+            <div class="alert alert-info py-2 px-3 small mb-4 d-flex align-items-center gap-2">
+              <i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>
+              <div>
+                <strong>Kisumu City Only:</strong> We exclusively connect homeowners in Milimani, Riat Hills, Dunga Beach, Tom Mboya, and Kisumu CBD.
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="hostName" class="form-label small fw-semibold">Your Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostName" placeholder="e.g. Samuel Otieno" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="hostPhone" class="form-label small fw-semibold">Phone / WhatsApp Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="hostPhone" placeholder="e.g. 0703165843" required>
+                <div class="invalid-feedback">Please provide an active phone number.</div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="hostPropertyTitle" class="form-label small fw-semibold">Property / House Title <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostPropertyTitle" placeholder="e.g. Lake Breeze 2-Bedroom Haven" required>
+                <div class="invalid-feedback">Please enter a descriptive title.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostNeighborhood" class="form-label small fw-semibold">Kisumu Area <span class="text-danger">*</span></label>
+                <select class="form-select" id="hostNeighborhood" required>
+                  <option value="" disabled selected>Select Area</option>
+                  <option value="Milimani">Milimani (City Center)</option>
+                  <option value="Riat Hills">Riat Hills</option>
+                  <option value="Dunga Beach">Dunga Beach Waterfront</option>
+                  <option value="Tom Mboya">Tom Mboya Estate</option>
+                  <option value="Kisumu CBD">Kisumu CBD</option>
+                  <option value="Other Kisumu">Other Kisumu Area</option>
+                </select>
+                <div class="invalid-feedback">Please choose the area.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPropertyType" class="form-label small fw-semibold">Property Type</label>
+                <select class="form-select" id="hostPropertyType">
+                  <option value="Entire Apartment" selected>Entire Apartment</option>
+                  <option value="Executive Villa">Executive Villa</option>
+                  <option value="Guest Suite">Guest Suite</option>
+                  <option value="Lakeside Cottage">Lakeside Cottage</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostBedrooms" class="form-label small fw-semibold">Bedrooms</label>
+                <select class="form-select" id="hostBedrooms">
+                  <option value="1">1 Bedroom</option>
+                  <option value="2" selected>2 Bedrooms</option>
+                  <option value="3">3 Bedrooms</option>
+                  <option value="4+">4+ Bedrooms</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPrice" class="form-label small fw-semibold">Proposed Nightly Rate (KES) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="hostPrice" placeholder="e.g. 6500" min="2000" step="500" required>
+                <div class="invalid-feedback">Please enter proposed nightly rate.</div>
+              </div>
+
+              <div class="col-12">
+                <label for="hostAmenities" class="form-label small fw-semibold">Key Amenities Available</label>
+                <input type="text" class="form-control" id="hostAmenities" placeholder="e.g. High-speed WiFi, Solar Backup, Gated Parking, Smart TV, Lake View">
+              </div>
+
+              <div class="col-12 mt-4">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary small mb-3">
+                  <div class="d-flex align-items-center gap-2 text-success fw-bold mb-1">
+                    <i class="bi bi-cash-coin"></i> Direct Guest Payments (Pay on Arrival)
+                  </div>
+                  <p class="text-muted mb-0">
+                    Guests pay directly to your M-Pesa or Bank account upon arrival. Wangwana does not hold your funds.
+                  </p>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                  <i class="bi bi-send me-2"></i> Submit Property for Kisumu Onboarding
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/main.js"></script>

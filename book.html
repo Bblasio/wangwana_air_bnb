@@ -3,57 +3,433 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wangwana Airbnb - Book</title>
+  <title>Wangwana Airbnb - Complete Your Reservation</title>
+  <meta name="description" content="Secure your stay at Wangwana Airbnb in Kisumu. Easy booking with flexible M-Pesa, card, or cash-on-arrival payment options.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="icon" href="assets/icons/favicon.ico">
+  <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="assets/images/Logo.jpg" alt="Airbnb Logo">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
+        <span>Wangwana <span class="text-gold">Airbnb</span></span>
+        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="listings.html">Listings</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="listings.html">All Stays</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Kisumu Network</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact (0703165843)</a></li>
+          <li class="nav-item ms-lg-2">
+            <button type="button" class="btn btn-sm btn-outline-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+              <i class="bi bi-house-add me-1"></i> List Your House
+            </button>
+          </li>
+          <li class="nav-item">
+            <a href="tel:0703165843" class="btn btn-sm btn-primary">
+              <i class="bi bi-telephone-fill me-1"></i> 0703165843
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Booking Section -->
-  <section class="container my-5">
-    <h2>White House Apartment</h2>
+  <main class="py-4">
+    <div class="container">
+      <!-- Breadcrumbs -->
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+          <li class="breadcrumb-item"><a href="index.html" class="text-gold">Home</a></li>
+          <li class="breadcrumb-item"><a href="listings.html" class="text-gold">Listings</a></li>
+          <li class="breadcrumb-item active text-muted" aria-current="page">Reservation</li>
+        </ol>
+      </nav>
 
-    
-    <!-- Booking Form -->
-    <form id="bookingForm" class="mt-4">
-      <div class="mb-3">
-        <label for="checkIn" class="form-label">Check-in</label>
-        <input type="date" id="checkIn" class="form-control" required>
+      <div class="row g-4" id="reservation-flow-container">
+        <!-- Left: Reservation Form -->
+        <div class="col-lg-7">
+          <div class="surface-card p-4">
+            <h1 class="h3 mb-1">Confirm Your Stay</h1>
+            <p class="text-muted small mb-4">Complete your details to secure your reservation at Wangwana Airbnb</p>
+
+            <form id="reservationForm" novalidate>
+              <!-- Step 1: Select or Confirm Property -->
+              <div class="mb-4">
+                <label for="bookPropertySelect" class="form-label">Chosen Residence</label>
+                <select id="bookPropertySelect" class="form-select">
+                  <!-- Injected via js/book.js -->
+                </select>
+              </div>
+
+              <!-- Step 2: Dates and Guests -->
+              <div class="p-3 bg-dark-elevated rounded border border-secondary mb-4">
+                <h6 class="text-gold mb-3"><i class="bi bi-calendar-event me-1"></i> Dates & Guests</h6>
+                <div class="row g-3">
+                  <div class="col-sm-6">
+                    <label for="bookCheckIn" class="form-label small">Check-in Date</label>
+                    <input type="date" id="bookCheckIn" class="form-control" required>
+                    <div class="invalid-feedback">Please select a valid check-in date.</div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="bookCheckOut" class="form-label small">Check-out Date</label>
+                    <input type="date" id="bookCheckOut" class="form-control" required>
+                    <div class="invalid-feedback">Check-out must be after check-in.</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="bookGuests" class="form-label small">Number of Guests</label>
+                    <select id="bookGuests" class="form-select">
+                      <option value="1">1 Guest</option>
+                      <option value="2" selected>2 Guests</option>
+                      <option value="3">3 Guests</option>
+                      <option value="4">4 Guests</option>
+                      <option value="5">5 Guests</option>
+                      <option value="6">6 Guests</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Guest Contact Details -->
+              <div class="p-3 bg-dark-elevated rounded border border-secondary mb-4">
+                <h6 class="text-gold mb-3"><i class="bi bi-person-badge me-1"></i> Guest Details</h6>
+                <div class="row g-3">
+                  <div class="col-sm-12">
+                    <label for="guestFullName" class="form-label small">Full Name</label>
+                    <input type="text" id="guestFullName" class="form-control" placeholder="e.g. Achieng Odhiambo" required>
+                    <div class="invalid-feedback">Please enter your full name.</div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="guestEmail" class="form-label small">Email Address</label>
+                    <input type="email" id="guestEmail" class="form-control" placeholder="name@domain.com" required>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="guestPhone" class="form-label small">Phone / WhatsApp</label>
+                    <input type="tel" id="guestPhone" class="form-control" placeholder="0703165843" required>
+                    <div class="invalid-feedback">Please provide your mobile contact.</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="guestNotes" class="form-label small">Special Requests or Arrival Notes (Optional)</label>
+                    <textarea id="guestNotes" class="form-control" rows="2" placeholder="e.g. Arriving on evening flight from Nairobi, request late check-in"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 4: Pay on Arrival Policy & Payment Mode -->
+              <div class="p-3 bg-dark-elevated rounded border border-secondary mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <h6 class="text-gold mb-0"><i class="bi bi-wallet2 me-1"></i> Payment on Arrival</h6>
+                  <span class="badge-poa"><i class="bi bi-shield-check"></i> Zero Prepayment</span>
+                </div>
+                
+                <div class="alert alert-dark border border-secondary p-3 mb-3 small">
+                  <div class="d-flex gap-2">
+                    <i class="bi bi-patch-check-fill text-success fs-5"></i>
+                    <div>
+                      <strong class="text-light">Wangwana Kisumu Guarantee:</strong>
+                      <p class="mb-0 text-muted">No money is deducted now. You inspect the property upon arrival, receive keys, and pay the host directly.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <label class="form-label small text-muted">Preferred Arrival Payment Method:</label>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="payMpesa" value="M-Pesa" checked>
+                  <label class="form-check-label text-light small" for="payMpesa">
+                    <strong>Lipa Na M-Pesa (Till / Send Money)</strong> — Handover at property
+                  </label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="Cash upon arrival">
+                  <label class="form-check-label text-light small" for="payCash">
+                    <strong>Cash on Arrival</strong> — Pay Kenyan Shillings directly to host
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="Card / Bank Transfer">
+                  <label class="form-check-label text-light small" for="payCard">
+                    <strong>Bank Transfer / Card</strong> — On-site handover
+                  </label>
+                </div>
+              </div>
+
+              <!-- Terms acknowledgment -->
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="termsCheck" required checked>
+                <label class="form-check-label text-muted small" for="termsCheck">
+                  I agree to inspect the home upon arrival, follow Kisumu house rules, and pay upon room handover.
+                </label>
+                <div class="invalid-feedback">You must agree before submitting.</div>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 py-3 fs-6 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-shield-check fs-5"></i> Confirm Reservation (Pay on Arrival)
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right: Reservation Summary Card -->
+        <div class="col-lg-5">
+          <div class="sticky-booking-widget">
+            <h5 class="h6 text-gold text-uppercase tracking-wide mb-3">Booking Summary</h5>
+            
+            <div class="d-flex gap-3 align-items-center mb-3">
+              <img id="summary-prop-img" src="assets/images/whitehouse.jpg" alt="Property Preview" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-subtle);">
+              <div>
+                <h5 class="mb-1 h6 text-light" id="summary-prop-name">White House Apartment</h5>
+                <p class="text-muted small mb-0"><i class="bi bi-geo-alt-fill text-gold me-1"></i><span id="summary-prop-location">Milimani, Kisumu City</span></p>
+                <span class="badge bg-gold-subtle text-gold mt-1 small">Verified Stay</span>
+              </div>
+            </div>
+
+            <hr class="border-secondary my-3">
+
+            <div class="small">
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span>Dates:</span>
+                <span class="text-light" id="summary-dates-display">Selected dates</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span>Guests:</span>
+                <span class="text-light" id="summary-guests-display">2 Guests</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span>Nightly Rate:</span>
+                <span class="text-light" id="summary-night-rate">KSH 10,500 × 2 nights</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span>Room Subtotal:</span>
+                <span class="text-light" id="summary-subtotal">KSH 21,000</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span>Sanitization & Cleaning:</span>
+                <span class="text-light" id="summary-cleaning">KSH 1,500</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span>Service Fee:</span>
+                <span class="text-success fw-semibold">0.00 (Included)</span>
+              </div>
+            </div>
+
+            <hr class="border-secondary my-3">
+
+            <div class="d-flex justify-content-between align-items-baseline mb-4">
+              <span class="fs-6 fw-bold">Total (KES):</span>
+              <span class="fs-4 fw-bold text-gold" id="summary-grand-total">KSH 22,500</span>
+            </div>
+
+            <div class="p-3 bg-dark-elevated rounded border border-secondary small text-muted">
+              <div class="d-flex align-items-center gap-2 mb-1 text-light">
+                <i class="bi bi-shield-lock-fill text-gold"></i> Free Cancellation
+              </div>
+              Cancel up to 48 hours before check-in for a 100% full refund with no hidden penalties.
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="checkOut" class="form-label">Check-out</label>
-        <input type="date" id="checkOut" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Book Now</button>
-    </form>
-  </section>
+    </div>
+  </main>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/254703165843?text=Hello%20Wangwana%20Stays,%20I%20have%20an%20inquiry%20about%20booking%20a%20Kisumu%20stay" target="_blank" class="whatsapp-float-btn" title="Chat on WhatsApp (0703165843)">
+    <i class="bi bi-whatsapp fs-5"></i>
+    <span>Chat on WhatsApp</span>
+  </a>
 
   <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 wangwana</p>
+  <footer class="app-footer">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img src="assets/images/Logo.jpg" alt="Wangwana Logo" style="height: 38px; width: 38px; border-radius: 8px; object-fit: cover;">
+            <h5 class="mb-0">Wangwana Airbnb</h5>
+          </div>
+          <p class="small text-muted mb-3">
+            Kisumu City's premier direct Airbnb connection network — bridging local homeowners with guests looking for verified, clean, and secure stays with 100% pay on arrival.
+          </p>
+          <div class="d-flex flex-column gap-2 text-muted">
+            <a href="tel:0703165843" class="small"><i class="bi bi-telephone-fill text-gold me-2"></i><strong>0703165843</strong> (Kisumu Direct Line)</a>
+            <a href="https://wa.me/254703165843" target="_blank" class="small"><i class="bi bi-whatsapp text-success me-2"></i>WhatsApp: 0703165843</a>
+            <a href="mailto:info@wangwana.co.ke" class="small"><i class="bi bi-envelope-fill text-gold me-2"></i>info@wangwana.co.ke</a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="listings.html">All Stays</a></li>
+            <li><a href="about.html">About Kisumu Network</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li>
+              <a href="#" class="text-gold" data-bs-toggle="modal" data-bs-target="#hostListingModal">
+                <i class="bi bi-house-add me-1"></i>List Your Kisumu House
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6">
+          <h5>Kisumu Locations</h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="listings.html">Milimani Executive</a></li>
+            <li><a href="listings.html">Riat Hills Retreat</a></li>
+            <li><a href="listings.html">Dunga Lakeside</a></li>
+            <li><a href="listings.html">Tom Mboya Suites</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-12">
+          <h5>Kisumu City Hub</h5>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-geo-alt-fill text-gold me-1"></i> Oginga Odinga Street, Kisumu City
+          </p>
+          <p class="small text-muted mb-3">
+            <i class="bi bi-clock-history text-gold me-1"></i> Host Concierge: 24/7 (0703165843)
+          </p>
+          <span class="badge bg-gold-subtle text-gold py-2 px-3">
+            <i class="bi bi-shield-check me-1"></i> Pay on Arrival Guaranteed
+          </span>
+        </div>
+      </div>
+      <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
+        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <div class="d-flex gap-3 mt-2 mt-sm-0">
+          <a href="about.html">Terms & Conditions</a>
+          <a href="about.html">Privacy Policy</a>
+          <a href="contact.html">Help Desk</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
+  <!-- Host Listing Modal (List Your Kisumu House) -->
+  <div class="modal fade" id="hostListingModal" tabindex="-1" aria-labelledby="hostListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark border-secondary text-light">
+        <div class="modal-header border-secondary">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 rounded bg-gold-subtle text-gold">
+              <i class="bi bi-house-door-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0" id="hostListingModalLabel">List Your Kisumu Airbnb</h5>
+              <small class="text-muted">Connect your property directly with traveling guests in Kisumu</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div id="host-listing-result"></div>
+          
+          <form id="hostListingForm" novalidate>
+            <div class="alert alert-info py-2 px-3 small mb-4 d-flex align-items-center gap-2">
+              <i class="bi bi-info-circle-fill fs-5 flex-shrink-0"></i>
+              <div>
+                <strong>Kisumu City Only:</strong> We exclusively connect homeowners in Milimani, Riat Hills, Dunga Beach, Tom Mboya, and Kisumu CBD.
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="hostName" class="form-label small fw-semibold">Your Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostName" placeholder="e.g. Samuel Otieno" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="hostPhone" class="form-label small fw-semibold">Phone / WhatsApp Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="hostPhone" placeholder="e.g. 0703165843" required>
+                <div class="invalid-feedback">Please provide an active phone number.</div>
+              </div>
+
+              <div class="col-md-8">
+                <label for="hostPropertyTitle" class="form-label small fw-semibold">Property / House Title <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="hostPropertyTitle" placeholder="e.g. Lake Breeze 2-Bedroom Haven" required>
+                <div class="invalid-feedback">Please enter a descriptive title.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostNeighborhood" class="form-label small fw-semibold">Kisumu Area <span class="text-danger">*</span></label>
+                <select class="form-select" id="hostNeighborhood" required>
+                  <option value="" disabled selected>Select Area</option>
+                  <option value="Milimani">Milimani (City Center)</option>
+                  <option value="Riat Hills">Riat Hills</option>
+                  <option value="Dunga Beach">Dunga Beach Waterfront</option>
+                  <option value="Tom Mboya">Tom Mboya Estate</option>
+                  <option value="Kisumu CBD">Kisumu CBD</option>
+                  <option value="Other Kisumu">Other Kisumu Area</option>
+                </select>
+                <div class="invalid-feedback">Please choose the area.</div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPropertyType" class="form-label small fw-semibold">Property Type</label>
+                <select class="form-select" id="hostPropertyType">
+                  <option value="Entire Apartment" selected>Entire Apartment</option>
+                  <option value="Executive Villa">Executive Villa</option>
+                  <option value="Guest Suite">Guest Suite</option>
+                  <option value="Lakeside Cottage">Lakeside Cottage</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostBedrooms" class="form-label small fw-semibold">Bedrooms</label>
+                <select class="form-select" id="hostBedrooms">
+                  <option value="1">1 Bedroom</option>
+                  <option value="2" selected>2 Bedrooms</option>
+                  <option value="3">3 Bedrooms</option>
+                  <option value="4+">4+ Bedrooms</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="hostPrice" class="form-label small fw-semibold">Proposed Nightly Rate (KES) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="hostPrice" placeholder="e.g. 6500" min="2000" step="500" required>
+                <div class="invalid-feedback">Please enter proposed nightly rate.</div>
+              </div>
+
+              <div class="col-12">
+                <label for="hostAmenities" class="form-label small fw-semibold">Key Amenities Available</label>
+                <input type="text" class="form-control" id="hostAmenities" placeholder="e.g. High-speed WiFi, Solar Backup, Gated Parking, Smart TV, Lake View">
+              </div>
+
+              <div class="col-12 mt-4">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary small mb-3">
+                  <div class="d-flex align-items-center gap-2 text-success fw-bold mb-1">
+                    <i class="bi bi-cash-coin"></i> Direct Guest Payments (Pay on Arrival)
+                  </div>
+                  <p class="text-muted mb-0">
+                    Guests pay directly to your M-Pesa or Bank account upon arrival. Wangwana does not hold your funds.
+                  </p>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                  <i class="bi bi-send me-2"></i> Submit Property for Kisumu Onboarding
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/book.js"></script>
 </body>
 </html>

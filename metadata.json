@@ -1,0 +1,6 @@
+{
+  "name": "Wangwana Airbnb",
+  "description": "Connecting Kisumu Airbnb homeowners with verified travelers across Milimani, Riat Hills, and Dunga Beach. Instant reservation, zero prepayment, and 100% pay on arrival.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
