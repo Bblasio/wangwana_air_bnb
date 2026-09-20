@@ -126,30 +126,71 @@ export function renderHomeListings(properties) {
 
   container.innerHTML = properties.map(property => createPropertyCardHTML(property)).join('');
 
-  // Re-attach carousel isolation and favorite handlers
+  // Re-attach carousel isolation, slide events, gallery preview, and favorite handlers
+  setupListingCarousels();
   setupCarouselClickIsolation();
   setupFavoriteButtonHandlers();
 }
 
 /**
- * Generates HTML string for an Agency property card
+ * Maps a photo file path or index to an intuitive room preview title and icon
+ * @param {string} imgSrc
+ * @param {number} idx
+ * @param {string} propName
+ * @returns {{ label: string, shortLabel: string, icon: string }}
+ */
+export function getRoomPhotoInfo(imgSrc, idx = 0, propName = '') {
+  const s = (imgSrc || '').toLowerCase();
+  if (s.includes('living') || s.includes('lounge')) {
+    return { label: 'Living Room Lounge', shortLabel: 'Living Room', icon: 'bi-tv' };
+  }
+  if (s.includes('bedroom')) {
+    return { label: idx === 1 ? 'Master Bedroom Suite' : 'En-Suite Bedroom', shortLabel: 'Bedroom', icon: 'bi-door-closed' };
+  }
+  if (s.includes('kitchen')) {
+    return { label: 'Chef-Fitted Kitchen', shortLabel: 'Kitchen', icon: 'bi-cup-hot' };
+  }
+  if (s.includes('outside') || s.includes('patio') || s.includes('garden')) {
+    return { label: 'Private Veranda & Grounds', shortLabel: 'Grounds', icon: 'bi-tree' };
+  }
+  if (s.includes('beach') || s.includes('water')) {
+    return { label: 'Lakeside Lawn & Water Views', shortLabel: 'Lake View', icon: 'bi-water' };
+  }
+  if (s.includes('pexels-jonathanborba')) {
+    return { label: 'Executive Master Suite', shortLabel: 'Bedroom', icon: 'bi-door-closed' };
+  }
+  if (s.includes('pexels-matthew')) {
+    return { label: 'Executive Lounge & Workstation', shortLabel: 'Lounge', icon: 'bi-laptop' };
+  }
+  if (s.includes('property 3') || s.includes('whitehouse.jpg') || s.includes('delpiero.jpg')) {
+    return { label: 'Architectural Residence Facade', shortLabel: 'Main View', icon: 'bi-building' };
+  }
+  return { label: `Room Preview ${idx + 1}`, shortLabel: `Room ${idx + 1}`, icon: 'bi-camera' };
+}
+
+/**
+ * Generates HTML string for an Agency property card with multi-photo carousel & room walkthrough
  * @param {Object} property
  * @returns {string}
  */
 export function createPropertyCardHTML(property) {
-  const carouselId = `carousel-${property.id.replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const safeId = property.id.replace(/[^a-zA-Z0-9_-]/g, '');
+  const carouselId = `carousel-${safeId}`;
   const isFav = isFavorite(property.id);
   const images = Array.isArray(property.images) && property.images.length > 0 ? property.images : ['assets/images/whitehouse.jpg'];
+  const firstPhotoInfo = getRoomPhotoInfo(images[0], 0, property.name);
   
-  const carouselItemsHTML = images.map((imgSrc, idx) => `
-    <div class="carousel-item ${idx === 0 ? 'active' : ''}">
-      <img src="${imgSrc}" class="d-block w-100" alt="${property.name} - Photo ${idx + 1}" loading="lazy" onerror="this.src='assets/images/whitehouse.jpg'">
-    </div>
-  `).join('');
-
-  const indicatorsHTML = images.length > 1 ? images.map((_, idx) => `
-    <button type="button" data-bs-target="#${carouselId}" data-bs-slide-to="${idx}" class="${idx === 0 ? 'active' : ''}" aria-label="Slide ${idx + 1}"></button>
-  `).join('') : '';
+  const carouselItemsHTML = images.map((imgSrc, idx) => {
+    const info = getRoomPhotoInfo(imgSrc, idx, property.name);
+    return `
+      <div class="carousel-item ${idx === 0 ? 'active' : ''}" 
+           data-slide-index="${idx}" 
+           data-room-label="${info.label}" 
+           data-room-icon="${info.icon}">
+        <img src="${imgSrc}" class="d-block w-100" alt="${property.name} - ${info.label}" loading="lazy" onerror="this.src='assets/images/whitehouse.jpg'">
+      </div>
+    `;
+  }).join('');
 
   // Status pill styling
   const status = property.status || 'Available';
@@ -168,46 +209,81 @@ export function createPropertyCardHTML(property) {
          data-rating="${property.rating || 5.0}"
          data-guests="${property.guests || 2}">
       <div class="card property-card h-100">
-        <!-- Image Carousel -->
+        <!-- High-Quality Multi-Photo Carousel Component -->
         <div class="listing-carousel">
-          <div id="${carouselId}" class="carousel slide" data-bs-interval="false">
-            ${indicatorsHTML ? `<div class="carousel-indicators">${indicatorsHTML}</div>` : ''}
+          <div id="${carouselId}" class="carousel slide" data-bs-interval="false" data-bs-touch="true">
             <div class="carousel-inner">
               ${carouselItemsHTML}
             </div>
+            
             ${images.length > 1 ? `
-              <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev" aria-label="Previous photo">
+              <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev" aria-label="Previous room photo">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next" aria-label="Next photo">
+              <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next" aria-label="Next room photo">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
               </button>
             ` : ''}
-          </div>
 
-          <!-- Top Badges & Actions -->
-          <div class="card-badge-top-left d-flex flex-column gap-1">
-            <span class="badge bg-gold-subtle fw-semibold px-2 py-1">${property.badge || 'Agency Managed'}</span>
-            <span class="${statusBadgeClass}">${status}</span>
-          </div>
-          
-          <div class="card-top-actions">
-            <span class="badge bg-dark text-light border border-secondary px-2 py-1">
-              <i class="bi bi-star-fill text-warning me-1"></i>${Number(property.rating || 5.0).toFixed(2)}
+            <!-- Dynamic Room Preview Badge (Auto-updates with current room name) -->
+            <div class="room-preview-badge" id="room-badge-${carouselId}">
+              <i class="bi ${firstPhotoInfo.icon} text-gold me-1" id="room-badge-icon-${carouselId}"></i>
+              <span id="room-badge-text-${carouselId}">${firstPhotoInfo.label}</span>
+            </div>
+
+            <!-- Top Badges & Actions Overlay -->
+            <div class="card-badge-top-left d-flex flex-column gap-1">
+              <span class="badge bg-gold-subtle fw-semibold px-2 py-1">${property.badge || 'Wangwana Exclusive'}</span>
+              <span class="${statusBadgeClass}">${status}</span>
+            </div>
+            
+            <div class="card-top-actions">
+              <!-- Fullscreen Room Gallery Lightbox Trigger -->
+              <button type="button" 
+                      class="card-expand-gallery-btn" 
+                      data-property-id="${property.id}" 
+                      title="Inspect all ${images.length} room photos in full gallery" 
+                      aria-label="View room gallery">
+                <i class="bi bi-arrows-fullscreen"></i>
+              </button>
+
+              <span class="badge bg-dark text-light border border-secondary px-2 py-1">
+                <i class="bi bi-star-fill text-warning me-1"></i>${Number(property.rating || 5.0).toFixed(2)}
+              </span>
+              
+              <!-- Heart Favorite Button -->
+              <button type="button" 
+                      class="card-favorite-btn ${isFav ? 'active' : ''}" 
+                      data-property-id="${property.id}" 
+                      aria-label="${isFav ? 'Remove from saved favorites' : 'Save to favorites'}" 
+                      title="${isFav ? 'Saved in favorites' : 'Save to favorites'}">
+                <i class="bi ${isFav ? 'bi-heart-fill' : 'bi-heart'}"></i>
+              </button>
+            </div>
+
+            <!-- Dynamic Photo Counter -->
+            <span class="card-photo-counter" id="photo-counter-${carouselId}">
+              <i class="bi bi-camera me-1"></i><span class="curr-num">1</span> of ${images.length}
             </span>
-            <!-- Heart Favorite Button toggling localStorage -->
-            <button type="button" 
-                    class="card-favorite-btn ${isFav ? 'active' : ''}" 
-                    data-property-id="${property.id}" 
-                    aria-label="${isFav ? 'Remove from saved favorites' : 'Save to favorites'}" 
-                    title="${isFav ? 'Saved in favorites' : 'Save to favorites'}">
-              <i class="bi ${isFav ? 'bi-heart-fill' : 'bi-heart'}"></i>
-            </button>
           </div>
 
-          <span class="card-photo-counter">
-            <i class="bi bi-images me-1"></i>${images.length} photos
-          </span>
+          <!-- Room Quick-Navigation Pills Strip (1-tap room jump) -->
+          <div class="card-room-quicknav" id="quicknav-${carouselId}">
+            <span class="text-muted small me-1 d-none d-sm-inline" style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em;"><i class="bi bi-eye"></i> Rooms:</span>
+            ${images.map((imgSrc, idx) => {
+              const info = getRoomPhotoInfo(imgSrc, idx, property.name);
+              return `
+                <button type="button" 
+                        class="room-chip-btn ${idx === 0 ? 'active' : ''}" 
+                        data-bs-target="#${carouselId}" 
+                        data-bs-slide-to="${idx}" 
+                        data-slide-index="${idx}"
+                        title="Jump to ${info.label}">
+                  <i class="bi ${info.icon}"></i> ${info.shortLabel}
+                </button>
+              `;
+            }).join('')}
+          </div>
         </div>
 
         <!-- Property Details -->
@@ -248,17 +324,17 @@ export function createPropertyCardHTML(property) {
               <span class="price-tag">${formatKsh(property.price)}</span>
               <span class="price-sub"> / night</span>
             </div>
-            <span class="badge-poa" title="Zero advance payment. Pay upon physical check-in and inspection.">
+            <span class="badge-poa" title="Zero advance payment. Pay upon physical check-in and inspection in Kisumu.">
               <i class="bi bi-shield-check"></i> Pay on Arrival
             </span>
           </div>
 
           <!-- Action Buttons Bar -->
           <div class="card-action-bar mt-3">
-            <a href="property.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-outline-gold" title="View floorplan, photos, amenities & agency terms">
+            <a href="property.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-outline-gold" title="View floorplan, photos, amenities & terms">
               <i class="bi bi-info-circle me-1"></i> Details
             </a>
-            <a href="book.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-primary" title="Direct Agency Reservation - Pay on Arrival">
+            <a href="book.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-primary" title="Instant Reservation - Pay on Arrival">
               <i class="bi bi-calendar-check me-1"></i> Book Now
             </a>
           </div>
@@ -267,6 +343,197 @@ export function createPropertyCardHTML(property) {
     </div>
   `;
 }
+
+/**
+ * Initializes slide event listeners on all property listing carousels
+ * to synchronize dynamic room badges, counters, and quick-nav pills.
+ */
+export function setupListingCarousels() {
+  const carousels = document.querySelectorAll('.listing-carousel .carousel');
+  carousels.forEach(carouselEl => {
+    const carouselId = carouselEl.id;
+    const badgeTextEl = document.getElementById(`room-badge-text-${carouselId}`);
+    const badgeIconEl = document.getElementById(`room-badge-icon-${carouselId}`);
+    const counterEl = document.getElementById(`photo-counter-${carouselId}`);
+    const quicknav = document.getElementById(`quicknav-${carouselId}`);
+
+    // Prevent attaching multiple times
+    if (carouselEl._carouselListenersAttached) return;
+    carouselEl._carouselListenersAttached = true;
+
+    carouselEl.addEventListener('slide.bs.carousel', (e) => {
+      const targetIndex = e.to;
+      const targetItem = e.relatedTarget;
+      if (!targetItem) return;
+
+      const roomLabel = targetItem.getAttribute('data-room-label') || 'Room Preview';
+      const roomIcon = targetItem.getAttribute('data-room-icon') || 'bi-camera';
+
+      if (badgeTextEl) badgeTextEl.textContent = roomLabel;
+      if (badgeIconEl) badgeIconEl.className = `bi ${roomIcon} text-gold me-1`;
+      
+      if (counterEl) {
+        const total = carouselEl.querySelectorAll('.carousel-item').length;
+        counterEl.innerHTML = `<i class="bi bi-camera me-1"></i><span class="curr-num">${targetIndex + 1}</span> of ${total}`;
+      }
+
+      if (quicknav) {
+        quicknav.querySelectorAll('.room-chip-btn').forEach((btn, idx) => {
+          if (idx === targetIndex) {
+            btn.classList.add('active');
+            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+    });
+  });
+
+  // Setup gallery expand buttons
+  document.querySelectorAll('.card-expand-gallery-btn').forEach(btn => {
+    if (btn._expandListenerAttached) return;
+    btn._expandListenerAttached = true;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const propId = btn.getAttribute('data-property-id');
+      openPropertyGalleryModal(propId);
+    });
+  });
+}
+
+/**
+ * Opens a full-fidelity room walkthrough modal for any property
+ * @param {string} propertyId
+ */
+export function openPropertyGalleryModal(propertyId) {
+  const property = getProperties().find(p => p.id === propertyId);
+  if (!property) return;
+
+  let modalEl = document.getElementById('propertyGalleryModal');
+  if (!modalEl) {
+    modalEl = document.createElement('div');
+    modalEl.id = 'propertyGalleryModal';
+    modalEl.className = 'modal fade';
+    modalEl.tabIndex = -1;
+    modalEl.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(modalEl);
+  }
+
+  const images = Array.isArray(property.images) && property.images.length > 0 ? property.images : ['assets/images/whitehouse.jpg'];
+
+  modalEl.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content gallery-modal-content text-light shadow-lg">
+        <div class="modal-header border-secondary py-3 px-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 rounded bg-gold-subtle text-gold">
+              <i class="bi bi-images fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title mb-0">${property.name} - Room Gallery Walkthrough</h5>
+              <small class="text-muted"><i class="bi bi-geo-alt text-gold me-1"></i>${property.location} &bull; ${images.length} High-Definition Room Views</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row g-4">
+            <!-- Hero Image Display -->
+            <div class="col-lg-8">
+              <div class="position-relative mb-3">
+                <img id="modal-gallery-hero-img" src="${images[0]}" class="gallery-modal-hero-img" alt="${property.name}">
+                <div class="position-absolute bottom-0 start-0 m-3 p-2 px-3 rounded bg-dark bg-opacity-85 border border-secondary text-light">
+                  <i class="bi bi-door-open-fill text-gold me-2"></i>
+                  <strong id="modal-gallery-room-caption">${getRoomPhotoInfo(images[0], 0, property.name).label}</strong>
+                </div>
+              </div>
+              
+              <!-- Thumbnails Selector Strip -->
+              <div class="d-flex align-items-center gap-2 overflow-x-auto pb-2" id="modal-thumbs-strip">
+                ${images.map((imgSrc, idx) => {
+                  const info = getRoomPhotoInfo(imgSrc, idx, property.name);
+                  return `
+                    <div class="d-flex flex-column align-items-center">
+                      <img src="${imgSrc}" 
+                           class="gallery-modal-thumb ${idx === 0 ? 'active' : ''}" 
+                           data-src="${imgSrc}" 
+                           data-caption="${info.label}"
+                           alt="${info.label}"
+                           title="${info.label}">
+                      <span class="text-muted mt-1" style="font-size: 0.68rem;">${info.shortLabel}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- Property Sidebar & Direct Booking CTA -->
+            <div class="col-lg-4 d-flex flex-column">
+              <div class="surface-card p-3 mb-3 border border-secondary">
+                <span class="badge bg-gold-subtle text-gold mb-2">${property.badge || 'Wangwana Exclusive'}</span>
+                <h4 class="h5 mb-2">${property.name}</h4>
+                <p class="text-muted small mb-3">${property.description}</p>
+                
+                <div class="d-flex gap-2 flex-wrap mb-3">
+                  <span class="amenity-chip"><i class="bi bi-people me-1"></i>${property.guests} Guests</span>
+                  <span class="amenity-chip"><i class="bi bi-door-closed me-1"></i>${property.beds} Bedrooms</span>
+                  <span class="amenity-chip"><i class="bi bi-droplet me-1"></i>${property.baths} Bathrooms</span>
+                </div>
+
+                <div class="p-3 bg-dark-elevated rounded border border-secondary mb-3">
+                  <div class="d-flex justify-content-between align-items-baseline mb-1">
+                    <span class="text-muted small">Nightly Rate:</span>
+                    <span class="fs-5 text-gold fw-bold">${formatKsh(property.price)} <small class="text-muted fw-normal" style="font-size: 0.75rem;">/ night</small></span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small">Advance Deposit:</span>
+                    <span class="text-success fw-semibold small"><i class="bi bi-shield-check me-1"></i>KES 0 (Pay on Arrival)</span>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-column gap-2">
+                  <a href="book.html?id=${encodeURIComponent(property.id)}" class="btn btn-primary py-2 fw-semibold w-100">
+                    <i class="bi bi-calendar-check me-2"></i> Book This Stay
+                  </a>
+                  <a href="https://wa.me/254703165843?text=Hello%20Wangwana%20Stays,%20I%20am%20interested%20in%20booking%20${encodeURIComponent(property.name)}%20in%20Kisumu" target="_blank" class="btn btn-outline-success py-2 w-100">
+                    <i class="bi bi-whatsapp me-2"></i> Inquire on WhatsApp (0703165843)
+                  </a>
+                  <a href="property.html?id=${encodeURIComponent(property.id)}" class="btn btn-outline-light py-2 w-100 small">
+                    <i class="bi bi-info-circle me-2"></i> Full Property Details
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Attach thumbnail clicks
+  const thumbs = modalEl.querySelectorAll('.gallery-modal-thumb');
+  const heroImg = modalEl.querySelector('#modal-gallery-hero-img');
+  const captionEl = modalEl.querySelector('#modal-gallery-room-caption');
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+      const src = thumb.getAttribute('data-src');
+      const caption = thumb.getAttribute('data-caption');
+      if (heroImg && src) heroImg.src = src;
+      if (captionEl && caption) captionEl.textContent = caption;
+    });
+  });
+
+  if (typeof bootstrap !== 'undefined') {
+    const bsModal = new bootstrap.Modal(modalEl);
+    bsModal.show();
+  }
+}
+window.openWangwanaGallery = openPropertyGalleryModal;
 
 /**
  * Sets up click events on all Heart favorite buttons

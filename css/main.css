@@ -225,61 +225,111 @@ h1, h2, h3, h4, h5, h6 {
 /* Image Carousel inside Listing Card */
 .listing-carousel {
   position: relative;
-  background-color: #000000;
-}
-
-.listing-carousel .carousel-inner {
-  height: 230px;
+  background-color: #0b0f14;
   border-top-left-radius: 13px;
   border-top-right-radius: 13px;
   overflow: hidden;
 }
 
+.listing-carousel .carousel-inner {
+  height: 245px;
+  overflow: hidden;
+  position: relative;
+}
+
 .listing-carousel .carousel-item {
-  height: 230px;
+  height: 245px;
+  background-color: #0c1218;
 }
 
 .listing-carousel .carousel-item img {
-  height: 230px;
+  height: 245px;
   width: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .property-card:hover .listing-carousel .carousel-item.active img {
-  transform: scale(1.03);
+  transform: scale(1.04);
+}
+
+/* Bottom gradient shade overlay to make badges & counters pop */
+.listing-carousel::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: linear-gradient(to top, rgba(12, 18, 24, 0.85) 0%, rgba(12, 18, 24, 0.2) 65%, transparent 100%);
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* Carousel Control Arrow Buttons in Card */
 .listing-carousel .carousel-control-prev,
 .listing-carousel .carousel-control-next {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(12, 18, 24, 0.7);
+  background-color: rgba(12, 18, 24, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border-radius: 50%;
   margin: 0 8px;
-  opacity: 0;
-  transition: opacity 0.2s ease, background-color 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 0.65;
+  transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  z-index: 12;
 }
 
-.property-card:hover .listing-carousel .carousel-control-prev,
-.property-card:hover .listing-carousel .carousel-control-next {
-  opacity: 0.95;
+@media (hover: hover) {
+  .listing-carousel .carousel-control-prev,
+  .listing-carousel .carousel-control-next {
+    opacity: 0;
+  }
+  .property-card:hover .listing-carousel .carousel-control-prev,
+  .property-card:hover .listing-carousel .carousel-control-next {
+    opacity: 0.95;
+  }
 }
 
 .listing-carousel .carousel-control-prev:hover,
 .listing-carousel .carousel-control-next:hover {
   background-color: var(--primary-accent);
   color: #0c1218;
+  border-color: var(--primary-accent);
+  transform: translateY(-50%) scale(1.08);
 }
 
 .listing-carousel .carousel-control-prev-icon,
 .listing-carousel .carousel-control-next-icon {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
+}
+
+/* Room Preview Badge (Dynamic Room Label) */
+.room-preview-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  z-index: 10;
+  background: rgba(12, 18, 24, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f8fafc;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
 }
 
 /* Badges & Top Actions on Card Media */
@@ -297,12 +347,13 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 11;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 /* Interactive Heart Favorite Button */
-.card-favorite-btn {
-  background: rgba(12, 18, 24, 0.75);
+.card-favorite-btn,
+.card-expand-gallery-btn {
+  background: rgba(12, 18, 24, 0.78);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -313,13 +364,20 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   padding: 0;
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
               background-color 0.2s ease, 
               color 0.2s ease, 
               border-color 0.2s ease;
+}
+
+.card-expand-gallery-btn:hover {
+  background: var(--primary-accent);
+  color: #0c1218;
+  border-color: var(--primary-accent);
+  transform: scale(1.1);
 }
 
 .card-favorite-btn:hover {
@@ -352,12 +410,110 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 10px;
   right: 12px;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(12, 18, 24, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #ffffff;
   font-size: 0.75rem;
-  padding: 3px 8px;
+  font-weight: 600;
+  padding: 4px 9px;
   border-radius: 20px;
-  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Room Quick-Navigation Pills Bar under the Carousel */
+.card-room-quicknav {
+  background-color: #0e161f;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(217, 139, 43, 0.3) transparent;
+}
+
+.card-room-quicknav::-webkit-scrollbar {
+  height: 3px;
+}
+
+.card-room-quicknav::-webkit-scrollbar-thumb {
+  background: rgba(217, 139, 43, 0.3);
+  border-radius: 4px;
+}
+
+.room-chip-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.room-chip-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.room-chip-btn.active {
+  background-color: var(--primary-accent-subtle);
+  color: var(--primary-accent);
+  border-color: rgba(217, 139, 43, 0.5);
+  font-weight: 600;
+}
+
+/* Fullscreen Gallery Lightbox Modal */
+.gallery-modal-content {
+  background-color: #0b1117;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.gallery-modal-hero-img {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #000;
+}
+
+@media (max-width: 768px) {
+  .gallery-modal-hero-img {
+    height: 280px;
+  }
+}
+
+.gallery-modal-thumb {
+  height: 64px;
+  width: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.gallery-modal-thumb:hover {
+  opacity: 1;
+}
+
+.gallery-modal-thumb.active {
+  border-color: var(--primary-accent);
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(217, 139, 43, 0.5);
 }
 
 /* Skeleton Loading Screens */
