@@ -67,7 +67,21 @@
             <h1 class="h3 mb-1">Confirm Your Stay</h1>
             <p class="text-muted small mb-4">Complete your details to secure your reservation at Wangwana Airbnb</p>
 
-            <form id="reservationForm" novalidate>
+            <form id="reservationForm" action="https://formspree.io/f/ochiengblasio@gmail.com" method="POST" novalidate>
+              <!-- Formspree Host Email Notification Endpoint -->
+              <input type="hidden" name="_to" value="ochiengblasio@gmail.com">
+              <input type="hidden" name="_subject" id="formspreeSubject" value="New Wangwana Airbnb Reservation">
+              <input type="hidden" name="agency" value="Wangwana Real Estate Agency Kisumu">
+
+              <!-- Email notification banner -->
+              <div class="d-flex align-items-center gap-2 p-2 px-3 rounded bg-dark-elevated border border-secondary mb-4 small">
+                <i class="bi bi-envelope-check-fill text-gold fs-5 flex-shrink-0"></i>
+                <div>
+                  <span class="text-light fw-semibold d-block">Host Booking Notification</span>
+                  <span class="text-muted">Instant reservation alerts are delivered to agency desk: <strong class="text-gold">ochiengblasio@gmail.com</strong></span>
+                </div>
+              </div>
+
               <!-- Step 1: Select or Confirm Property -->
               <div class="mb-4">
                 <label for="bookPropertySelect" class="form-label">Chosen Residence</label>
@@ -147,23 +161,23 @@
                   </div>
                 </div>
 
-                <label class="form-label small text-muted">Preferred Arrival Payment Method:</label>
+                <label class="form-label small text-muted">Preferred Payment Method:</label>
                 <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="payMpesa" value="M-Pesa" checked>
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="payMpesa" value="Lipa Na M-Pesa Online (STK Push)" checked>
                   <label class="form-check-label text-light small" for="payMpesa">
-                    <strong>Lipa Na M-Pesa (Till / Send Money)</strong> — Handover at property
+                    <strong><i class="bi bi-phone-vibrate text-success me-1"></i>Lipa Na M-Pesa Online (STK Push)</strong> — Instant prompt sent to your phone
                   </label>
                 </div>
                 <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="Cash upon arrival">
-                  <label class="form-check-label text-light small" for="payCash">
-                    <strong>Cash on Arrival</strong> — Pay Kenyan Shillings directly to host
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="payPoa" value="Pay on Arrival (M-Pesa / Cash)">
+                  <label class="form-check-label text-light small" for="payPoa">
+                    <strong><i class="bi bi-shield-check text-gold me-1"></i>Pay on Arrival (Zero Prepayment)</strong> — Inspect home in Kisumu first, pay upon keys
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="Card / Bank Transfer">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="Bank Transfer / Card">
                   <label class="form-check-label text-light small" for="payCard">
-                    <strong>Bank Transfer / Card</strong> — On-site handover
+                    <strong>Bank Transfer / Debit Card</strong> — On-site handover
                   </label>
                 </div>
               </div>
@@ -172,14 +186,19 @@
               <div class="form-check mb-4">
                 <input class="form-check-input" type="checkbox" id="termsCheck" required checked>
                 <label class="form-check-label text-muted small" for="termsCheck">
-                  I agree to inspect the home upon arrival, follow Kisumu house rules, and pay upon room handover.
+                  I agree to inspect the home upon arrival, follow Kisumu house rules, and verify stay details with Wangwana Agency.
                 </label>
                 <div class="invalid-feedback">You must agree before submitting.</div>
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 py-3 fs-6 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-shield-check fs-5"></i> Confirm Reservation (Pay on Arrival)
-              </button>
+              <div class="d-flex flex-column gap-2">
+                <button type="submit" id="btnSubmitBooking" class="btn btn-mpesa w-100 py-3 fs-6 d-flex align-items-center justify-content-center gap-2">
+                  <i class="bi bi-phone-vibrate fs-5"></i> Confirm Stay & Initiate M-Pesa STK Push
+                </button>
+                <button type="button" id="btnQuickPoa" class="btn btn-outline-light w-100 py-2 small d-flex align-items-center justify-content-center gap-2">
+                  <i class="bi bi-shield-check text-gold"></i> Confirm with 100% Pay on Arrival (Zero Deduction)
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -234,11 +253,23 @@
               <span class="fs-4 fw-bold text-gold" id="summary-grand-total">KSH 22,500</span>
             </div>
 
-            <div class="p-3 bg-dark-elevated rounded border border-secondary small text-muted">
+            <div class="p-3 bg-dark-elevated rounded border border-secondary small text-muted mb-3">
               <div class="d-flex align-items-center gap-2 mb-1 text-light">
-                <i class="bi bi-shield-lock-fill text-gold"></i> Free Cancellation
+                <i class="bi bi-shield-lock-fill text-gold"></i> 100% Pay on Arrival Guarantee
               </div>
-              Cancel up to 48 hours before check-in for a 100% full refund with no hidden penalties.
+              Zero advance payment required. Inspect property upon arrival in Kisumu, then settle via M-Pesa or Cash.
+            </div>
+
+            <!-- Direct Airbnb Alternative Link -->
+            <div id="summary-airbnb-box" class="p-3 bg-dark-elevated rounded border border-danger border-opacity-50 text-center">
+              <div class="small text-muted mb-2 d-flex align-items-center justify-content-center gap-1">
+                <i class="bi bi-shield-fill-check text-danger"></i>
+                <span>Also listed on Airbnb by Superhost Blasio</span>
+              </div>
+              <a href="#" id="summary-airbnb-link" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-box-arrow-up-right"></i>
+                <span>View on Official Airbnb</span>
+              </a>
             </div>
           </div>
         </div>
@@ -317,6 +348,259 @@
     </div>
   </footer>
 
+  <!-- M-Pesa STK Push Simulation Modal -->
+  <div class="modal fade" id="mpesaStkModal" tabindex="-1" aria-labelledby="mpesaStkModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content surface-card border border-secondary" style="border-radius: 20px; overflow: hidden;">
+        <!-- Modal Header -->
+        <div class="modal-header bg-dark-elevated border-secondary border-opacity-25 px-4 py-3">
+          <div class="d-flex align-items-center gap-3">
+            <span class="mpesa-badge-safaricom">
+              <i class="bi bi-phone-fill me-1"></i> Lipa Na M-PESA
+            </span>
+            <h5 class="modal-title h6 mb-0 text-light" id="mpesaStkModalLabel">
+              Wangwana Agency • M-Pesa Payment Portal
+            </h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- Modal Body: Interactive Multi-Step States -->
+        <div class="modal-body p-4" id="mpesaModalBody">
+          <!-- Step 1: Confirmation & Prompt Initiation Screen -->
+          <div id="mpesaStepInitiate" class="mpesa-flow-step">
+            <div class="row g-4">
+              <!-- Left Col: Stay Details -->
+              <div class="col-md-6 border-end-md border-secondary border-opacity-25 pe-md-4">
+                <span class="text-gold small fw-bold text-uppercase tracking-wider d-block mb-1">Stay Details</span>
+                <h5 class="text-light mb-1" id="modalStayName">White House Serviced Residence</h5>
+                <p class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-gold me-1"></i><span id="modalStayLocation">Milimani, Kisumu City</span></p>
+
+                <div class="bg-dark-elevated p-3 rounded border border-secondary mb-3 small">
+                  <div class="d-flex justify-content-between text-muted mb-1">
+                    <span>Agency Ref:</span>
+                    <span class="text-gold font-monospace fw-bold" id="modalAgencyRef">WNG-MLM-01</span>
+                  </div>
+                  <div class="d-flex justify-content-between text-muted mb-1">
+                    <span>Guest Name:</span>
+                    <span class="text-light fw-semibold" id="modalGuestName">Guest</span>
+                  </div>
+                  <div class="d-flex justify-content-between text-muted mb-1">
+                    <span>Dates:</span>
+                    <span class="text-light" id="modalDates">Selected Dates</span>
+                  </div>
+                  <div class="d-flex justify-content-between text-muted mb-1">
+                    <span>Guests:</span>
+                    <span class="text-light" id="modalGuests">2 Guests</span>
+                  </div>
+                  <div class="d-flex justify-content-between text-muted pt-2 border-top border-secondary border-opacity-25">
+                    <span class="fw-bold text-light">Total Payable:</span>
+                    <span class="text-gold fw-bold fs-6" id="modalTotalPayable">KSH 22,500</span>
+                  </div>
+                </div>
+
+                <div class="alert alert-dark border border-secondary p-2 mb-0 small text-muted">
+                  <i class="bi bi-shield-check text-success me-1"></i> <strong>Pay on Arrival Option:</strong> You can either complete an instant STK push simulation now, or keep your reservation on <em>Pay on Arrival</em> with zero advance deduction.
+                </div>
+              </div>
+
+              <!-- Right Col: M-Pesa STK Push Form -->
+              <div class="col-md-6 ps-md-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <span class="text-success fw-bold small text-uppercase tracking-wider">
+                    <i class="bi bi-sim-fill me-1"></i> STK Push Prompt
+                  </span>
+                  <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-1 small">
+                    Till: 843165
+                  </span>
+                </div>
+
+                <div class="mb-3">
+                  <label for="mpesaPromptPhone" class="form-label small text-muted">Safaricom M-Pesa Phone Number</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-dark-elevated text-gold border-secondary border-opacity-50 fw-bold">🇰🇪 +254</span>
+                    <input type="tel" id="mpesaPromptPhone" class="form-control bg-dark border-secondary border-opacity-50 text-light fw-bold" placeholder="703165843">
+                  </div>
+                  <div class="form-text text-muted small">We will send an instant M-Pesa SIM prompt to this phone.</div>
+                </div>
+
+                <div class="p-3 bg-dark-elevated rounded border border-secondary mb-3 small">
+                  <div class="d-flex justify-content-between text-muted mb-1">
+                    <span>Paybill / Till:</span>
+                    <strong class="text-light">843165 (Wangwana Agency)</strong>
+                  </div>
+                  <div class="d-flex justify-content-between text-muted mb-1">
+                    <span>Account Ref:</span>
+                    <strong class="text-gold font-monospace" id="modalAccountRef">WNG-MLM-01</strong>
+                  </div>
+                  <div class="d-flex justify-content-between text-muted">
+                    <span>Payable Amount:</span>
+                    <strong class="text-success fs-6" id="modalPromptAmount">KSH 22,500</strong>
+                  </div>
+                </div>
+
+                <button type="button" id="btnTriggerStkPush" class="btn btn-mpesa w-100 py-3 mb-2 d-flex align-items-center justify-content-center gap-2">
+                  <i class="bi bi-phone-vibrate fs-5"></i>
+                  <span>Send M-Pesa Prompt to Phone</span>
+                </button>
+
+                <button type="button" id="btnSkipToPayOnArrival" class="btn btn-outline-light w-100 py-2 small">
+                  <i class="bi bi-shield-check text-gold me-1"></i> Pay on Arrival Instead (Zero Prepayment)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Realistic Animated Phone STK Prompt Screen -->
+          <div id="mpesaStepSimulating" class="mpesa-flow-step d-none">
+            <div class="text-center mb-3">
+              <span class="badge bg-warning bg-opacity-25 text-warning border border-warning px-3 py-1 mb-2">
+                <i class="bi bi-broadcast me-1"></i> SIM Toolkit Prompt Active
+              </span>
+              <p class="text-muted small mb-0">Simulating authentic Safaricom M-Pesa STK prompt on the guest handset</p>
+            </div>
+
+            <div class="stk-phone-mockup">
+              <div class="stk-phone-notch"></div>
+              <div class="stk-phone-screen">
+                <div class="d-flex justify-content-between small text-muted mb-4 px-2">
+                  <span id="phoneSimTime">9:41</span>
+                  <span><i class="bi bi-reception-4 me-1"></i>4G <i class="bi bi-battery-full ms-1"></i></span>
+                </div>
+
+                <!-- STK Dialog -->
+                <div class="stk-sim-dialog my-auto">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <div class="badge bg-success py-1 px-2 fw-bold" style="font-size: 0.72rem;">M-PESA</div>
+                    <span class="small text-light fw-bold">SIM ToolKit</span>
+                  </div>
+                  <div class="text-light small mb-2" id="simPromptMessage">
+                    Do you want to pay <strong id="stkDialogAmount">KSH 22,500</strong> to <strong>WANGWANA REAL ESTATE AGENCY</strong>?<br>
+                    <span class="text-muted">Till: 843165 | Ref: <span id="stkDialogRef">WNG-MLM-01</span></span>
+                  </div>
+
+                  <div class="small text-muted mb-1 text-center">Enter M-Pesa PIN:</div>
+                  
+                  <!-- PIN Dots -->
+                  <div class="stk-pin-dots">
+                    <span class="stk-pin-dot" id="pindot-1"></span>
+                    <span class="stk-pin-dot" id="pindot-2"></span>
+                    <span class="stk-pin-dot" id="pindot-3"></span>
+                    <span class="stk-pin-dot" id="pindot-4"></span>
+                  </div>
+
+                  <!-- Optional direct PIN input for typing -->
+                  <div class="mb-2">
+                    <input type="password" id="simDirectPinInput" maxlength="4" class="form-control form-control-sm text-center bg-dark border-secondary text-light font-monospace" placeholder="4-digit PIN (e.g. 1234)" style="letter-spacing: 0.4em; font-size: 1rem;">
+                  </div>
+
+                  <!-- Keypad -->
+                  <div class="stk-keypad">
+                    <button type="button" class="stk-key-btn" data-key="1">1</button>
+                    <button type="button" class="stk-key-btn" data-key="2">2</button>
+                    <button type="button" class="stk-key-btn" data-key="3">3</button>
+                    <button type="button" class="stk-key-btn" data-key="4">4</button>
+                    <button type="button" class="stk-key-btn" data-key="5">5</button>
+                    <button type="button" class="stk-key-btn" data-key="6">6</button>
+                    <button type="button" class="stk-key-btn" data-key="7">7</button>
+                    <button type="button" class="stk-key-btn" data-key="8">8</button>
+                    <button type="button" class="stk-key-btn" data-key="9">9</button>
+                    <button type="button" class="stk-key-btn text-danger small" data-key="clear" title="Clear">CLR</button>
+                    <button type="button" class="stk-key-btn" data-key="0">0</button>
+                    <button type="button" class="stk-key-btn text-warning" data-key="back" title="Backspace"><i class="bi bi-backspace"></i></button>
+                  </div>
+
+                  <div class="d-flex gap-2 mt-3">
+                    <button type="button" id="btnCancelStkPrompt" class="btn btn-sm btn-outline-secondary w-50 py-2">
+                      Cancel
+                    </button>
+                    <button type="button" id="btnSubmitStkPin" class="btn btn-sm btn-success w-50 py-2 fw-bold">
+                      <span id="btnSubmitPinSpinner" class="spinner-border spinner-border-sm me-1 d-none" role="status"></span>
+                      Send PIN
+                    </button>
+                  </div>
+                </div>
+
+                <div class="text-center text-muted small mt-3" style="font-size: 0.7rem;">
+                  <i class="bi bi-shield-lock-fill text-success me-1"></i> Safaricom 256-Bit Encrypted
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Success Confirmation & Safaricom SMS Voucher -->
+          <div id="mpesaStepSuccess" class="mpesa-flow-step d-none">
+            <div class="text-center mb-3">
+              <div class="d-inline-flex p-3 rounded-circle bg-success bg-opacity-25 text-success mb-2">
+                <i class="bi bi-check-circle-fill fs-1"></i>
+              </div>
+              <h4 class="text-success mb-1">M-Pesa Payment Confirmed!</h4>
+              <p class="text-muted small mb-0">Lipa Na M-Pesa Online transaction accepted and verified</p>
+            </div>
+
+            <!-- Authentic Safaricom SMS Card -->
+            <div class="mpesa-receipt-card mb-3">
+              <div class="d-flex align-items-center justify-content-between mb-2 border-bottom border-success border-opacity-25 pb-2">
+                <span class="text-success fw-bold"><i class="bi bi-chat-left-dots-fill me-1"></i> SAFARICOM_MPESA_ALERT</span>
+                <span class="badge bg-success" id="smsReceiptNumber">RE94KJ280P</span>
+              </div>
+              <p class="text-light small mb-0" id="smsReceiptMessage" style="line-height: 1.6; font-size: 0.85rem;">
+                M-PESA Confirmed. Receipt: RE94KJ280P.
+                KES 22,500.00 sent to WANGWANA REAL ESTATE AGENCY (Till 843165)
+                on 21/09/2026 at 12:45 PM.
+                New M-PESA balance is KES 48,250.00.
+                Transaction cost: KES 0.00.
+              </p>
+            </div>
+
+            <!-- Booking Summary -->
+            <div class="bg-dark-elevated p-3 rounded border border-secondary mb-3 small">
+              <div class="row g-2">
+                <div class="col-sm-6 text-muted">Property: <strong class="text-light" id="successPropName">White House Serviced Residence</strong></div>
+                <div class="col-sm-6 text-muted">Agency Ref: <strong class="text-gold font-monospace" id="successAgencyRef">WNG-MLM-01</strong></div>
+                <div class="col-sm-6 text-muted">Guest: <strong class="text-light" id="successGuestName">Guest</strong></div>
+                <div class="col-sm-6 text-muted">Phone: <strong class="text-light" id="successGuestPhone">254703165843</strong></div>
+                <div class="col-sm-6 text-muted">Dates: <strong class="text-light" id="successDates">Selected Dates</strong></div>
+                <div class="col-sm-6 text-muted">Payment: <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Paid via Lipa Na M-Pesa</span></div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row gap-2">
+              <button type="button" id="btnDownloadPrintPdf" class="btn btn-gold text-dark fw-bold flex-grow-1 py-2 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-file-earmark-pdf-fill text-danger fs-5"></i>
+                <span>Download / Print Booking PDF</span>
+              </button>
+              <a href="#" id="successWhatsAppConcierge" target="_blank" class="btn btn-success flex-grow-1 py-2">
+                <i class="bi bi-whatsapp me-1"></i> Concierge WhatsApp
+              </a>
+              <button type="button" id="btnFinishMpesaModal" class="btn btn-primary py-2 px-4" data-bs-dismiss="modal">
+                View Reservation
+              </button>
+            </div>
+
+            <!-- Stay Assurance & Invoice Note -->
+            <div class="p-3 mt-3 rounded bg-dark-surface border border-secondary border-opacity-30 small">
+              <div class="d-flex align-items-center justify-content-between mb-1">
+                <span class="text-light fw-semibold">
+                  <i class="bi bi-shield-check text-gold me-1"></i> Official Stay Assurance & Invoice
+                </span>
+                <span class="badge bg-gold-subtle text-gold">PDF Guaranteed</span>
+              </div>
+              <p class="text-muted mb-0" style="font-size: 0.8rem;">
+                Your booking document serves as an official Wangwana accommodation invoice with registered business seals, itemized pricing, and gate pass verification for check-in.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dedicated Print & PDF Invoice Sheet for Clean Export -->
+  <div id="print-invoice-sheet" aria-hidden="true"></div>
+
+  <!-- html2pdf for Direct Client-Side PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/book.js"></script>

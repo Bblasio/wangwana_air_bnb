@@ -7,6 +7,7 @@ export const DEFAULT_PROPERTIES = [
     name: 'White House Serviced Residence',
     location: 'Milimani, Kisumu City',
     neighborhood: 'Milimani',
+    coordinates: { lat: -0.1065, lng: 34.7518 },
     price: 10500,
     monthlyLease: 185000,
     rating: 4.94,
@@ -17,6 +18,7 @@ export const DEFAULT_PROPERTIES = [
     type: 'Serviced Apartment',
     status: 'Available',
     badge: 'Agency Managed',
+    airbnbUrl: 'https://www.airbnb.com/rooms/114829101?source_impression_id=p3_wangwana_whitehouse',
     images: [
       'assets/images/whitehouse.jpg',
       'assets/rooms/living room whitehouse.jpg',
@@ -34,6 +36,70 @@ export const DEFAULT_PROPERTIES = [
       'Washing Machine',
       'Balcony with Garden View',
       'Backup Power Generator'
+    ],
+    bedroomsDetail: [
+      {
+        name: 'Master Suite',
+        bed: '1 King Bed (Plush Orthopedic)',
+        bath: 'En-suite Bathroom with Rain Shower',
+        features: 'Private Balcony Access, Wardrobe & Vanity, Blackout Drapes'
+      },
+      {
+        name: 'Second Bedroom',
+        bed: '1 Queen Bed',
+        bath: 'Adjacent Private Bathroom',
+        features: 'Garden Views, Built-in Closets, Dedicated Reading Desk'
+      }
+    ],
+    policies: {
+      checkIn: '2:00 PM – 10:00 PM',
+      checkOut: '10:00 AM',
+      cancellation: '100% Free cancellation up to 48 hours before check-in. Flexible terms.',
+      deposit: 'No advance security deposit required. 100% Pay on Arrival guarantee.',
+      payment: 'M-Pesa (Till / Paybill), Cash on arrival, or Credit/Debit Card.',
+      rules: [
+        'No indoor smoking (open-air veranda and garden areas provided)',
+        'Quiet hours strictly observed 10:00 PM – 7:00 AM',
+        'No unauthorized parties or commercial shoots without prior written notice',
+        'Pets permitted upon prior inquiry'
+      ]
+    },
+    host: {
+      name: 'Blasio Odhiambo',
+      role: 'Superhost & Wangwana Host Manager',
+      experience: '5+ Years Hosting in Kisumu',
+      responseRate: '100%',
+      responseTime: 'Within an hour',
+      phone: '0703165843',
+      whatsapp: '+254703165843',
+      rating: 4.96,
+      reviews: 130
+    },
+    reviews: [
+      {
+        guest: 'Dr. Angela Achieng',
+        origin: 'Nairobi, Kenya',
+        date: 'August 2026',
+        rating: 5,
+        source: 'Verified Airbnb Stay',
+        text: 'Exceptional stay. The high-speed fiber internet made my remote work seamless. Pristine cleanliness and very secure compound in Milimani. Blasio was always prompt and attentive.'
+      },
+      {
+        guest: 'Marcus van den Berg',
+        origin: 'Amsterdam, Netherlands',
+        date: 'July 2026',
+        rating: 5,
+        source: 'Verified Stay',
+        text: 'Traveling for a public health project in Kisumu. This was by far the best serviced apartment experience in Western Kenya. Hot water, uninterrupted power, and a fantastic kitchen.'
+      },
+      {
+        guest: 'Sarah & Kevin Otieno',
+        origin: 'Mombasa, Kenya',
+        date: 'May 2026',
+        rating: 5,
+        source: 'Verified Stay',
+        text: 'The photos are 100% genuine. The location in Milimani is whisper-quiet yet 5 minutes from West End Mall. The pay-on-arrival option gave us complete confidence.'
+      }
     ]
   },
   {
@@ -42,6 +108,7 @@ export const DEFAULT_PROPERTIES = [
     name: 'Delpiero Luxury Hilltop Villa',
     location: 'Riat Hills, Kisumu',
     neighborhood: 'Riat Hills',
+    coordinates: { lat: -0.0520, lng: 34.7730 },
     price: 15200,
     monthlyLease: 290000,
     rating: 4.98,
@@ -52,6 +119,7 @@ export const DEFAULT_PROPERTIES = [
     type: 'Executive Villa',
     status: 'Available',
     badge: 'Exclusive Mandate',
+    airbnbUrl: 'https://www.airbnb.com/rooms/114829202?source_impression_id=p3_wangwana_delpiero',
     images: [
       'assets/images/delpiero.jpg',
       'assets/rooms/livingroom.delpiero.jpg',
@@ -69,6 +137,68 @@ export const DEFAULT_PROPERTIES = [
       '24/7 Manned Gate & CCTV',
       'Standby Generator',
       'BBQ Facility'
+    ],
+    bedroomsDetail: [
+      {
+        name: 'Panoramic Master Suite',
+        bed: '1 King Bed',
+        bath: 'En-suite Jacuzzi & Rain Shower',
+        features: 'Wraparound Sunset Balcony, Lake Victoria View, Walk-in Closet'
+      },
+      {
+        name: 'Executive Bedroom 2',
+        bed: '1 Queen Bed',
+        bath: 'En-suite Modern Bath',
+        features: 'Hillside Garden Vista, Work Station, Custom Hardwood Wardrobes'
+      },
+      {
+        name: 'Garden Bedroom 3',
+        bed: '2 Twin Beds (or 1 King)',
+        bath: 'En-suite Bathroom',
+        features: 'Private Garden Terrace Access, Ideal for Family or Colleagues'
+      }
+    ],
+    policies: {
+      checkIn: '2:00 PM – 10:00 PM',
+      checkOut: '10:00 AM',
+      cancellation: '100% Free cancellation up to 48 hours before check-in.',
+      deposit: 'Zero deposit required. Pay upon check-in directly.',
+      payment: 'M-Pesa, Bank Transfer, or Cash upon arrival.',
+      rules: [
+        'Smoking allowed on outdoor terrace and gazebo only',
+        'Strict 10:00 PM quiet hours for neighborhood tranquility',
+        'Up to 6 registered guests; additional visitors by arrangement',
+        'BBQ grill cleaning service included'
+      ]
+    },
+    host: {
+      name: 'Blasio Odhiambo',
+      role: 'Superhost & Wangwana Host Manager',
+      experience: '5+ Years Hosting in Kisumu',
+      responseRate: '100%',
+      responseTime: 'Within an hour',
+      phone: '0703165843',
+      whatsapp: '+254703165843',
+      rating: 4.96,
+      reviews: 130
+    },
+    reviews: [
+      {
+        guest: 'Caroline & David Wanjala',
+        origin: 'Geneva, Switzerland',
+        date: 'August 2026',
+        rating: 5,
+        source: 'Airbnb Superhost Stay',
+        text: 'The sunset view over Lake Victoria from the Riat Hills terrace is simply priceless. The kitchen is fully stocked, the beds are exceptionally comfortable, and the security team was polite and vigilant.'
+      },
+      {
+        guest: 'Eng. Peter Ochola',
+        origin: 'Eldoret, Kenya',
+        date: 'June 2026',
+        rating: 5,
+        source: 'Verified Stay',
+        text: 'Wangwana exceeded every expectation. Beautiful architectural layout, standby generator that kicked in seamlessly during grid dips, and superb hospitality from host Blasio.'
+      }
     ]
   },
   {
@@ -77,6 +207,7 @@ export const DEFAULT_PROPERTIES = [
     name: 'Dunga Beachfront Waterfront Villa',
     location: 'Dunga Beachfront, Kisumu',
     neighborhood: 'Dunga Beach',
+    coordinates: { lat: -0.1340, lng: 34.7390 },
     price: 16000,
     monthlyLease: 310000,
     rating: 4.92,
@@ -87,6 +218,7 @@ export const DEFAULT_PROPERTIES = [
     type: 'Waterfront Residence',
     status: 'Available',
     badge: 'Waterfront Mandate',
+    airbnbUrl: 'https://www.airbnb.com/rooms/114829303?source_impression_id=p3_wangwana_beachfront',
     images: [
       'assets/images/beach.jpg',
       'assets/rooms/outside.beach.jpg',
@@ -104,6 +236,67 @@ export const DEFAULT_PROPERTIES = [
       'Free On-Premises Parking',
       'Quiet Natural Atmosphere',
       '24/7 Security'
+    ],
+    bedroomsDetail: [
+      {
+        name: 'Lakeside Master Suite',
+        bed: '1 King Bed',
+        bath: 'En-suite Lake View Bath',
+        features: 'French Doors opening onto Waterfront Lawn, Breezy Lake Air'
+      },
+      {
+        name: 'Garden Bedroom 2',
+        bed: '1 Queen Bed',
+        bath: 'Jack & Jill Shared Bath',
+        features: 'Palm Garden Outlook, Fitted Wardrobe'
+      },
+      {
+        name: 'Twin Bedroom 3',
+        bed: '2 Single Beds',
+        bath: 'Shared Bath with Guest Powder Room',
+        features: 'Bright Natural Light, Built-in Storage'
+      }
+    ],
+    policies: {
+      checkIn: '2:00 PM – 9:00 PM',
+      checkOut: '10:00 AM',
+      cancellation: '100% Free cancellation up to 48 hours prior to check-in.',
+      deposit: 'Zero deposit. Pay upon arrival.',
+      payment: 'M-Pesa, Cash, or Card.',
+      rules: [
+        'Children must be supervised near lakeside waters',
+        'Outdoor smoking permitted; no smoking in bedrooms',
+        'Eco-conscious lakeside living; quiet hours after 10:00 PM'
+      ]
+    },
+    host: {
+      name: 'Blasio Odhiambo',
+      role: 'Superhost & Wangwana Host Manager',
+      experience: '5+ Years Hosting in Kisumu',
+      responseRate: '100%',
+      responseTime: 'Within an hour',
+      phone: '0703165843',
+      whatsapp: '+254703165843',
+      rating: 4.96,
+      reviews: 130
+    },
+    reviews: [
+      {
+        guest: 'Naomi Kibet',
+        origin: 'Nakuru, Kenya',
+        date: 'July 2026',
+        rating: 5,
+        source: 'Airbnb Verified Stay',
+        text: 'Waking up to birds chirping over Lake Victoria and watching fishermen in the distance was magical. Dunga Hill Camp is just minutes away. Truly a slice of heaven in Kisumu.'
+      },
+      {
+        guest: 'Thomas & Grace Miller',
+        origin: 'London, UK',
+        date: 'May 2026',
+        rating: 5,
+        source: 'Verified Stay',
+        text: 'Our family spent 5 days here. Safe for kids, pristine lawn, and the host team helped arrange fresh tilapia directly from the fishermen. Highly recommended!'
+      }
     ]
   },
   {
@@ -112,6 +305,7 @@ export const DEFAULT_PROPERTIES = [
     name: 'Victoria Executive Corporate Suite',
     location: 'Tom Mboya Estate, Kisumu',
     neighborhood: 'Tom Mboya',
+    coordinates: { lat: -0.0820, lng: 34.7780 },
     price: 8800,
     monthlyLease: 140000,
     rating: 4.88,
@@ -122,6 +316,7 @@ export const DEFAULT_PROPERTIES = [
     type: 'Executive Studio',
     status: 'Available',
     badge: 'Corporate Suite',
+    airbnbUrl: 'https://www.airbnb.com/rooms/114829404?source_impression_id=p3_wangwana_victoria',
     images: [
       'assets/images/property 3.jpg',
       'assets/rooms/pexels-jonathanborba-30628725.jpg',
@@ -136,6 +331,55 @@ export const DEFAULT_PROPERTIES = [
       'Solar Hot Water',
       'Secure Gated Compound',
       'Self Check-in Available'
+    ],
+    bedroomsDetail: [
+      {
+        name: 'Studio Suite',
+        bed: '1 Queen Bed (Hotel Collection)',
+        bath: 'En-suite High-Pressure Shower',
+        features: 'Ergonomic Desk & Mesh Chair, Dual Monitor Space, High-Speed Fiber'
+      }
+    ],
+    policies: {
+      checkIn: '2:00 PM – 11:00 PM (Keypad Self Check-in)',
+      checkOut: '10:00 AM',
+      cancellation: '100% Free cancellation up to 48 hours before check-in.',
+      deposit: 'Zero deposit. Pay upon arrival.',
+      payment: 'M-Pesa, Corporate LPO, Card, or Cash.',
+      rules: [
+        'Quiet residential business environment',
+        'Strictly non-smoking interior',
+        'Single or couple occupancy (max 2 adults)'
+      ]
+    },
+    host: {
+      name: 'Blasio Odhiambo',
+      role: 'Superhost & Wangwana Host Manager',
+      experience: '5+ Years Hosting in Kisumu',
+      responseRate: '100%',
+      responseTime: 'Within an hour',
+      phone: '0703165843',
+      whatsapp: '+254703165843',
+      rating: 4.96,
+      reviews: 130
+    },
+    reviews: [
+      {
+        guest: 'Brian Mwangi',
+        origin: 'Nairobi, Kenya',
+        date: 'August 2026',
+        rating: 5,
+        source: 'Airbnb Business Stay',
+        text: 'The fiber WiFi was rock solid (over 50 Mbps) which allowed smooth Zoom calls all week. Self check-in with the smart lock was super convenient after a delayed flight into Kisumu.'
+      },
+      {
+        guest: 'Dr. Judith Omondi',
+        origin: 'Kisumu, Kenya',
+        date: 'June 2026',
+        rating: 5,
+        source: 'Verified Corporate Stay',
+        text: 'Clean, compact, and very quiet in Tom Mboya. Easy 5-minute commute to the CBD and Aga Khan Hospital. Will book again.'
+      }
     ]
   }
 ];
@@ -208,8 +452,21 @@ if (typeof window !== 'undefined') {
  * Acquires a new property and adds it to Wangwana Agency's portfolio
  */
 export async function acquireProperty(newPropData) {
+  const NEIGHBORHOOD_COORDS = {
+    'milimani': { lat: -0.1065, lng: 34.7518 },
+    'riat hills': { lat: -0.0520, lng: 34.7730 },
+    'dunga beach': { lat: -0.1340, lng: 34.7390 },
+    'tom mboya': { lat: -0.0820, lng: 34.7780 }
+  };
+  const normNeigh = (newPropData.neighborhood || '').toLowerCase().trim();
+  const defaultCoords = NEIGHBORHOOD_COORDS[normNeigh] || {
+    lat: -0.0917 + (Math.random() - 0.5) * 0.02,
+    lng: 34.7680 + (Math.random() - 0.5) * 0.02
+  };
+
   const propertyPayload = {
     ...newPropData,
+    coordinates: newPropData.coordinates || defaultCoords,
     agencyRef: newPropData.agencyRef || `WNG-KS-${Math.floor(100 + Math.random() * 900)}`,
     status: newPropData.status || 'Available',
     badge: newPropData.badge || 'Newly Acquired',

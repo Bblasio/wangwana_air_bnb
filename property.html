@@ -40,6 +40,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <button type="button" class="btn btn-sm btn-outline-secondary text-light d-flex align-items-center gap-1" onclick="window.openPhotoUploadManagerModal && window.openPhotoUploadManagerModal()" title="Upload photos from your computer folder">
+              <i class="bi bi-cloud-arrow-up text-gold"></i>
+              <span>Upload Photos</span>
+            </button>
+          </li>
+          <li class="nav-item">
             <a href="book.html" class="btn btn-sm btn-primary">Book This Stay</a>
           </li>
         </ul>
@@ -92,9 +98,27 @@
       <!-- High-Res Interactive Gallery -->
       <div class="mb-5">
         <div class="position-relative mb-2">
-          <img id="prop-main-image" src="assets/images/whitehouse.jpg" class="gallery-main-img" alt="Property Main View">
-          <div class="position-absolute bottom-0 start-0 m-3 p-2 rounded bg-dark bg-opacity-75 text-light small">
-            <i class="bi bi-camera me-1"></i> Click any thumbnail below to preview room photos
+          <img id="prop-main-image" src="assets/images/whitehouse.jpg" class="gallery-main-img" alt="Property Main View" style="cursor: zoom-in;" title="Click to inspect in High-Resolution Fullscreen Lightbox">
+          
+          <!-- Top Right Overlay Controls -->
+          <div class="position-absolute top-0 end-0 m-3 d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-sm btn-dark bg-opacity-90 border border-gold text-gold fw-semibold d-flex align-items-center gap-1 shadow" id="btnDetail360Tour" title="Explore this residence in interactive 360° spherical view">
+              <i class="bi bi-badge-3d-fill text-danger fs-6"></i>
+              <span>360° Virtual Tour</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-dark bg-opacity-90 border border-secondary text-light d-flex align-items-center gap-1 shadow" id="btnDetailFullscreen" title="Inspect room details in high-res full screen">
+              <i class="bi bi-arrows-fullscreen"></i>
+              <span class="d-none d-sm-inline">Fullscreen Lightbox</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-gold d-flex align-items-center gap-1 shadow bg-dark bg-opacity-90" id="btnDetailUploadPhotos" title="Upload photos from your computer folder">
+              <i class="bi bi-cloud-arrow-up"></i>
+              <span class="d-none d-sm-inline">Upload Photos</span>
+            </button>
+          </div>
+
+          <div class="position-absolute bottom-0 start-0 m-3 p-2 px-3 rounded bg-dark bg-opacity-80 text-light small d-flex align-items-center gap-2">
+            <i class="bi bi-camera-fill text-gold"></i>
+            <span>Click photo to inspect in Full-Screen Lightbox & 360° virtual tour</span>
           </div>
         </div>
         <!-- Thumbnail Strip -->
@@ -144,51 +168,263 @@
             </div>
           </div>
 
+          <!-- Sleeping Arrangements / Bedroom Breakdown -->
+          <div class="surface-card mb-4" id="prop-bedrooms-card">
+            <h4 class="h5 mb-3 d-flex align-items-center gap-2">
+              <i class="bi bi-door-open-fill text-gold"></i>
+              <span>Rooms & Sleeping Arrangements</span>
+            </h4>
+            <div class="row g-3" id="prop-bedrooms-list">
+              <!-- Dynamically populated from property.bedroomsDetail -->
+            </div>
+          </div>
+
           <!-- Amenities Grid -->
           <div class="surface-card mb-4">
-            <h4 class="h5 mb-3">What This Place Offers</h4>
+            <h4 class="h5 mb-3 d-flex align-items-center gap-2">
+              <i class="bi bi-stars text-gold"></i>
+              <span>What This Place Offers</span>
+            </h4>
             <div class="row" id="prop-amenities-list">
               <!-- Rendered by JS -->
             </div>
           </div>
 
-          <!-- Kisumu Location Guide -->
-          <div class="surface-card mb-4">
-            <h4 class="h5 mb-3">Location & Neighborhood</h4>
-            <p class="text-muted small mb-3">
-              Located in one of Kisumu's most secure and peaceful residential corridors, giving you easy access to business hubs and leisure attractions:
-            </p>
-            <div class="row g-2 small text-muted">
-              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-airplane text-gold"></i>
-                <span>Kisumu International Airport: <strong>12 min drive</strong></span>
+          <!-- Interactive Availability Calendar -->
+          <div class="surface-card mb-4" id="prop-calendar-section">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+              <div>
+                <h4 class="h5 mb-1 d-flex align-items-center gap-2">
+                  <i class="bi bi-calendar3 text-gold"></i>
+                  <span>Check Accommodation Availability</span>
+                </h4>
+                <div class="small text-muted" id="prop-calendar-subtext">Click dates below to check open dates and automatically calculate your total stay.</div>
               </div>
-              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-water text-gold"></i>
-                <span>Lake Victoria Shores & Dunga: <strong>8 min drive</strong></span>
+              <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-2 py-1">
+                <i class="bi bi-broadcast me-1"></i> Live Calendar
+              </span>
+            </div>
+            
+            <div id="availability-calendar-box" class="p-3 bg-dark-elevated rounded border border-secondary mb-3">
+              <!-- Rendered by JS calendar component -->
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-4 small text-muted">
+              <div class="d-flex align-items-center gap-2">
+                <span class="d-inline-block rounded-circle bg-success" style="width: 10px; height: 10px;"></span>
+                <span>Available</span>
               </div>
-              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-bag-check text-gold"></i>
-                <span>West End & Mega Plaza: <strong>5 min drive</strong></span>
+              <div class="d-flex align-items-center gap-2">
+                <span class="d-inline-block rounded-circle bg-secondary" style="width: 10px; height: 10px;"></span>
+                <span>Reserved / Blocked</span>
               </div>
-              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-shield-check text-gold"></i>
-                <span>Kisumu Impala Sanctuary: <strong>7 min drive</strong></span>
+              <div class="d-flex align-items-center gap-2">
+                <span class="d-inline-block rounded-circle bg-gold" style="width: 10px; height: 10px;"></span>
+                <span>Selected Dates</span>
               </div>
             </div>
           </div>
 
-          <!-- House Rules & Policies -->
-          <div class="surface-card">
-            <h4 class="h5 mb-3">House Rules & Policies</h4>
-            <div class="row g-3 small text-muted">
-              <div class="col-sm-6">
-                <div><i class="bi bi-clock me-1 text-gold"></i> <strong>Check-in:</strong> After 2:00 PM</div>
-                <div class="mt-2"><i class="bi bi-clock-history me-1 text-gold"></i> <strong>Check-out:</strong> Before 11:00 AM</div>
+          <!-- Kisumu Location Guide -->
+          <div class="surface-card mb-4">
+            <h4 class="h5 mb-3 d-flex align-items-center gap-2">
+              <i class="bi bi-geo-alt-fill text-gold"></i>
+              <span>Location & Neighborhood</span>
+            </h4>
+            <p class="text-muted small mb-3" id="prop-neighborhood-desc">
+              Located in one of Kisumu's most secure and peaceful residential corridors, giving you easy access to business hubs, airport, and Lake Victoria:
+            </p>
+            <div class="row g-2 small text-muted">
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-airplane text-gold fs-6"></i>
+                <span>Kisumu International Airport (KIS): <strong>12 min drive</strong></span>
               </div>
-              <div class="col-sm-6">
-                <div><i class="bi bi-ban me-1 text-gold"></i> <strong>Smoking:</strong> No smoking indoors</div>
-                <div class="mt-2"><i class="bi bi-volume-mute me-1 text-gold"></i> <strong>Quiet Hours:</strong> 10:00 PM – 7:00 AM</div>
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-water text-gold fs-6"></i>
+                <span>Lake Victoria Shores & Dunga: <strong>8 min drive</strong></span>
+              </div>
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-bag-check text-gold fs-6"></i>
+                <span>West End Mall & Mega City: <strong>5 min drive</strong></span>
+              </div>
+              <div class="col-sm-6 d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-hospital text-gold fs-6"></i>
+                <span>Aga Khan Hospital Kisumu: <strong>6 min drive</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- House Rules, Pricing & Clear Policies -->
+          <div class="surface-card mb-4" id="prop-policies-section">
+            <h4 class="h5 mb-3 d-flex align-items-center gap-2">
+              <i class="bi bi-shield-check text-gold"></i>
+              <span>Transparent Policies & House Rules</span>
+            </h4>
+            
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary h-100">
+                  <div class="fw-semibold text-light small mb-2 d-flex align-items-center gap-2">
+                    <i class="bi bi-clock-history text-gold"></i> Check-in & Check-out
+                  </div>
+                  <div class="small text-muted mb-1" id="prop-policy-checkin"><strong>Check-in:</strong> 2:00 PM – 10:00 PM (Host welcome or keypad)</div>
+                  <div class="small text-muted" id="prop-policy-checkout"><strong>Check-out:</strong> 10:00 AM (Late check-out on request)</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary h-100">
+                  <div class="fw-semibold text-light small mb-2 d-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-counterclockwise text-gold"></i> Cancellation & Refund
+                  </div>
+                  <div class="small text-muted" id="prop-policy-cancellation">
+                    100% Free cancellation up to 48 hours before check-in. Flexible date rescheduling with host.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary h-100">
+                  <div class="fw-semibold text-light small mb-2 d-flex align-items-center gap-2">
+                    <i class="bi bi-wallet2 text-gold"></i> Payment & Deposit Terms
+                  </div>
+                  <div class="small text-muted" id="prop-policy-payment">
+                    <strong>100% Pay on Arrival Guarantee.</strong> Zero advance deposit required for verified guests. Pay via M-Pesa (Till/Paybill), Card, or Cash upon arrival and physical inspection.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-dark-elevated rounded border border-secondary h-100">
+                  <div class="fw-semibold text-light small mb-2 d-flex align-items-center gap-2">
+                    <i class="bi bi-card-checklist text-gold"></i> Essential House Rules
+                  </div>
+                  <ul class="list-unstyled small text-muted mb-0 d-flex flex-column gap-1" id="prop-policy-rules">
+                    <li><i class="bi bi-check2 text-gold me-1"></i> No indoor smoking (gardens & verandas available)</li>
+                    <li><i class="bi bi-check2 text-gold me-1"></i> Quiet hours observed 10:00 PM – 7:00 AM</li>
+                    <li><i class="bi bi-check2 text-gold me-1"></i> No commercial shoots or unauthorized parties</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verified Guest Reviews & Customer Confidence -->
+          <div class="surface-card mb-4" id="prop-reviews-card">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+              <div>
+                <h4 class="h5 mb-1 d-flex align-items-center gap-2">
+                  <i class="bi bi-star-fill text-warning"></i>
+                  <span>Verified Guest Reviews</span>
+                </h4>
+                <div class="small text-muted" id="prop-reviews-summary">Rated 4.95 out of 5 based on verified stays in Kisumu</div>
+              </div>
+              <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 px-2 py-1">
+                <i class="bi bi-shield-fill-check me-1"></i> Superhost Verified
+              </span>
+            </div>
+
+            <!-- Review Score Meters -->
+            <div class="row g-3 p-3 bg-dark-elevated rounded border border-secondary mb-4">
+              <div class="col-6 col-md-4">
+                <div class="d-flex justify-content-between small text-muted mb-1">
+                  <span>Cleanliness</span>
+                  <span class="fw-bold text-light">4.9</span>
+                </div>
+                <div class="progress" style="height: 5px;"><div class="progress-bar bg-warning" style="width: 98%"></div></div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="d-flex justify-content-between small text-muted mb-1">
+                  <span>Accuracy</span>
+                  <span class="fw-bold text-light">5.0</span>
+                </div>
+                <div class="progress" style="height: 5px;"><div class="progress-bar bg-warning" style="width: 100%"></div></div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="d-flex justify-content-between small text-muted mb-1">
+                  <span>Communication</span>
+                  <span class="fw-bold text-light">5.0</span>
+                </div>
+                <div class="progress" style="height: 5px;"><div class="progress-bar bg-warning" style="width: 100%"></div></div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="d-flex justify-content-between small text-muted mb-1">
+                  <span>Location</span>
+                  <span class="fw-bold text-light">4.9</span>
+                </div>
+                <div class="progress" style="height: 5px;"><div class="progress-bar bg-warning" style="width: 98%"></div></div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="d-flex justify-content-between small text-muted mb-1">
+                  <span>Check-in</span>
+                  <span class="fw-bold text-light">4.9</span>
+                </div>
+                <div class="progress" style="height: 5px;"><div class="progress-bar bg-warning" style="width: 98%"></div></div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="d-flex justify-content-between small text-muted mb-1">
+                  <span>Value</span>
+                  <span class="fw-bold text-light">4.8</span>
+                </div>
+                <div class="progress" style="height: 5px;"><div class="progress-bar bg-warning" style="width: 96%"></div></div>
+              </div>
+            </div>
+
+            <!-- Reviews List Container -->
+            <div class="row g-3" id="prop-reviews-list">
+              <!-- Dynamically populated by JS -->
+            </div>
+          </div>
+
+          <!-- Meet Your Host Section -->
+          <div class="surface-card mb-4" id="prop-host-card">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+              <div class="d-flex align-items-center gap-3">
+                <div class="position-relative">
+                  <img src="assets/images/Logo.jpg" alt="Host Profile" class="rounded-circle border border-gold" style="width: 58px; height: 58px; object-fit: cover;">
+                  <span class="position-absolute bottom-0 end-0 bg-danger text-white rounded-circle p-1 d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; font-size: 0.6rem;" title="Airbnb Superhost">
+                    <i class="bi bi-star-fill"></i>
+                  </span>
+                </div>
+                <div>
+                  <h5 class="mb-0" id="prop-host-name">Hosted by Blasio Odhiambo</h5>
+                  <div class="small text-gold fw-semibold">
+                    <i class="bi bi-patch-check-fill text-primary me-1"></i> Airbnb Superhost & Host Manager
+                  </div>
+                  <div class="small text-muted">Dedicated accommodation manager in Kisumu City</div>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2">
+                <a href="https://wa.me/254703165843?text=Hello%20Blasio,%20I%20am%20inquiring%20about%20your%20Wangwana%20Airbnb%20stay" target="_blank" class="btn btn-sm btn-outline-success d-flex align-items-center gap-1">
+                  <i class="bi bi-whatsapp"></i> WhatsApp Host
+                </a>
+                <a href="tel:0703165843" class="btn btn-sm btn-outline-light d-flex align-items-center gap-1">
+                  <i class="bi bi-telephone"></i> 0703165843
+                </a>
+              </div>
+            </div>
+
+            <div class="row g-2 small text-muted p-3 bg-dark-elevated rounded border border-secondary">
+              <div class="col-sm-4 d-flex align-items-center gap-2">
+                <i class="bi bi-chat-dots-fill text-gold fs-5"></i>
+                <div>
+                  <div class="text-light fw-semibold">100% Response Rate</div>
+                  <div style="font-size: 0.72rem;">Within an hour</div>
+                </div>
+              </div>
+              <div class="col-sm-4 d-flex align-items-center gap-2">
+                <i class="bi bi-shield-fill-check text-gold fs-5"></i>
+                <div>
+                  <div class="text-light fw-semibold">Superhost Verified</div>
+                  <div style="font-size: 0.72rem;">130+ reviews across Kisumu</div>
+                </div>
+              </div>
+              <div class="col-sm-4 d-flex align-items-center gap-2">
+                <i class="bi bi-car-front-fill text-gold fs-5"></i>
+                <div>
+                  <div class="text-light fw-semibold">Local Concierge</div>
+                  <div style="font-size: 0.72rem;">Airport pick-up available</div>
+                </div>
               </div>
             </div>
           </div>
@@ -206,6 +442,9 @@
                 <i class="bi bi-star-fill me-1"></i> Highly Rated
               </span>
             </div>
+
+            <!-- Limited Availability Urgency Countdown for High-Demand Properties -->
+            <div id="prop-detail-urgency-timer" class="mb-3"></div>
 
             <!-- Date & Guest inputs -->
             <div class="p-3 bg-dark-elevated rounded border border-secondary mb-3">
@@ -261,6 +500,27 @@
             <p class="text-center text-muted" style="font-size: 0.75rem;">
               You won't be charged yet. Payment supported via M-Pesa or Card upon check-in.
             </p>
+
+            <!-- Official Airbnb Listing Card -->
+            <div class="p-3 bg-dark-elevated rounded border border-danger border-opacity-50 mt-3 mb-2" id="prop-airbnb-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-box-arrow-up-right text-danger fs-5"></i>
+                  <div>
+                    <div class="fw-semibold text-light small">Official Airbnb Listing</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">Superhost Profile (4.9 ★)</div>
+                  </div>
+                </div>
+                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50" style="font-size: 0.7rem;">Airbnb</span>
+              </div>
+              <p class="text-muted mb-2" style="font-size: 0.75rem; line-height: 1.4;">
+                Prefer booking or reading guest reviews directly on Airbnb? You can view this listing on Airbnb, or book direct here to save on guest service fees.
+              </p>
+              <a href="#" id="prop-airbnb-link-btn" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-box-arrow-up-right"></i>
+                <span>View on Airbnb</span>
+              </a>
+            </div>
 
             <div class="border-top border-secondary pt-3 mt-3 text-center">
               <span class="text-muted small d-block mb-2">Need immediate host clarification?</span>

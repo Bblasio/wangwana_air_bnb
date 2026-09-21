@@ -7,7 +7,7 @@
     "dev": "node server.js",
     "build": "echo 'Build complete'",
     "start": "node server.js",
-    "lint": "node -c server.js js/main.js js/utils.js js/properties.js js/property-detail.js js/book.js js/favorites.js"
+    "lint": "node -c server.js js/main.js js/utils.js js/properties.js js/property-detail.js js/book.js js/favorites.js js/lightbox-360.js"
   },
   "dependencies": {
     "express": "^5.2.1"

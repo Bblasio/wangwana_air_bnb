@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "id": "BKG-MUB7QAMM",
+    "propertyId": "general",
+    "propertyName": "White House Serviced Residence",
+    "guestName": "Blasio Ochieng",
+    "guestPhone": "254703165843",
+    "guestEmail": "ochiengblasio@gmail.com",
+    "checkIn": "2026-10-15",
+    "checkOut": "2026-10-18",
+    "guests": 2,
+    "totalAmount": 33000,
+    "paymentMethod": "Pay on Arrival (M-Pesa / Cash)",
+    "mpesaReceipt": "",
+    "notes": "Testing email notification forward to ochiengblasio@gmail.com",
+    "status": "Confirmed - Pending Arrival",
+    "createdAt": "2026-09-21T12:19:52.270Z"
+  }
+]
