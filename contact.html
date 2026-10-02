@@ -19,30 +19,43 @@
   <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
+  <!-- Wangwana Brand Logo Loading Animation Screen -->
+  <div id="wangwana-loader" class="wangwana-loader-overlay" aria-label="Loading Wangwana Airbnb">
+    <div class="wangwana-loader-card">
+      <div class="wangwana-logo-wrap">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo" class="wangwana-pulse-logo">
+        <div class="wangwana-halo-ring"></div>
+        <div class="wangwana-halo-glow"></div>
+      </div>
+      <div class="wangwana-loader-title">
+        Wangwana <span class="text-gold">Airbnb</span>
+      </div>
+      <div class="wangwana-loader-bar">
+        <div class="wangwana-loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
         <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
         <span>Wangwana <span class="text-gold">Airbnb</span></span>
-        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="listings.html">All Stays</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About Wangwana</a></li>
-          <li class="nav-item"><a class="nav-link active" href="contact.html">Contact Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="listings.html">Stays</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
           <li class="nav-item ms-lg-2">
-            <a href="tel:0703165843" class="btn btn-sm btn-outline-gold">
-              <i class="bi bi-telephone-fill me-1"></i> 0703165843
+            <a href="book.html" class="btn btn-sm btn-primary">
+              <i class="bi bi-calendar-check me-1"></i> Book Now
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="book.html" class="btn btn-sm btn-primary">Book a Stay</a>
           </li>
         </ul>
       </div>
@@ -51,119 +64,50 @@
 
   <main class="py-5">
     <div class="container">
-      <!-- Breadcrumb -->
-      <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb small">
-          <li class="breadcrumb-item"><a href="index.html" class="text-gold">Home</a></li>
-          <li class="breadcrumb-item active text-muted" aria-current="page">Contact Kisumu Desk</li>
-        </ol>
-      </nav>
-
-      <div class="mb-4">
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <span class="badge-kisumu-pill"><i class="bi bi-geo-alt-fill text-gold"></i> Kisumu City Only</span>
-          <span class="badge-poa"><i class="bi bi-shield-check"></i> Pay on Arrival</span>
-        </div>
-        <h1 class="h2 mb-1">Direct Kisumu Airbnb Support</h1>
-        <p class="text-muted mb-0">Connecting Kisumu homeowners and travelers seamlessly with verified local assistance</p>
+      <div class="text-center max-w-700 mx-auto mb-4">
+        <h1 class="h2 mb-2">Contact Us</h1>
+        <p class="text-muted small mb-0">Have an inquiry or need assistance with your Kisumu reservation? Send a message directly.</p>
       </div>
 
-      <div class="row g-4">
-        <!-- Contact Information & Channels -->
-        <div class="col-lg-5">
-          <div class="surface-card p-4 h-100">
-            <h4 class="h5 mb-3 text-gold">Reach Wangwana Agency</h4>
-            <p class="text-muted small mb-4">
-              Planning your trip or business stay in Kisumu? Connect directly with our concierge and booking desk:
-            </p>
-
-            <div class="d-flex flex-column gap-3 mb-4">
-              <a href="tel:0703165843" class="p-3 bg-dark-elevated rounded border border-secondary text-decoration-none d-flex align-items-center gap-3 text-light">
-                <i class="bi bi-telephone-fill text-gold fs-4"></i>
-                <div>
-                  <div class="small text-muted">Direct Phone Hotline</div>
-                  <div class="fw-bold">0703165843</div>
-                </div>
-              </a>
-
-              <a href="https://wa.me/254703165843?text=Hello%20Wangwana%20Stays,%20I%20have%20an%20inquiry%20regarding%20Kisumu%20Airbnbs" target="_blank" class="p-3 bg-dark-elevated rounded border border-secondary text-decoration-none d-flex align-items-center gap-3 text-light">
-                <i class="bi bi-whatsapp text-success fs-4"></i>
-                <div>
-                  <div class="small text-muted">Instant WhatsApp Support</div>
-                  <div class="fw-bold text-success">Chat with Us (0703165843)</div>
-                </div>
-              </a>
-
-              <a href="mailto:info@wangwana.co.ke" class="p-3 bg-dark-elevated rounded border border-secondary text-decoration-none d-flex align-items-center gap-3 text-light">
-                <i class="bi bi-envelope-fill text-gold fs-4"></i>
-                <div>
-                  <div class="small text-muted">Email Inquiries</div>
-                  <div class="fw-bold">info@wangwana.co.ke</div>
-                </div>
-              </a>
-
-              <div class="p-3 bg-dark-elevated rounded border border-secondary text-decoration-none d-flex align-items-center justify-content-between">
-                <div>
-                  <div class="small text-muted">Looking for a Stay?</div>
-                  <div class="fw-bold text-gold">Browse Wangwana Stays</div>
-                </div>
-                <a href="listings.html" class="btn btn-sm btn-primary">
-                  View Stays
-                </a>
-              </div>
-            </div>
-
-            <div class="border-top border-secondary pt-3">
-              <h6 class="small text-gold text-uppercase tracking-wide mb-2">Kisumu Host Operations</h6>
-              <p class="small text-muted mb-1">
-                <i class="bi bi-geo-alt-fill text-gold me-1"></i> Oginga Odinga Street, Central Business District, Kisumu
-              </p>
-              <p class="small text-muted mb-0">
-                <i class="bi bi-clock-fill text-gold me-1"></i> Guest & Host Concierge: <strong>Available 24/7 (0703165843)</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Contact Form -->
-        <div class="col-lg-7">
-          <div class="surface-card p-4">
-            <h4 class="h5 mb-3">Send a Message</h4>
+      <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+          <div class="surface-card p-4 p-md-5">
             <div id="contact-alert-placeholder"></div>
 
-            <form id="contactForm" novalidate>
+            <!-- Contact Inquiry Form -->
+            <form id="contactForm" action="https://formspree.io/ochiengblasio@gmail.com" method="POST" novalidate>
               <div class="row g-3">
                 <div class="col-sm-6">
-                  <label for="name" class="form-label">Full Name</label>
-                  <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                  <label for="name" class="form-label small fw-semibold">Full Name</label>
+                  <input type="text" id="name" name="name" class="form-control" required>
                   <div class="invalid-feedback">Please enter your name.</div>
                 </div>
                 <div class="col-sm-6">
-                  <label for="email" class="form-label">Email Address</label>
-                  <input type="email" id="email" class="form-control" placeholder="name@domain.com" required>
+                  <label for="email" class="form-label small fw-semibold">Email Address</label>
+                  <input type="email" id="email" name="email" class="form-control" required>
                   <div class="invalid-feedback">Please enter a valid email.</div>
                 </div>
                 <div class="col-sm-6">
-                  <label for="phone" class="form-label">Phone Number (Optional)</label>
-                  <input type="tel" id="phone" class="form-control" placeholder="0703165843">
+                  <label for="phone" class="form-label small fw-semibold">Phone / WhatsApp (Optional)</label>
+                  <input type="tel" id="phone" name="phone" class="form-control">
                 </div>
                 <div class="col-sm-6">
-                  <label for="subject" class="form-label">Inquiry Subject</label>
-                  <select id="subject" class="form-select">
-                    <option value="Booking Inquiry">General Booking Inquiry</option>
-                    <option value="Host Property Listing">I Want to List My Kisumu House</option>
-                    <option value="Long Term Stay">Long Stay / Corporate Discount</option>
-                    <option value="Airport Transfer">Kisumu Airport Pickup / Taxi</option>
-                    <option value="Event / Filming">Event / Filming Request</option>
+                  <label for="subject" class="form-label small fw-semibold">Subject</label>
+                  <select id="subject" name="subject" class="form-select">
+                    <option value="Booking Inquiry">Booking Inquiry</option>
+                    <option value="Long Term Stay">Long Term Stay</option>
+                    <option value="Airport Pickup">Airport Pickup</option>
+                    <option value="Host Property Listing">Host Property Listing</option>
+                    <option value="General Question">General Question</option>
                   </select>
                 </div>
                 <div class="col-12">
-                  <label for="message" class="form-label">How can we assist you?</label>
-                  <textarea id="message" class="form-control" rows="5" placeholder="Tell us your desired stay dates, number of guests, or details about your Kisumu property..." required></textarea>
+                  <label for="message" class="form-label small fw-semibold">Your Message</label>
+                  <textarea id="message" name="message" class="form-control" rows="5" required></textarea>
                   <div class="invalid-feedback">Please include your message.</div>
                 </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2">
+                <div class="col-12 mt-4">
+                  <button type="submit" id="contactSubmitBtn" class="btn btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2 fs-6">
                     <i class="bi bi-send-fill"></i> Send Message
                   </button>
                 </div>
@@ -236,7 +180,7 @@
         </div>
       </div>
       <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
-        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <p class="mb-0">&copy; <span class="auto-year">2025</span> Wangwana Airbnb.</p>
         <div class="d-flex gap-3 mt-2 mt-sm-0">
           <a href="about.html">Terms & Conditions</a>
           <a href="about.html">Privacy Policy</a>

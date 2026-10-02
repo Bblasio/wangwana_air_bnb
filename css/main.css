@@ -11,13 +11,60 @@
   --text-muted: #cbd5e1;
   --text-secondary: #94a3b8;
   --border-subtle: rgba(255, 255, 255, 0.12);
-  color-scheme: dark;
+
+  /* Bootstrap 5 Theme Variable Overrides */
+  --bs-body-font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  --bs-font-sans-serif: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  --bs-body-color: #f8fafc !important;
+  --bs-body-bg: #0c1218 !important;
+  --bs-secondary-color: #cbd5e1 !important;
+  --bs-secondary-rgb: 203, 213, 225 !important;
+  --bs-tertiary-color: #94a3b8 !important;
+  --bs-tertiary-bg: #1a2430 !important;
+  --bs-border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-/* Global Reset & Box Sizing */
+/* Global Reset & Universal Font Consistency */
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+}
+
+*, *::before, *::after,
+html, body, button, input, select, textarea, optgroup,
+p, span, a, label, h1, h2, h3, h4, h5, h6,
+.btn, .nav-link, .form-control, .form-select, .breadcrumb-item, .badge, small {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* High-Contrast Dark Mode Visibility for Grey & Muted Elements */
+.text-muted,
+.text-secondary,
+[class*="text-muted"],
+.text-muted small,
+small.text-muted,
+p.text-muted,
+span.text-muted,
+div.text-muted,
+label.text-muted {
+  color: #cbd5e1 !important;
+}
+
+label, .form-label {
+  color: #e2e8f0 !important;
+  font-weight: 600;
+}
+
+::placeholder {
+  color: #94a3b8 !important;
+  opacity: 0.9 !important;
+}
+
+/* Breadcrumbs */
+.breadcrumb-item + .breadcrumb-item::before {
+  color: #94a3b8 !important;
+}
+.breadcrumb-item.active {
+  color: #e2e8f0 !important;
 }
 
 body {
@@ -26,140 +73,30 @@ body {
     radial-gradient(at 100% 0%, rgba(217, 139, 43, 0.08) 0px, transparent 50%),
     radial-gradient(at 0% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 50%);
   color: var(--text-main);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   margin: 0;
-  color-scheme: dark;
 }
 
 main {
   flex: 1 0 auto;
 }
 
-/* Typography & High-Contrast Readability */
+/* Typography Helpers */
 h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-/* Fix text visibility: override Bootstrap's dark-gray text-muted (#6c757d) */
-.text-muted {
-  color: #cbd5e1 !important;
-}
-
-.text-secondary {
-  color: #94a3b8 !important;
-}
-
-.text-light {
-  color: #f8fafc !important;
-}
-
-.form-text {
-  color: #cbd5e1 !important;
-}
-
-small, .small {
-  color: inherit;
-}
-
 .text-gold {
   color: var(--primary-accent) !important;
-}
-
-.bg-gold {
-  background-color: var(--primary-accent) !important;
-  color: #0c1218 !important;
-  font-weight: 700;
 }
 
 .bg-gold-subtle {
   background-color: var(--primary-accent-subtle) !important;
   color: var(--primary-accent) !important;
-}
-
-/* Essential Surface & Background Classes */
-.bg-dark-base {
-  background-color: var(--bg-dark-base) !important;
-}
-
-.bg-dark-surface {
-  background-color: var(--bg-dark-surface) !important;
-}
-
-.bg-dark-elevated {
-  background-color: var(--bg-dark-elevated) !important;
-}
-
-.bg-dark {
-  background-color: var(--bg-dark-surface) !important;
-}
-
-/* Bootstrap Card, Modal, and List Group Dark Overrides */
-.card {
-  background-color: var(--bg-dark-surface) !important;
-  color: var(--text-main) !important;
-  border: 1px solid var(--border-subtle) !important;
-}
-
-.modal-content {
-  background-color: var(--bg-dark-surface) !important;
-  color: var(--text-main) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-}
-
-.dropdown-menu {
-  background-color: var(--bg-dark-elevated) !important;
-  color: var(--text-main) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-}
-
-.dropdown-item {
-  color: #e2e8f0 !important;
-}
-
-.dropdown-item:hover, .dropdown-item:focus {
-  background-color: var(--primary-accent-subtle) !important;
-  color: var(--primary-accent) !important;
-}
-
-.border-secondary {
-  border-color: rgba(255, 255, 255, 0.16) !important;
-}
-
-/* High Contrast Alert Overrides for Dark Theme */
-.alert-dark {
-  background-color: var(--bg-dark-elevated) !important;
-  color: #f1f5f9 !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-}
-
-.alert-dark strong,
-.alert-dark .text-light {
-  color: #ffffff !important;
-}
-
-.alert-dark .text-muted {
-  color: #cbd5e1 !important;
-}
-
-.alert-info {
-  background-color: rgba(14, 165, 233, 0.15) !important;
-  color: #38bdf8 !important;
-  border: 1px solid rgba(14, 165, 233, 0.35) !important;
-}
-
-.alert-success {
-  background-color: rgba(34, 197, 94, 0.15) !important;
-  color: #4ade80 !important;
-  border: 1px solid rgba(34, 197, 94, 0.35) !important;
-}
-
-.alert-success strong {
-  color: #ffffff !important;
 }
 
 /* Navigation Bar */
@@ -225,22 +162,65 @@ small, .small {
   filter: invert(1);
 }
 
-/* Hero Section */
+/* Hero Section - Fullscreen Viewport */
 .hero {
-  background: linear-gradient(180deg, rgba(12, 18, 24, 0.75) 0%, rgba(12, 18, 24, 0.92) 100%),
+  background: linear-gradient(180deg, rgba(12, 18, 24, 0.35) 0%, rgba(12, 18, 24, 0.55) 50%, rgba(12, 18, 24, 0.88) 100%),
               url('../assets/images/beach.jpg') no-repeat center center / cover;
   color: #ffffff;
-  padding: 90px 0 100px;
+  min-height: calc(100vh - 72px);
+  min-height: calc(100dvh - 72px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   position: relative;
   border-bottom: 1px solid var(--border-subtle);
+  padding: 60px 20px 80px;
 }
 
 .hero h1 {
-  font-size: 2.75rem;
+  font-size: 3.25rem;
   font-weight: 800;
   line-height: 1.2;
-  margin-bottom: 16px;
+  margin-bottom: 0;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.75);
+  letter-spacing: -0.02em;
+}
+
+.hero-scroll-btn {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.hero-scroll-btn:hover {
+  opacity: 1;
+  color: var(--primary-accent);
+  transform: translateX(-50%) translateY(3px);
+}
+
+@keyframes heroBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.animate-hero-bounce {
+  animation: heroBounce 2s infinite ease-in-out;
 }
 
 .hero p.lead {
@@ -558,8 +538,8 @@ small, .small {
 
 .room-chip-btn {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
   font-size: 0.72rem;
   font-weight: 500;
   padding: 2px 8px;
@@ -926,7 +906,7 @@ small, .small {
   padding: 28px;
 }
 
-/* Inputs & Form Controls - Explicit Dark Styling & Contrast */
+/* Inputs & Form Controls */
 .form-control,
 .form-select {
   background-color: var(--bg-dark-elevated);
@@ -944,61 +924,11 @@ small, .small {
   box-shadow: 0 0 0 2px rgba(217, 139, 43, 0.25);
 }
 
-/* Ensure dropdown options are always legible on all operating systems */
-select option {
-  background-color: #141c24 !important;
-  color: #f8fafc !important;
-  padding: 8px 12px;
-}
-
-select option:hover,
-select option:focus,
-select option:checked {
-  background-color: var(--primary-accent) !important;
-  color: #0c1218 !important;
-}
-
-/* Crisp date picker icons */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.85;
-  cursor: pointer;
-}
-
-/* Clear, high-contrast placeholder text */
-::placeholder,
-.form-control::placeholder,
-input::placeholder,
-textarea::placeholder {
-  color: #94a3b8 !important;
-  opacity: 1;
-}
-
 .form-label {
   font-weight: 600;
   font-size: 0.9rem;
-  color: #e2e8f0 !important;
+  color: #cbd5e1;
   margin-bottom: 6px;
-}
-
-.form-check-label {
-  color: #e2e8f0 !important;
-}
-
-.form-check-input {
-  background-color: var(--bg-dark-elevated);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.form-check-input:checked {
-  background-color: var(--primary-accent);
-  border-color: var(--primary-accent);
-}
-
-.invalid-feedback {
-  color: #f87171 !important;
-  font-size: 0.825rem;
-  font-weight: 500;
 }
 
 /* Property Detail Gallery */
@@ -1080,7 +1010,7 @@ footer.app-footer {
 }
 
 footer.app-footer a {
-  color: #94a3b8;
+  color: #cbd5e1;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -1235,785 +1165,296 @@ footer.app-footer h5 {
 }
 
 /* ==========================================================================
-   Leaflet Map Styling for Available Stays in Kisumu
+   Calendar Date Range Picker & Date Cards Styling
    ========================================================================== */
-.stays-map-section {
-  background-color: var(--bg-dark-surface);
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.date-card {
+  transition: all 0.2s ease-in-out;
+  background-color: var(--bg-dark-base) !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+.date-card:hover {
+  border-color: var(--primary-accent) !important;
+  background-color: rgba(217, 139, 43, 0.06) !important;
+  transform: translateY(-1px);
+}
+
+.date-card.active {
+  border-color: var(--primary-accent) !important;
+  box-shadow: 0 0 0 2px rgba(217, 139, 43, 0.25);
+}
+
+.date-preset-btn {
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background-color: var(--bg-dark-base);
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  transition: all 0.3s ease;
-}
-
-.stays-map-header {
-  padding: 14px 20px;
-  background-color: var(--bg-dark-elevated);
-  border-bottom: 1px solid var(--border-subtle);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.stays-map-container {
-  height: 420px;
-  width: 100%;
-  position: relative;
-  background-color: #0b1117;
-  z-index: 1;
-}
-
-@media (max-width: 768px) {
-  .stays-map-container {
-    height: 320px;
-  }
-}
-
-/* Custom Marker Pins */
-.wangwana-map-pin {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #0f172a;
-  border: 2px solid var(--primary-accent);
-  color: #ffffff;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(217, 139, 43, 0.4);
-  white-space: nowrap;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.wangwana-map-pin:hover,
-.wangwana-map-pin.active-pin {
-  transform: translate(-50%, -55%) scale(1.1);
-  background-color: var(--primary-accent);
-  color: #0c1218;
-  box-shadow: 0 6px 18px rgba(217, 139, 43, 0.6);
-  z-index: 9999 !important;
-}
-
-.wangwana-map-pin i {
-  font-size: 0.85rem;
-  color: var(--primary-accent);
-}
-
-.wangwana-map-pin:hover i,
-.wangwana-map-pin.active-pin i {
-  color: #0c1218;
-}
-
-/* Custom Leaflet Dark Popup */
-.wangwana-map-popup .leaflet-popup-content-wrapper {
-  background: var(--bg-dark-surface) !important;
-  color: #f1f5f9 !important;
-  border: 1px solid var(--primary-accent) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6) !important;
-  padding: 0 !important;
-  overflow: hidden;
-}
-
-.wangwana-map-popup .leaflet-popup-content {
-  margin: 0 !important;
-  line-height: 1.4 !important;
-  max-width: 290px;
-}
-
-.wangwana-map-popup .leaflet-popup-tip {
-  background: var(--bg-dark-surface) !important;
-  border: 1px solid var(--primary-accent) !important;
-}
-
-.wangwana-map-popup .leaflet-popup-close-button {
-  color: #f8fafc !important;
-  top: 8px !important;
-  right: 8px !important;
-  font-size: 1.1rem !important;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 !important;
-}
-
-.map-popup-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.map-popup-thumb {
-  width: 100%;
-  height: 125px;
-  object-fit: cover;
-}
-
-.map-popup-body {
-  padding: 12px 14px;
-}
-
-.map-popup-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 2px;
-}
-
-.map-popup-location {
-  font-size: 0.78rem;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  transition: all 0.15s ease-in-out;
 }
 
-.map-popup-price {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--primary-accent);
-}
-
-/* ==========================================================================
-   M-Pesa STK Push Simulation Styling
-   ========================================================================== */
-.mpesa-green {
-  color: #00a859 !important;
-}
-
-.bg-mpesa-subtle {
-  background-color: rgba(0, 168, 89, 0.15) !important;
-  color: #00c96b !important;
-  border: 1px solid rgba(0, 168, 89, 0.35);
-}
-
-.btn-mpesa {
-  background: linear-gradient(135deg, #00a859 0%, #008744 100%);
+.date-preset-btn:hover {
+  background-color: var(--primary-accent-subtle);
+  border-color: var(--primary-accent);
   color: #ffffff;
+}
+
+.date-preset-btn.active {
+  background-color: var(--primary-accent);
+  border-color: var(--primary-accent);
+  color: #0c1218 !important;
   font-weight: 700;
-  border: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 168, 89, 0.35);
 }
 
-.btn-mpesa:hover {
-  background: linear-gradient(135deg, #02b963 0%, #00994d 100%);
-  color: #ffffff;
-  box-shadow: 0 6px 18px rgba(0, 168, 89, 0.5);
-  transform: translateY(-1px);
+/* Custom Flatpickr Luxury Theme (Matching Wangwana Airbnb Dark & Gold) */
+.flatpickr-calendar {
+  background: #141c24 !important;
+  border: 1px solid rgba(217, 139, 43, 0.45) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8) !important;
+  border-radius: 14px !important;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  padding: 6px !important;
+  width: auto !important;
 }
 
-.mpesa-badge-safaricom {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background-color: #00a859;
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 0.78rem;
+.flatpickr-calendar.arrowTop:before,
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: #141c24 !important;
+}
+
+.flatpickr-calendar.arrowBottom:before,
+.flatpickr-calendar.arrowBottom:after {
+  border-top-color: #141c24 !important;
+}
+
+.flatpickr-months {
+  background: transparent !important;
+  padding: 6px 0 10px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.flatpickr-months .flatpickr-month {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  height: 38px !important;
+}
+
+.flatpickr-current-month {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #f8fafc !important;
+  padding-top: 4px !important;
+}
+
+.flatpickr-current-month .cur-month {
+  font-weight: 700 !important;
+  color: #f8fafc !important;
+}
+
+.flatpickr-current-month input.cur-year {
+  font-weight: 700 !important;
+  color: var(--primary-accent) !important;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+  padding: 8px !important;
+  border-radius: 8px !important;
+  transition: background-color 0.15s ease;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-months .flatpickr-next-month:hover {
+  background: rgba(217, 139, 43, 0.2) !important;
+}
+
+.flatpickr-months .flatpickr-prev-month svg,
+.flatpickr-months .flatpickr-next-month svg {
+  fill: var(--primary-accent) !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+span.flatpickr-weekday {
+  color: #94a3b8 !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase;
   letter-spacing: 0.04em;
-  padding: 4px 10px;
-  border-radius: 6px;
 }
 
-/* Phone Bezel Simulator */
-.stk-phone-mockup {
-  max-width: 360px;
-  margin: 0 auto;
-  background: #000000;
-  border-radius: 36px;
-  padding: 14px;
-  border: 4px solid #334155;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 168, 89, 0.2);
-  position: relative;
+.flatpickr-day {
+  color: #f1f5f9 !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  margin: 1px 0 !important;
+  transition: all 0.12s ease-in-out;
 }
 
-.stk-phone-screen {
-  background: #0f172a;
-  border-radius: 26px;
-  overflow: hidden;
-  padding: 16px;
-  min-height: 480px;
-  display: flex;
-  flex-direction: column;
-  color: #f8fafc;
-  position: relative;
+.flatpickr-day:hover {
+  background: rgba(217, 139, 43, 0.28) !important;
+  border-color: rgba(217, 139, 43, 0.5) !important;
+  color: #ffffff !important;
 }
 
-.stk-phone-notch {
-  width: 110px;
-  height: 18px;
-  background: #000000;
-  margin: -16px auto 14px auto;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+.flatpickr-day.today {
+  border-color: var(--primary-accent) !important;
+  font-weight: 700 !important;
 }
 
-.stk-sim-dialog {
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  animation: simFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+  background: var(--primary-accent) !important;
+  border-color: var(--primary-accent) !important;
+  color: #0c1218 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 12px rgba(217, 139, 43, 0.4) !important;
 }
 
-@keyframes simFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.flatpickr-day.inRange {
+  background: rgba(217, 139, 43, 0.22) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  box-shadow: -5px 0 0 rgba(217, 139, 43, 0.22), 5px 0 0 rgba(217, 139, 43, 0.22) !important;
 }
 
-.stk-pin-dots {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 16px 0;
-}
-
-.stk-pin-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #64748b;
-  transition: all 0.15s ease;
-}
-
-.stk-pin-dot.filled {
-  background-color: #00a859;
-  border-color: #00a859;
-  box-shadow: 0 0 8px rgba(0, 168, 89, 0.6);
-}
-
-.stk-keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.stk-key-btn {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border-radius: 10px;
-  padding: 10px 0;
-  font-size: 1.15rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.1s ease, transform 0.1s ease;
-}
-
-.stk-key-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-}
-
-.stk-key-btn:active {
-  transform: scale(0.95);
-  background: rgba(0, 168, 89, 0.4);
-}
-
-.mpesa-receipt-card {
-  background: rgba(0, 168, 89, 0.08);
-  border: 1px solid rgba(0, 168, 89, 0.35);
-  border-radius: 12px;
-  padding: 16px;
-  font-family: monospace;
-}
-
-/* Official Booking Invoice & Stay Guarantee Document */
-#print-invoice-sheet {
-  display: none;
-  background-color: #ffffff;
-  color: #0f172a;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  line-height: 1.5;
-  box-sizing: border-box;
-}
-
-.invoice-header-box {
-  border-bottom: 2px solid #0f172a;
-  padding-bottom: 16px;
-  margin-bottom: 20px;
-}
-
-.invoice-brand-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.5px;
-  text-transform: uppercase;
-  margin: 0 0 4px 0;
-}
-
-.invoice-brand-subtitle {
-  font-size: 12px;
-  color: #b45309;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-
-.invoice-meta-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.invoice-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 16px 0;
-  font-size: 12px;
-}
-
-.invoice-table th {
-  background-color: #f1f5f9;
-  color: #0f172a;
-  font-weight: 700;
-  text-align: left;
-  padding: 8px 12px;
-  border-top: 1px solid #cbd5e1;
-  border-bottom: 1px solid #cbd5e1;
-  text-transform: uppercase;
-  font-size: 11px;
-}
-
-.invoice-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid #e2e8f0;
-  color: #334155;
-}
-
-.invoice-table td strong {
-  color: #0f172a;
-}
-
-.invoice-stamp {
-  border: 2px dashed #00a859;
-  color: #00a859;
-  padding: 8px 14px;
-  border-radius: 8px;
-  display: inline-block;
-  font-weight: 800;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transform: rotate(-2deg);
-}
-
-.invoice-stamp.stamp-gold {
-  border-color: #b45309;
-  color: #b45309;
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+  color: rgba(255, 255, 255, 0.22) !important;
+  background: transparent !important;
+  border-color: transparent !important;
 }
 
 /* ==========================================================================
-   Limited Availability Urgency Timer & Countdown
+   Wangwana Brand Logo Loading Animation
    ========================================================================== */
-.urgency-timer-banner {
-  background: linear-gradient(90deg, rgba(220, 38, 38, 0.14) 0%, rgba(245, 158, 11, 0.08) 100%);
-  border: 1px solid rgba(220, 38, 38, 0.35);
-  border-radius: 8px;
-  padding: 8px 12px;
-  margin: 10px 0 6px 0;
-  font-size: 0.8rem;
-  color: #f8fafc;
-}
-
-.urgency-pulse-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #ef4444;
-  border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-  animation: urgencyPulse 1.8s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes urgencyPulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 7px rgba(239, 68, 68, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-  }
-}
-
-.urgency-text {
-  font-size: 0.78rem;
-  line-height: 1.3;
-}
-
-.urgency-countdown {
-  font-weight: 700;
-  color: var(--primary-gold);
-  font-size: 0.78rem;
-  white-space: nowrap;
-  background: rgba(15, 23, 42, 0.6);
-  padding: 3px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(212, 163, 89, 0.25);
-}
-
-/* Card 360 Tour Button */
-.card-360-tour-btn {
-  background: rgba(15, 23, 42, 0.85);
-  color: #ffffff;
-  border: 1px solid rgba(212, 163, 89, 0.5);
-  border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  backdrop-filter: blur(4px);
-}
-
-.card-360-tour-btn:hover {
-  background: var(--primary-gold);
-  color: #0b1120;
-  border-color: var(--primary-gold);
-  transform: translateY(-1px);
-}
-
-/* ==========================================================================
-   Full-Screen High-Resolution Lightbox & 360° Viewer Overlay
-   ========================================================================== */
-body.lightbox-open {
-  overflow: hidden !important;
-}
-
-.wangwana-lightbox-overlay {
+.wangwana-loader-overlay {
   position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background: rgba(5, 8, 17, 0.96);
-  backdrop-filter: blur(12px);
-  display: flex;
-  flex-direction: column;
-  color: #f8fafc;
-  animation: fadeInLightbox 0.22s ease-out;
-}
-
-@keyframes fadeInLightbox {
-  from { opacity: 0; transform: scale(0.99); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.lightbox-header {
-  height: 64px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(11, 17, 32, 0.85);
-  flex-shrink: 0;
-  z-index: 10;
-}
-
-.lightbox-title-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow: hidden;
-}
-
-.lightbox-divider {
-  color: rgba(255, 255, 255, 0.25);
-  margin: 0 4px;
-}
-
-.lightbox-actions-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.lightbox-stage {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #151e28 0%, #0c1218 85%);
   display: flex;
   align-items: center;
   justify-content: center;
-  user-select: none;
+  z-index: 999999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s ease;
+  pointer-events: all;
 }
 
-/* Image Viewport */
-.lightbox-image-viewport {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-}
-
-.lightbox-main-img {
-  max-width: 90vw;
-  max-height: 72vh;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
-  transition: transform 0.15s ease-out;
-  cursor: zoom-in;
-}
-
-/* 360 Viewport */
-.lightbox-360-viewport {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background: #000000;
-}
-
-.canvas-360 {
-  width: 100%;
-  height: 100%;
-  display: block;
-  cursor: grab;
-}
-
-.overlay-360-hud {
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 5;
-  pointer-events: auto;
-}
-
-.compass-indicator {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid var(--primary-gold);
-  color: var(--primary-gold);
-  font-family: monospace;
-  font-size: 0.82rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 20px;
+.wangwana-loader-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
-.spin-slow {
-  animation: spinSlow 8s linear infinite;
-}
-
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Navigation Arrows */
-.lightbox-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #f8fafc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 5;
-}
-
-.lightbox-nav-btn:hover {
-  background: var(--primary-gold);
-  color: #0b1120;
-  border-color: var(--primary-gold);
-  transform: translateY(-50%) scale(1.08);
-}
-
-.lightbox-nav-prev {
-  left: 20px;
-}
-
-.lightbox-nav-next {
-  right: 20px;
-}
-
-/* Caption Overlay */
-.lightbox-floating-caption {
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(11, 17, 32, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  padding: 6px 16px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  z-index: 5;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-  white-space: nowrap;
-}
-
-/* Bottom Thumbnails Strip */
-.lightbox-footer {
-  height: 96px;
-  background: rgba(11, 17, 32, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  z-index: 10;
-}
-
-.lightbox-thumbs-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  overflow-x: auto;
-  max-width: 100%;
-  padding: 4px 0;
-  scrollbar-width: thin;
-}
-
-.lightbox-thumb-btn {
-  background: none;
-  border: 2px solid transparent;
-  padding: 2px;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
+.wangwana-loader-card {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
 
-.lightbox-thumb-btn img {
-  width: 64px;
-  height: 48px;
+.wangwana-logo-wrap {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wangwana-pulse-logo {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
   object-fit: cover;
-  border-radius: 4px;
-  display: block;
-  opacity: 0.65;
-  transition: opacity 0.2s ease;
+  box-shadow: 0 0 25px rgba(217, 139, 43, 0.55);
+  animation: logoBreath 1.6s ease-in-out infinite alternate;
+  z-index: 2;
+  position: relative;
+  border: 1px solid rgba(217, 139, 43, 0.4);
 }
 
-.lightbox-thumb-btn .thumb-label {
-  display: block;
-  font-size: 0.65rem;
-  color: #94a3b8;
-  margin-top: 3px;
-  white-space: nowrap;
-  max-width: 64px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.wangwana-halo-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 24px;
+  border: 2px solid rgba(217, 139, 43, 0.65);
+  animation: haloPulse 1.6s ease-in-out infinite alternate;
+  z-index: 1;
 }
 
-.lightbox-thumb-btn:hover img {
-  opacity: 0.95;
+.wangwana-halo-glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 30px;
+  background: radial-gradient(circle, rgba(217, 139, 43, 0.35) 0%, transparent 70%);
+  filter: blur(8px);
+  animation: haloGlow 2s ease-in-out infinite;
+  z-index: 0;
 }
 
-.lightbox-thumb-btn.active {
-  border-color: var(--primary-gold);
-}
-
-.lightbox-thumb-btn.active img {
-  opacity: 1;
-}
-
-.lightbox-thumb-btn.active .thumb-label {
-  color: var(--primary-gold);
+.wangwana-loader-title {
+  font-size: 1.15rem;
   font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
 }
 
-/* ==========================================================================
-   Photo Uploader & Dropzone
-   ========================================================================== */
-.photo-upload-dropzone {
-  border: 2px dashed rgba(212, 163, 89, 0.45);
-  border-radius: 12px;
-  background: rgba(15, 23, 42, 0.5);
-  cursor: pointer;
-  transition: all 0.2s ease;
+.wangwana-loader-bar {
+  width: 140px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
 }
 
-.photo-upload-dropzone:hover,
-.photo-upload-dropzone.dragover {
-  border-color: var(--primary-gold);
-  background: rgba(212, 163, 89, 0.08);
+.wangwana-loader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 45%;
+  background: linear-gradient(90deg, #d98b2b, #f59e0b, #d98b2b);
+  border-radius: 4px;
+  animation: loaderProgress 1.1s ease-in-out infinite;
 }
 
-/* Print Media Rules */
-@media print {
-  body * {
-    visibility: hidden !important;
-  }
-  #print-invoice-sheet,
-  #print-invoice-sheet * {
-    visibility: visible !important;
-  }
-  #print-invoice-sheet {
-    display: block !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 24px 32px !important;
-    background: #ffffff !important;
-    color: #0f172a !important;
-    box-shadow: none !important;
-  }
-  .modal,
-  .modal-backdrop,
-  header,
-  footer,
-  nav,
-  .btn,
-  #reservation-flow-container {
-    display: none !important;
-  }
+@keyframes logoBreath {
+  0% { transform: scale(0.96); filter: brightness(0.95); }
+  100% { transform: scale(1.04); filter: brightness(1.1); box-shadow: 0 0 35px rgba(217, 139, 43, 0.75); }
 }
 
+@keyframes haloPulse {
+  0% { transform: scale(0.94); opacity: 0.4; }
+  100% { transform: scale(1.08); opacity: 0.9; }
+}
 
+@keyframes haloGlow {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.85; }
+}
 
+@keyframes loaderProgress {
+  0% { left: -50%; width: 40%; }
+  50% { left: 30%; width: 60%; }
+  100% { left: 105%; width: 40%; }
+}
 

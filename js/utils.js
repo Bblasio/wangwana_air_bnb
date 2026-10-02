@@ -6,10 +6,61 @@ export const CONTACT_PHONE_INTL = '+254703165843';
 export const WHATSAPP_PHONE = '254703165843';
 
 /**
+ * Automatically sets the current year in footer copyright notices
+ */
+export function initAutoFooterYear() {
+  const currentYear = new Date().getFullYear();
+  const yearElements = document.querySelectorAll('.auto-year, .footer-year, [data-auto-year]');
+  yearElements.forEach(el => {
+    el.textContent = currentYear;
+  });
+}
+
+/**
+ * Dismisses the Wangwana brand logo loading screen with a silky fade transition
+ */
+export function dismissBrandLoader() {
+  const loader = document.getElementById('wangwana-loader');
+  if (!loader) return;
+  setTimeout(() => {
+    loader.classList.add('fade-out');
+    setTimeout(() => {
+      if (loader.parentNode) {
+        loader.parentNode.removeChild(loader);
+      }
+    }, 380);
+  }, 220);
+}
+
+// Auto-run year synchronization & loader dismissal on initial execution
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initAutoFooterYear();
+      dismissBrandLoader();
+    });
+  } else {
+    initAutoFooterYear();
+    dismissBrandLoader();
+  }
+
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('wangwana-loader');
+    if (loader && !loader.classList.contains('fade-out')) {
+      loader.classList.add('fade-out');
+      setTimeout(() => {
+        if (loader.parentNode) loader.parentNode.removeChild(loader);
+      }, 380);
+    }
+  });
+}
+
+/**
  * Initializes date constraints ensuring check-in is today or later,
  * and check-out is strictly after check-in.
  */
 export function initDateConstraints() {
+  initAutoFooterYear();
   const today = new Date().toISOString().split('T')[0];
 
   const checkInInputs = document.querySelectorAll('input[type="date"][id*="checkIn"], input[type="date"][id*="CheckIn"]');

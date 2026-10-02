@@ -14,44 +14,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <!-- Leaflet.js CSS for fast-loading interactive Kisumu map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
+  <!-- Wangwana Brand Logo Loading Animation Screen -->
+  <div id="wangwana-loader" class="wangwana-loader-overlay" aria-label="Loading Wangwana Airbnb">
+    <div class="wangwana-loader-card">
+      <div class="wangwana-logo-wrap">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo" class="wangwana-pulse-logo">
+        <div class="wangwana-halo-ring"></div>
+        <div class="wangwana-halo-glow"></div>
+      </div>
+      <div class="wangwana-loader-title">
+        Wangwana <span class="text-gold">Airbnb</span>
+      </div>
+      <div class="wangwana-loader-bar">
+        <div class="wangwana-loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
         <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
         <span>Wangwana <span class="text-gold">Airbnb</span></span>
-        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="listings.html">All Stays</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About Wangwana</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="listings.html">Stays</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item ms-lg-2">
-            <a href="tel:0703165843" class="btn btn-sm btn-outline-gold">
-              <i class="bi bi-telephone-fill me-1"></i> 0703165843
-            </a>
-          </li>
-          <li class="nav-item">
-            <button type="button" class="btn btn-sm btn-outline-secondary text-light d-flex align-items-center gap-1" onclick="window.openPhotoUploadManagerModal && window.openPhotoUploadManagerModal()" title="Upload photos from your computer folder">
-              <i class="bi bi-cloud-arrow-up text-gold"></i>
-              <span>Upload Photos</span>
-            </button>
-          </li>
-          <li class="nav-item">
             <a href="book.html" class="btn btn-sm btn-primary">
-              <i class="bi bi-calendar-check me-1"></i> Book a Stay
+              <i class="bi bi-calendar-check me-1"></i> Book Now
             </a>
           </li>
         </ul>
@@ -76,7 +79,7 @@
               <span class="badge-poa"><i class="bi bi-shield-check"></i> Pay on Arrival</span>
             </div>
             <h1 class="h2 mb-1">Wangwana Serviced Residences & Stays</h1>
-            <p class="text-muted mb-0">Browse verified luxury properties in Milimani, Riat Hills, and Dunga Beach with multi-photo room previews</p>
+            <p class="text-muted mb-0">Browse verified luxury properties in Milimani, Riat Hills, and Dunga Beach</p>
           </div>
           <div class="d-flex align-items-center gap-2">
             <a href="tel:0703165843" class="btn btn-sm btn-outline-gold">
@@ -122,53 +125,6 @@
       </div>
 
       <div id="sort-status-message" class="alert alert-info py-2 px-3 small d-none" role="status"></div>
-
-      <!-- Leaflet Interactive Map of Available Stays in Kisumu -->
-      <section class="stays-map-section mb-4" id="available-stays-map-wrapper">
-        <div class="stays-map-header">
-          <div class="d-flex align-items-center gap-2">
-            <span class="d-inline-flex align-items-center justify-content-center bg-gold-subtle text-gold rounded p-2" style="width: 38px; height: 38px;">
-              <i class="bi bi-geo-alt-fill fs-5"></i>
-            </span>
-            <div>
-              <h5 class="mb-0 fs-6 text-light fw-bold">Map of Available Stays — Kisumu City</h5>
-              <p class="small text-muted mb-0">Explore verified residences in Milimani, Riat Hills, Dunga Beach, & Tom Mboya</p>
-            </div>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <button type="button" id="resetMapCenterBtn" class="btn btn-sm btn-outline-gold d-flex align-items-center gap-1" title="Center Kisumu Map">
-              <i class="bi bi-crosshair"></i> <span class="d-none d-sm-inline">Center Kisumu</span>
-            </button>
-            <button type="button" id="toggleMapSizeBtn" class="btn btn-sm btn-outline-light d-flex align-items-center gap-1" title="Expand or minimize map view">
-              <i class="bi bi-arrows-angle-expand" id="mapSizeIcon"></i> <span class="d-none d-sm-inline" id="mapSizeText">Expand Map</span>
-            </button>
-            <button type="button" id="toggleMapVisibilityBtn" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1" title="Toggle map visibility">
-              <i class="bi bi-eye-slash" id="mapToggleIcon"></i> <span id="mapToggleText">Hide Map</span>
-            </button>
-          </div>
-        </div>
-
-        <div id="stays-map-collapsible">
-          <div id="stays-leaflet-map" class="stays-map-container" role="region" aria-label="Interactive Map of Available Stays across Kisumu">
-            <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-              <div class="spinner-border text-warning spinner-border-sm me-2" role="status"></div>
-              <span>Loading Kisumu Stays Map...</span>
-            </div>
-          </div>
-          <div class="p-2 px-3 bg-dark-elevated d-flex flex-wrap align-items-center justify-content-between small text-muted border-top border-secondary border-opacity-25">
-            <div class="d-flex align-items-center gap-3">
-              <span><i class="bi bi-pin-map-fill text-gold me-1"></i> <strong class="text-light" id="map-stays-count">4 Stays Mapped</strong></span>
-              <span class="d-none d-md-inline"><i class="bi bi-shield-check text-success me-1"></i> Pay on Arrival Guarantee</span>
-            </div>
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <button type="button" class="btn btn-xs btn-outline-secondary py-1 px-2 text-gold border-secondary small map-quick-jump" data-target-area="Milimani">Milimani</button>
-              <button type="button" class="btn btn-xs btn-outline-secondary py-1 px-2 text-gold border-secondary small map-quick-jump" data-target-area="Riat Hills">Riat Hills</button>
-              <button type="button" class="btn btn-xs btn-outline-secondary py-1 px-2 text-gold border-secondary small map-quick-jump" data-target-area="Dunga Beach">Dunga Beach</button>
-              <button type="button" class="btn btn-xs btn-outline-secondary py-1 px-2 text-gold border-secondary small map-quick-jump" data-target-area="Tom Mboya">Tom Mboya</button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <!-- Listings Grid (Rendered dynamically with multi-photo Bootstrap Carousels) -->
       <div class="row" id="listings-container">
@@ -316,7 +272,7 @@
         </div>
       </div>
       <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
-        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <p class="mb-0">&copy; <span class="auto-year">2025</span> Wangwana Airbnb.</p>
         <div class="d-flex gap-3 mt-2 mt-sm-0">
           <a href="about.html">Terms & Conditions</a>
           <a href="about.html">Privacy Policy</a>
@@ -327,8 +283,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

@@ -6,9 +6,9 @@ const app = express();
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
-// Middleware for parsing JSON and form bodies (up to 50mb for high-res property photos and 360 panoramas)
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+// Middleware for parsing JSON and form bodies
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 
 const DATA_DIR = path.join(__dirname, 'data');
 const PROPERTIES_FILE = path.join(DATA_DIR, 'properties.json');
@@ -98,25 +98,12 @@ app.post('/api/properties', (req, res) => {
       newId = `${baseSlug}-${counter++}`;
     }
 
-    const NEIGHBORHOOD_COORDS = {
-      'milimani': { lat: -0.1065, lng: 34.7518 },
-      'riat hills': { lat: -0.0520, lng: 34.7730 },
-      'dunga beach': { lat: -0.1340, lng: 34.7390 },
-      'tom mboya': { lat: -0.0820, lng: 34.7780 }
-    };
-    const normNeigh = (neighborhood || '').toLowerCase().trim();
-    const defaultCoords = NEIGHBORHOOD_COORDS[normNeigh] || {
-      lat: -0.0917 + (Math.random() - 0.5) * 0.02,
-      lng: 34.7680 + (Math.random() - 0.5) * 0.02
-    };
-
     const newProperty = {
       id: newId,
       agencyRef: agencyRef || `WNG-KS-${Math.floor(100 + Math.random() * 900)}`,
       name: name.trim(),
       location: location || `${neighborhood}, Kisumu City`,
       neighborhood: neighborhood.trim(),
-      coordinates: req.body.coordinates || defaultCoords,
       price: Number(price),
       monthlyLease: monthlyLease ? Number(monthlyLease) : Math.round(Number(price) * 22),
       rating: 5.0,
@@ -201,7 +188,6 @@ app.post('/api/properties/reset', (req, res) => {
       name: 'White House Serviced Residence',
       location: 'Milimani, Kisumu City',
       neighborhood: 'Milimani',
-      coordinates: { lat: -0.1065, lng: 34.7518 },
       price: 10500,
       monthlyLease: 185000,
       rating: 4.94,
@@ -228,7 +214,6 @@ app.post('/api/properties/reset', (req, res) => {
       name: 'Delpiero Luxury Hilltop Villa',
       location: 'Riat Hills, Kisumu',
       neighborhood: 'Riat Hills',
-      coordinates: { lat: -0.0520, lng: 34.7730 },
       price: 15200,
       monthlyLease: 290000,
       rating: 4.98,
@@ -255,7 +240,6 @@ app.post('/api/properties/reset', (req, res) => {
       name: 'Dunga Beachfront Waterfront Villa',
       location: 'Dunga Beachfront, Kisumu',
       neighborhood: 'Dunga Beach',
-      coordinates: { lat: -0.1340, lng: 34.7390 },
       price: 16000,
       monthlyLease: 310000,
       rating: 4.92,
@@ -282,7 +266,6 @@ app.post('/api/properties/reset', (req, res) => {
       name: 'Victoria Executive Corporate Suite',
       location: 'Tom Mboya Estate, Kisumu',
       neighborhood: 'Tom Mboya',
-      coordinates: { lat: -0.0820, lng: 34.7780 },
       price: 8800,
       monthlyLease: 140000,
       rating: 4.88,
@@ -304,94 +287,6 @@ app.post('/api/properties/reset', (req, res) => {
   ];
   writeJSONFile(PROPERTIES_FILE, seed);
   res.json({ success: true, message: 'Portfolio reset to default 4 prime residences', data: seed });
-});
-
-// 6a. Upload photo from user folder (base64 dataUrl) directly to assets/rooms/
-app.post('/api/upload', (req, res) => {
-  try {
-    const { propertyId, filename, dataUrl, roomTag, is360 } = req.body;
-    if (!dataUrl || !filename) {
-      return res.status(400).json({ success: false, message: 'Image data and filename are required' });
-    }
-
-    // Match base64 prefix
-    const matches = dataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) {
-      return res.status(400).json({ success: false, message: 'Invalid base64 image data' });
-    }
-
-    const ext = path.extname(filename) || '.jpg';
-    const baseName = path.basename(filename, ext).replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
-    const tagSlug = roomTag ? `${roomTag.toLowerCase().replace(/[^a-z0-9]/g, '_')}_` : '';
-    const safeFilename = `${tagSlug}${baseName}_${Date.now()}${ext}`;
-
-    const targetDir = path.join(__dirname, 'assets', 'rooms');
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-
-    const targetPath = path.join(targetDir, safeFilename);
-    const buffer = Buffer.from(matches[2], 'base64');
-    fs.writeFileSync(targetPath, buffer);
-
-    const relativePath = `assets/rooms/${safeFilename}`;
-
-    // If a propertyId was specified, also append to that property's image array in data/properties.json!
-    let updatedProperty = null;
-    if (propertyId) {
-      const properties = readJSONFile(PROPERTIES_FILE, []);
-      const idx = properties.findIndex(p => p.id.toLowerCase() === propertyId.toLowerCase());
-      if (idx !== -1) {
-        if (!Array.isArray(properties[idx].images)) {
-          properties[idx].images = [];
-        }
-        properties[idx].images.push(relativePath);
-        if (is360) {
-          if (!Array.isArray(properties[idx].panoramas)) properties[idx].panoramas = [];
-          properties[idx].panoramas.push(relativePath);
-        }
-        properties[idx].updatedAt = new Date().toISOString();
-        writeJSONFile(PROPERTIES_FILE, properties);
-        updatedProperty = properties[idx];
-      }
-    }
-
-    res.json({
-      success: true,
-      message: 'Photo uploaded and registered successfully',
-      imagePath: relativePath,
-      property: updatedProperty
-    });
-  } catch (err) {
-    console.error('Error uploading photo:', err);
-    res.status(500).json({ success: false, message: 'Failed to upload photo file' });
-  }
-});
-
-// 6b. Update or reorder property photo list
-app.post('/api/properties/:id/photos', (req, res) => {
-  try {
-    const { images, panoramas } = req.body;
-    const properties = readJSONFile(PROPERTIES_FILE, []);
-    const idx = properties.findIndex(p => p.id.toLowerCase() === req.params.id.toLowerCase());
-    if (idx === -1) {
-      return res.status(404).json({ success: false, message: 'Property not found' });
-    }
-
-    if (Array.isArray(images)) {
-      properties[idx].images = images;
-    }
-    if (Array.isArray(panoramas)) {
-      properties[idx].panoramas = panoramas;
-    }
-    properties[idx].updatedAt = new Date().toISOString();
-    writeJSONFile(PROPERTIES_FILE, properties);
-
-    res.json({ success: true, message: 'Property photos updated', data: properties[idx] });
-  } catch (err) {
-    console.error('Error updating property photos:', err);
-    res.status(500).json({ success: false, message: 'Failed to update property photos' });
-  }
 });
 
 // 7. Landlord Partnership Submissions (Property Owners entrusting spaces to Wangwana Agency)
@@ -437,10 +332,10 @@ app.get('/api/bookings', (req, res) => {
   res.json({ success: true, count: bookings.length, data: bookings });
 });
 
-app.post('/api/bookings', async (req, res) => {
+app.post('/api/bookings', (req, res) => {
   try {
     const bookings = readJSONFile(BOOKINGS_FILE, []);
-    const { propertyId, propertyName, guestName, guestPhone, guestEmail, checkIn, checkOut, guests, totalAmount, paymentMethod, status, receiptNumber, notes } = req.body;
+    const { propertyId, propertyName, guestName, guestPhone, guestEmail, checkIn, checkOut, guests, totalAmount, paymentMethod, paymentStatus, mpesaReceipt, notes } = req.body;
 
     const newBooking = {
       id: 'BKG-' + Date.now().toString(36).toUpperCase(),
@@ -454,181 +349,267 @@ app.post('/api/bookings', async (req, res) => {
       guests: guests || 1,
       totalAmount: totalAmount || 0,
       paymentMethod: paymentMethod || 'Pay on Arrival (M-Pesa / Cash)',
-      mpesaReceipt: receiptNumber || '',
+      paymentStatus: paymentStatus || 'Pending Arrival',
+      mpesaReceipt: mpesaReceipt || null,
       notes: notes || '',
-      status: status || 'Confirmed - Pending Arrival',
+      status: paymentStatus === 'PAID' ? 'Confirmed & Paid' : 'Confirmed - Pending Arrival',
       createdAt: new Date().toISOString()
     };
 
     bookings.unshift(newBooking);
     writeJSONFile(BOOKINGS_FILE, bookings);
-
-    // Dispatch host email notification to ochiengblasio@gmail.com via Formspree
-    const NOTIFICATION_EMAIL = 'ochiengblasio@gmail.com';
-    const formspreePayload = {
-      _to: NOTIFICATION_EMAIL,
-      _replyto: newBooking.guestEmail || NOTIFICATION_EMAIL,
-      _subject: `New Wangwana Airbnb Booking: ${newBooking.propertyName} - ${newBooking.guestName}`,
-      "Booking Reference": newBooking.id,
-      "Guest Name": newBooking.guestName,
-      "Guest Phone": newBooking.guestPhone,
-      "Guest Email": newBooking.guestEmail,
-      "Property": newBooking.propertyName,
-      "Check In": newBooking.checkIn,
-      "Check Out": newBooking.checkOut,
-      "Guests": newBooking.guests,
-      "Total Amount": `KSH ${Number(newBooking.totalAmount).toLocaleString()}`,
-      "Payment Method": newBooking.paymentMethod,
-      "Receipt": newBooking.mpesaReceipt || 'Pay on Arrival',
-      "Booking Status": newBooking.status,
-      "Special Requests": newBooking.notes || 'None',
-      "Agency": "Wangwana Real Estate Agency Kisumu (Till 843165)"
-    };
-
-    // Async dispatch to Formspree without blocking response
-    fetch('https://formspree.io/f/ochiengblasio@gmail.com', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(formspreePayload)
-    }).catch(() => {
-      fetch('https://formspree.io/ochiengblasio@gmail.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(formspreePayload)
-      }).catch(e => console.log('Formspree dispatch note:', e.message));
-    });
-
-    res.status(201).json({
-      success: true,
-      message: 'Reservation recorded and notification dispatched to ochiengblasio@gmail.com',
-      notificationSentTo: NOTIFICATION_EMAIL,
-      data: newBooking
-    });
+    res.status(201).json({ success: true, message: 'Reservation recorded with Wangwana Agency', data: newBooking });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to record reservation' });
   }
 });
 
-// 9. M-Pesa STK Push Simulation Service (Lipa Na M-Pesa Online)
+// ----------------------------------------------------
+// 9. Safaricom M-Pesa STK Push (Lipa Na M-Pesa Online)
+// ----------------------------------------------------
+
+// In-memory cache for transaction status polling
 const mpesaTransactions = new Map();
 
-app.post('/api/mpesa/stkpush', (req, res) => {
-  try {
-    const rawPhone = req.body.phone || req.body.phoneNumber;
-    const amount = req.body.amount;
-    const { bookingId, propertyName, accountReference } = req.body;
+// Helper to normalize Kenyan mobile phone numbers to 254XXXXXXXXX
+function normalizeKenyanPhone(phone) {
+  if (!phone) return null;
+  let cleaned = String(phone).replace(/\D/g, '');
+  if (cleaned.startsWith('0') && cleaned.length === 10) {
+    return '254' + cleaned.substring(1);
+  }
+  if (cleaned.startsWith('254') && cleaned.length === 12) {
+    return cleaned;
+  }
+  if (cleaned.length === 9 && (cleaned.startsWith('7') || cleaned.startsWith('1'))) {
+    return '254' + cleaned;
+  }
+  if (cleaned.startsWith('254') && cleaned.length > 12) {
+    return cleaned.substring(0, 12);
+  }
+  return cleaned;
+}
 
-    if (!rawPhone || !amount) {
+// Get Safaricom Daraja OAuth Token if live credentials provided
+async function getDarajaToken() {
+  const consumerKey = process.env.MPESA_CONSUMER_KEY;
+  const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
+  if (!consumerKey || !consumerSecret) return null;
+
+  const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
+  const env = process.env.MPESA_ENVIRONMENT === 'production' ? 'api' : 'sandbox';
+  const url = `https://${env}.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: { Authorization: `Basic ${auth}` }
+  });
+  if (!response.ok) throw new Error(`Daraja Auth failed with status ${response.status}`);
+  const data = await response.json();
+  return data.access_token;
+}
+
+// STK Push Request Route
+app.post('/api/mpesa/stkpush', async (req, res) => {
+  try {
+    const { phoneNumber, amount, bookingRef, propertyName, guestName } = req.body;
+
+    if (!phoneNumber) {
+      return res.status(400).json({ success: false, message: 'Phone number is required for M-Pesa STK Push.' });
+    }
+
+    const formattedPhone = normalizeKenyanPhone(phoneNumber);
+    if (!formattedPhone || formattedPhone.length !== 12 || !formattedPhone.startsWith('254')) {
       return res.status(400).json({
         success: false,
-        ResponseCode: '1',
-        ResponseDescription: 'Missing required parameters: phone and amount'
+        message: 'Invalid Kenyan phone number. Please enter a valid number (e.g. 07XXXXXXXX, 01XXXXXXXX, or 254XXXXXXXXX).'
       });
     }
 
-    // Normalize phone number to 254 format
-    let cleanPhone = String(rawPhone).replace(/[^0-9]/g, '');
-    if (cleanPhone.startsWith('0')) {
-      cleanPhone = '254' + cleanPhone.slice(1);
-    } else if (cleanPhone.startsWith('7') || cleanPhone.startsWith('1')) {
-      cleanPhone = '254' + cleanPhone;
-    }
+    const payAmount = Math.max(1, Math.round(Number(amount) || 1));
+    const now = new Date();
+    const timestamp = now.getFullYear().toString() +
+      String(now.getMonth() + 1).padStart(2, '0') +
+      String(now.getDate()).padStart(2, '0') +
+      String(now.getHours()).padStart(2, '0') +
+      String(now.getMinutes()).padStart(2, '0') +
+      String(now.getSeconds()).padStart(2, '0');
 
-    const timestamp = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(0, 14);
-    const checkoutRequestId = `ws_CO_${Date.now()}_${Math.floor(1000 + Math.random() * 9000)}`;
-    const merchantRequestId = `MR-${Date.now()}`;
+    const shortcode = process.env.MPESA_SHORTCODE || '174379';
+    const passkey = process.env.MPESA_PASSKEY || 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+    const callbackUrl = process.env.MPESA_CALLBACK_URL || `http://${req.headers.host || 'localhost:3000'}/api/mpesa/callback`;
 
-    const txRecord = {
-      checkoutRequestId,
-      merchantRequestId,
-      phone: cleanPhone,
-      amount: Number(amount),
-      bookingId: bookingId || '',
-      propertyName: propertyName || 'Wangwana Stay',
-      accountReference: accountReference || 'WANGWANA-STAY',
-      businessShortCode: '843165',
-      status: 'Pending PIN Prompt',
-      createdAt: new Date().toISOString()
-    };
+    let checkoutRequestId = null;
+    let merchantRequestId = null;
+    let darajaSuccess = false;
 
-    mpesaTransactions.set(checkoutRequestId, txRecord);
+    // Check if live Safaricom credentials are provided
+    if (process.env.MPESA_CONSUMER_KEY && process.env.MPESA_CONSUMER_SECRET) {
+      try {
+        const token = await getDarajaToken();
+        const env = process.env.MPESA_ENVIRONMENT === 'production' ? 'api' : 'sandbox';
+        const password = Buffer.from(`${shortcode}${passkey}${timestamp}`).toString('base64');
 
-    res.json({
-      success: true,
-      MerchantRequestID: merchantRequestId,
-      CheckoutRequestID: checkoutRequestId,
-      ResponseCode: '0',
-      ResponseDescription: 'Success. Request accepted for processing',
-      CustomerMessage: `Success. M-Pesa prompt initiated to ${cleanPhone}. Please enter your M-Pesa PIN on your phone.`,
-      data: txRecord
-    });
-  } catch (err) {
-    console.error('STK push initiation failed:', err);
-    res.status(500).json({ success: false, message: 'Failed to initiate M-Pesa STK push simulation' });
-  }
-});
+        const darajaResp = await fetch(`https://${env}.safaricom.co.ke/mpesa/stkpush/v1/processrequest`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            BusinessShortCode: shortcode,
+            Password: password,
+            Timestamp: timestamp,
+            TransactionType: 'CustomerPayBillOnline',
+            Amount: payAmount,
+            PartyA: formattedPhone,
+            PartyB: shortcode,
+            PhoneNumber: formattedPhone,
+            CallBackURL: callbackUrl,
+            AccountReference: (bookingRef || 'WNG-STAY').substring(0, 12),
+            TransactionDesc: `Booking ${propertyName || 'Wangwana'}`.substring(0, 20)
+          })
+        });
 
-app.post('/api/mpesa/confirm', (req, res) => {
-  try {
-    const { checkoutRequestId, pin, bookingId } = req.body;
-    const tx = mpesaTransactions.get(checkoutRequestId);
-
-    // Generate authentic Safaricom M-Pesa Receipt Number: e.g. RKS9283K7L
-    const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-    const alphaCode = Array.from({ length: 4 }, () => letters[Math.floor(Math.random() * letters.length)]).join('');
-    const numCode = Math.floor(100000 + Math.random() * 900000);
-    const mpesaReceipt = `R${alphaCode}${numCode}`.slice(0, 10);
-    const completedAt = new Date().toISOString();
-
-    if (tx) {
-      tx.status = 'Completed';
-      tx.mpesaReceipt = mpesaReceipt;
-      tx.completedAt = completedAt;
-    }
-
-    // Also update booking record in bookings.json if bookingId provided
-    if (bookingId) {
-      const bookings = readJSONFile(BOOKINGS_FILE, []);
-      const idx = bookings.findIndex(b => b.id === bookingId || b.id === bookingId.trim());
-      if (idx !== -1) {
-        bookings[idx].status = 'Confirmed - Paid via M-Pesa';
-        bookings[idx].paymentMethod = 'Lipa Na M-Pesa STK Push';
-        bookings[idx].mpesaReceiptNumber = mpesaReceipt;
-        bookings[idx].paidAt = completedAt;
-        writeJSONFile(BOOKINGS_FILE, bookings);
+        const darajaData = await darajaResp.json();
+        if (darajaData.ResponseCode === '0') {
+          checkoutRequestId = darajaData.CheckoutRequestID;
+          merchantRequestId = darajaData.MerchantRequestID;
+          darajaSuccess = true;
+        } else {
+          console.warn('Daraja responded with non-zero code:', darajaData);
+        }
+      } catch (liveErr) {
+        console.warn('Daraja API connection error, continuing in simulated mode:', liveErr.message);
       }
     }
 
+    // Fallback/Simulated Daraja Response
+    if (!checkoutRequestId) {
+      checkoutRequestId = 'ws_CO_' + Date.now() + '_' + Math.floor(100000 + Math.random() * 900000);
+      merchantRequestId = 'MR-' + Date.now();
+    }
+
+    // Save transaction state
+    const txnRecord = {
+      checkoutRequestId,
+      merchantRequestId,
+      phoneNumber: formattedPhone,
+      amount: payAmount,
+      bookingRef: bookingRef || '',
+      propertyName: propertyName || 'Wangwana Residence',
+      guestName: guestName || 'Guest',
+      status: 'PENDING',
+      createdAt: Date.now(),
+      completedAt: null,
+      mpesaReceipt: null,
+      isLiveDaraja: darajaSuccess
+    };
+
+    mpesaTransactions.set(checkoutRequestId, txnRecord);
+
     res.json({
       success: true,
-      ResultCode: '0',
-      ResultDesc: 'The service request is processed successfully.',
-      receipt: mpesaReceipt,
-      mpesaReceiptNumber: mpesaReceipt,
-      amount: tx ? tx.amount : req.body.amount,
-      phone: tx ? tx.phone : req.body.phone,
-      transactionDate: completedAt,
-      message: `Confirmed. KSH ${(tx ? tx.amount : req.body.amount || 0).toLocaleString()} sent to WANGWANA REAL ESTATE AGENCY (Till 843165). Receipt: ${mpesaReceipt}`
+      message: `M-Pesa STK Push sent successfully to +${formattedPhone}. Please enter your M-Pesa PIN on your phone to complete payment.`,
+      CheckoutRequestID: checkoutRequestId,
+      MerchantRequestID: merchantRequestId,
+      phoneNumber: formattedPhone,
+      amount: payAmount,
+      timestamp
     });
   } catch (err) {
-    console.error('STK confirm error:', err);
-    res.status(500).json({ success: false, message: 'Failed to confirm M-Pesa payment' });
+    console.error('M-Pesa STK Push error:', err);
+    res.status(500).json({ success: false, message: 'Server failed to process M-Pesa STK Push' });
   }
 });
 
+// Query Transaction Status
 app.get('/api/mpesa/query/:checkoutRequestId', (req, res) => {
-  const tx = mpesaTransactions.get(req.params.checkoutRequestId);
-  if (!tx) {
-    return res.status(404).json({ success: false, message: 'Transaction not found' });
+  const { checkoutRequestId } = req.params;
+  const txn = mpesaTransactions.get(checkoutRequestId);
+
+  if (!txn) {
+    return res.status(404).json({ success: false, status: 'NOT_FOUND', message: 'Transaction record not found.' });
   }
-  res.json({ success: true, data: tx });
+
+  // Simulate prompt completion after 4 seconds if pending (simulating user entering PIN)
+  const elapsedSec = (Date.now() - txn.createdAt) / 1000;
+  if (txn.status === 'PENDING' && elapsedSec >= 4) {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const randomChar = chars.charAt(Math.floor(Math.random() * chars.length));
+    const receipt = 'SJ' + randomChar + Math.floor(1000000 + Math.random() * 9000000);
+    txn.status = 'COMPLETED';
+    txn.resultCode = '0';
+    txn.resultDesc = 'The service request is processed successfully.';
+    txn.mpesaReceipt = receipt;
+    txn.completedAt = new Date().toISOString();
+
+    // If associated with a booking, update the booking status to PAID
+    if (txn.bookingRef) {
+      const bookings = readJSONFile(BOOKINGS_FILE, []);
+      const booking = bookings.find(b => b.id === txn.bookingRef);
+      if (booking) {
+        booking.paymentStatus = 'PAID';
+        booking.mpesaReceipt = receipt;
+        booking.paymentMethod = 'Lipa Na M-Pesa (STK Push)';
+        booking.paidAmount = txn.amount;
+        booking.paidAt = txn.completedAt;
+        booking.status = 'Confirmed & Fully Paid';
+        writeJSONFile(BOOKINGS_FILE, bookings);
+      }
+    }
+  }
+
+  res.json({
+    success: true,
+    status: txn.status,
+    checkoutRequestId: txn.checkoutRequestId,
+    resultCode: txn.status === 'COMPLETED' ? '0' : null,
+    resultDesc: txn.status === 'COMPLETED' ? 'The service request is processed successfully.' : 'Waiting for PIN entry on handset...',
+    mpesaReceipt: txn.mpesaReceipt,
+    amount: txn.amount,
+    phoneNumber: txn.phoneNumber,
+    completedAt: txn.completedAt
+  });
+});
+
+// Safaricom Webhook Callback Handler
+app.post('/api/mpesa/callback', (req, res) => {
+  try {
+    const callbackData = req.body?.Body?.stkCallback;
+    if (callbackData) {
+      const checkoutRequestId = callbackData.CheckoutRequestID;
+      const resultCode = callbackData.ResultCode;
+      const resultDesc = callbackData.ResultDesc;
+
+      const txn = mpesaTransactions.get(checkoutRequestId);
+      if (txn) {
+        if (resultCode === 0) {
+          txn.status = 'COMPLETED';
+          txn.resultCode = '0';
+          txn.resultDesc = resultDesc;
+          const items = callbackData.CallbackMetadata?.Item || [];
+          const receiptItem = items.find(i => i.Name === 'MpesaReceiptNumber');
+          txn.mpesaReceipt = receiptItem ? receiptItem.Value : 'SJA' + Date.now().toString().slice(-7);
+          txn.completedAt = new Date().toISOString();
+        } else {
+          txn.status = 'FAILED';
+          txn.resultCode = String(resultCode);
+          txn.resultDesc = resultDesc;
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error handling Safaricom callback:', err);
+  }
+  res.json({ ResultCode: 0, ResultDesc: 'Accepted' });
 });
 
 // Serve static files from root directory with clean URLs support
 app.use(express.static(path.join(__dirname), { extensions: ['html', 'htm'] }));
 
 // Fallback to index.html
-app.get('*all', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Wangwana Airbnb - The Uber for Airbnbs in Kisumu</title>
-  <meta name="description" content="Discover how Wangwana Airbnb operates like Uber for Kisumu City — connecting verified Airbnb hosts directly with travelers with zero prepayments and pay-on-arrival assurance.">
-  <meta property="og:title" content="About Wangwana Airbnb - Kisumu's Direct Airbnb Network">
-  <meta property="og:description" content="Connecting Kisumu property owners with visitors. A localized, direct Airbnb connection platform spanning Kisumu City exclusively.">
+  <title>About Wangwana Airbnb - Kisumu Luxury Stays & Hospitality</title>
+  <meta name="description" content="Learn about Wangwana Airbnb — providing verified serviced residences, multi-room walkthroughs, and zero prepayment assurance in Kisumu City.">
+  <meta property="og:title" content="About Wangwana Airbnb - Kisumu Luxury Stays & Hospitality">
+  <meta property="og:description" content="Learn about Wangwana Airbnb — providing verified serviced residences, multi-room walkthroughs, and zero prepayment assurance in Kisumu City.">
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,30 +19,43 @@
   <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
+  <!-- Wangwana Brand Logo Loading Animation Screen -->
+  <div id="wangwana-loader" class="wangwana-loader-overlay" aria-label="Loading Wangwana Airbnb">
+    <div class="wangwana-loader-card">
+      <div class="wangwana-logo-wrap">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo" class="wangwana-pulse-logo">
+        <div class="wangwana-halo-ring"></div>
+        <div class="wangwana-halo-glow"></div>
+      </div>
+      <div class="wangwana-loader-title">
+        Wangwana <span class="text-gold">Airbnb</span>
+      </div>
+      <div class="wangwana-loader-bar">
+        <div class="wangwana-loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
         <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
         <span>Wangwana <span class="text-gold">Airbnb</span></span>
-        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="listings.html">All Stays</a></li>
-          <li class="nav-item"><a class="nav-link active" href="about.html">About Wangwana</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="listings.html">Stays</a></li>
+          <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item ms-lg-2">
-            <a href="tel:0703165843" class="btn btn-sm btn-outline-gold">
-              <i class="bi bi-telephone-fill me-1"></i> 0703165843
+            <a href="book.html" class="btn btn-sm btn-primary">
+              <i class="bi bi-calendar-check me-1"></i> Book Now
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="listings.html" class="btn btn-sm btn-primary">Book a Stay</a>
           </li>
         </ul>
       </div>
@@ -92,85 +105,6 @@
                   <div class="small text-gold">Pay on Arrival Guarantee</div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- The Two-Sided Network Explained -->
-      <div class="surface-card p-4 p-md-5 my-5">
-        <div class="text-center max-w-700 mx-auto mb-5">
-          <span class="badge bg-gold-subtle text-gold px-3 py-1 rounded-pill small fw-bold">Two-Sided Marketplace</span>
-          <h2 class="mt-2 mb-2">How the Kisumu Connection Works</h2>
-          <p class="text-muted small">
-            Inspired by ride-hailing networks, Wangwana serves both Kisumu residents with spaces and travelers in search of trusted hospitality.
-          </p>
-        </div>
-
-        <div class="row g-4">
-          <!-- Side A: For Customers / Guests -->
-          <div class="col-lg-6">
-            <div class="p-4 rounded-4 border border-info border-opacity-50 h-100 bg-dark-surface d-flex flex-column">
-              <div class="d-flex align-items-center justify-content-between mb-3">
-                <span class="badge bg-info text-dark fw-bold px-3 py-2">
-                  <i class="bi bi-person-walking me-1"></i> 1. For Travelers & Guests
-                </span>
-                <span class="badge-poa"><i class="bi bi-shield-check"></i> Zero Prepayment</span>
-              </div>
-              <h3 class="h5 text-light mb-3">Fast, Safe & Transparent Stays</h3>
-              <ul class="list-unstyled d-flex flex-column gap-3 text-muted small flex-grow-1">
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Browse Real Kisumu Locations:</strong> Filter properties across Milimani, Riat Hills, Dunga Beach, and Tom Mboya with interactive multi-photo carousels.</div>
-                </li>
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Instant Reservation Without Card:</strong> You don't need a credit card or advance M-Pesa deposit. Reserve your dates with a simple 3-field form.</div>
-                </li>
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Direct WhatsApp Connection:</strong> Chat directly with the local host or our concierge team at <strong class="text-light">0703165843</strong> for arrival instructions.</div>
-                </li>
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-info fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Inspect First, Pay on Arrival:</strong> Arrive at the house, verify the cleanliness and amenities, and pay the host upon receiving the keys.</div>
-                </li>
-              </ul>
-              <a href="listings.html" class="btn btn-outline-info w-100 mt-3">Browse Available Stays</a>
-            </div>
-          </div>
-
-          <!-- Side B: Wangwana Direct Ownership & Standards -->
-          <div class="col-lg-6">
-            <div class="p-4 rounded-4 border border-warning border-opacity-50 h-100 bg-dark-surface d-flex flex-column">
-              <div class="d-flex align-items-center justify-content-between mb-3">
-                <span class="badge bg-gold text-dark fw-bold px-3 py-2">
-                  <i class="bi bi-shield-check me-1"></i> 2. Wangwana Hospitality Standard
-                </span>
-                <span class="badge bg-dark border border-secondary text-gold small">Direct Agency</span>
-              </div>
-              <h3 class="h5 text-light mb-3">Direct Ownership & Dedicated Care</h3>
-              <ul class="list-unstyled d-flex flex-column gap-3 text-muted small flex-grow-1">
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Curated & Maintained:</strong> Every residence is owned and professionally managed by Wangwana, ensuring spotless hygiene, fresh linens, and modern amenities.</div>
-                </li>
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Uninterrupted Comfort:</strong> Equipped with solar or generator backup power, high-speed fibre WiFi, and 24/7 guarded compound parking.</div>
-                </li>
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Personal Concierge:</strong> Our dedicated Kisumu concierge team is available 24/7 on call and WhatsApp (0703165843) to greet you on arrival.</div>
-                </li>
-                <li class="d-flex align-items-start gap-2">
-                  <i class="bi bi-check2-circle text-gold fs-5 flex-shrink-0"></i>
-                  <div><strong class="text-light">Flexible Terms:</strong> Whether you're staying for a weekend conference or a multi-month executive assignment, we accommodate your schedule.</div>
-                </li>
-              </ul>
-              <a href="listings.html" class="btn btn-outline-gold w-100 mt-3">
-                <i class="bi bi-search me-1"></i> Explore Our Residences
-              </a>
             </div>
           </div>
         </div>
@@ -229,27 +163,14 @@
         <h3 class="mb-4 text-center">Frequently Asked Questions</h3>
         <div class="accordion" id="faqAccordion" style="max-width: 800px; margin: 0 auto;">
           <div class="accordion-item bg-dark text-light border border-secondary mb-3 rounded overflow-hidden">
-            <h2 class="accordion-header" id="headingZero">
-              <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
-                How is Wangwana like Uber for Kisumu Airbnbs?
-              </button>
-            </h2>
-            <div id="collapseZero" class="accordion-collapse collapse show" aria-labelledby="headingZero" data-bs-parent="#faqAccordion">
-              <div class="accordion-body text-muted small">
-                Uber connects passengers needing a ride directly to nearby drivers. Wangwana connects visitors seeking verified stays in Kisumu directly to local Kisumu homeowners who have vacant furnished apartments or villas. Both sides connect with zero friction, and settlement happens seamlessly upon arrival.
-              </div>
-            </div>
-          </div>
-
-          <div class="accordion-item bg-dark text-light border border-secondary mb-3 rounded overflow-hidden">
             <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button bg-dark text-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 Do I need to pay online before checking in?
               </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
               <div class="accordion-body text-muted small">
-                <strong>No upfront payment is required!</strong> You reserve your preferred stay with your phone number and dates. When you arrive at the property in Kisumu, you inspect the room and amenities. Once satisfied, you pay the host directly via Lipa Na M-Pesa or cash.
+                <strong>No upfront payment is required!</strong> You reserve your preferred stay with your phone number and dates. When you arrive at the property in Kisumu, you inspect the room and amenities. Once satisfied, you pay directly via Lipa Na M-Pesa or cash.
               </div>
             </div>
           </div>
@@ -345,7 +266,7 @@
         </div>
       </div>
       <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
-        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <p class="mb-0">&copy; <span class="auto-year">2025</span> Wangwana Airbnb.</p>
         <div class="d-flex gap-3 mt-2 mt-sm-0">
           <a href="about.html">Terms & Conditions</a>
           <a href="about.html">Privacy Policy</a>

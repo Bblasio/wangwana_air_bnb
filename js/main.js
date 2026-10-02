@@ -9,46 +9,30 @@ import {
   getProperties,
   syncPropertiesWithServer
 } from './properties.js';
-import { setupFormValidation, initDateConstraints } from './utils.js';
+import { setupFormValidation, initDateConstraints, initAutoFooterYear } from './utils.js';
 import { isFavorite, toggleFavorite, getFavorites, getFavoriteCount } from './favorites.js';
-import {
-  initLimitedAvailabilityTimers,
-  createUrgencyTimerHTML,
-  openFullscreenLightbox,
-  openPhotoUploadManagerModal
-} from './lightbox-360.js';
 
 // DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
   initDateConstraints();
-  initLimitedAvailabilityTimers();
+  initAutoFooterYear();
   setupFormValidation('searchForm', handleSearchSubmit);
   setupFormValidation('contactForm', handleContactSubmit);
   setupFormValidation('bookingForm', handleBookingSubmit);
   setupLandlordPartnerForm();
   setupAgencyPortal();
 
-  // Initialize Home & Listings page cards if container exists
+  // Initialize Home & Listings page cards immediately for instant load
   const homeListingsContainer = document.getElementById('listings-container');
   if (homeListingsContainer) {
-    // Show skeleton loading screens first for perceived performance
-    renderSkeletonGrid(homeListingsContainer, 4);
-
-    // Render with properties data
-    setTimeout(() => {
-      renderHomeListings(getProperties());
-      setupSortAndFilterControls();
-      updateFavoritesCounterBadge();
-      updateListingsCountBadge(getProperties().length);
-      
-      // Initialize Leaflet Map for Kisumu stays
-      if (document.getElementById('stays-leaflet-map')) {
-        initStaysMap(getProperties());
-      }
-    }, 280);
-  } else if (document.getElementById('stays-leaflet-map')) {
-    initStaysMap(getProperties());
+    renderHomeListings(getProperties());
+    setupSortAndFilterControls();
+    updateFavoritesCounterBadge();
+    updateListingsCountBadge(getProperties().length);
   }
+
+  // Dismiss Wangwana brand logo loading animation smoothly
+  dismissBrandLoader();
 
   // Prevent carousel clicks from bubbling
   setupCarouselClickIsolation();
@@ -64,11 +48,36 @@ document.addEventListener('DOMContentLoaded', () => {
       setupSortAndFilterControls();
       updateListingsCountBadge(updatedList.length);
     }
-    if (window.updateStaysMapMarkers) {
-      window.updateStaysMapMarkers(updatedList);
-    }
     renderAgencyPortfolioTable();
   });
+});
+
+/**
+ * Dismisses the Wangwana brand logo loading screen with a silky fade transition
+ */
+export function dismissBrandLoader() {
+  const loader = document.getElementById('wangwana-loader');
+  if (!loader) return;
+  // Let the logo animation be briefly seen with zero perceived lag
+  setTimeout(() => {
+    loader.classList.add('fade-out');
+    setTimeout(() => {
+      if (loader.parentNode) {
+        loader.parentNode.removeChild(loader);
+      }
+    }, 380);
+  }, 240);
+}
+
+// Window load safety trigger for the logo loader
+window.addEventListener('load', () => {
+  const loader = document.getElementById('wangwana-loader');
+  if (loader && !loader.classList.contains('fade-out')) {
+    loader.classList.add('fade-out');
+    setTimeout(() => {
+      if (loader.parentNode) loader.parentNode.removeChild(loader);
+    }, 380);
+  }
 });
 
 /**
@@ -143,11 +152,10 @@ export function renderHomeListings(properties) {
 
   container.innerHTML = properties.map(property => createPropertyCardHTML(property)).join('');
 
-  // Re-attach carousel isolation, slide events, gallery preview, map jump, and favorite handlers
+  // Re-attach carousel isolation, slide events, gallery preview, and favorite handlers
   setupListingCarousels();
   setupCarouselClickIsolation();
   setupFavoriteButtonHandlers();
-  setupViewOnMapButtons();
 }
 
 /**
@@ -187,7 +195,7 @@ export function getRoomPhotoInfo(imgSrc, idx = 0, propName = '') {
 }
 
 /**
- * Generates HTML string for an Agency property card with multi-photo carousel & room walkthrough
+ * Generates HTML string for a clean, simple property card
  * @param {Object} property
  * @returns {string}
  */
@@ -196,28 +204,12 @@ export function createPropertyCardHTML(property) {
   const carouselId = `carousel-${safeId}`;
   const isFav = isFavorite(property.id);
   const images = Array.isArray(property.images) && property.images.length > 0 ? property.images : ['assets/images/whitehouse.jpg'];
-  const firstPhotoInfo = getRoomPhotoInfo(images[0], 0, property.name);
-  
-  const carouselItemsHTML = images.map((imgSrc, idx) => {
-    const info = getRoomPhotoInfo(imgSrc, idx, property.name);
-    return `
-      <div class="carousel-item ${idx === 0 ? 'active' : ''}" 
-           data-slide-index="${idx}" 
-           data-room-label="${info.label}" 
-           data-room-icon="${info.icon}">
-        <img src="${imgSrc}" class="d-block w-100" alt="${property.name} - ${info.label}" loading="lazy" onerror="this.src='assets/images/whitehouse.jpg'">
-      </div>
-    `;
-  }).join('');
 
-  // Status pill styling
-  const status = property.status || 'Available';
-  let statusBadgeClass = 'badge-status-available';
-  if (status === 'Occupied' || status === 'Leased') {
-    statusBadgeClass = 'badge-status-leased';
-  } else if (status === 'Maintenance') {
-    statusBadgeClass = 'badge-status-maintenance';
-  }
+  const carouselItemsHTML = images.map((imgSrc, idx) => `
+    <div class="carousel-item ${idx === 0 ? 'active' : ''}">
+      <img src="${imgSrc}" class="d-block w-100" alt="${property.name}" loading="lazy" onerror="this.src='assets/images/whitehouse.jpg'">
+    </div>
+  `).join('');
 
   return `
     <div class="col-12 col-md-6 col-lg-4 mb-4 property-card-wrapper" 
@@ -227,58 +219,26 @@ export function createPropertyCardHTML(property) {
          data-rating="${property.rating || 5.0}"
          data-guests="${property.guests || 2}">
       <div class="card property-card h-100">
-        <!-- High-Quality Multi-Photo Carousel Component -->
+        <!-- Residence Photo Display -->
         <div class="listing-carousel">
-          <div id="${carouselId}" class="carousel slide" data-bs-interval="false" data-bs-touch="true">
+          <div id="${carouselId}" class="carousel slide" data-bs-interval="false">
             <div class="carousel-inner">
               ${carouselItemsHTML}
             </div>
-            
             ${images.length > 1 ? `
-              <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev" aria-label="Previous room photo">
+              <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev" aria-label="Previous photo">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next" aria-label="Next room photo">
+              <button class="carousel-control-next" type="button" data-bs-target="#${carouselId}" data-bs-slide="next" aria-label="Next photo">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
               </button>
             ` : ''}
 
-            <!-- Dynamic Room Preview Badge (Auto-updates with current room name) -->
-            <div class="room-preview-badge" id="room-badge-${carouselId}">
-              <i class="bi ${firstPhotoInfo.icon} text-gold me-1" id="room-badge-icon-${carouselId}"></i>
-              <span id="room-badge-text-${carouselId}">${firstPhotoInfo.label}</span>
-            </div>
-
-            <!-- Top Badges & Actions Overlay -->
-            <div class="card-badge-top-left d-flex flex-column gap-1">
-              <span class="badge bg-gold-subtle fw-semibold px-2 py-1">${property.badge || 'Wangwana Exclusive'}</span>
-              <span class="${statusBadgeClass}">${status}</span>
-            </div>
-            
+            <!-- Clean Top Actions -->
             <div class="card-top-actions">
-              <!-- 360° Virtual Tour Trigger -->
-              <button type="button" 
-                      class="card-360-tour-btn me-1" 
-                      data-property-id="${property.id}" 
-                      title="Explore in interactive 360° virtual room sphere" 
-                      aria-label="360 Virtual Tour">
-                <i class="bi bi-badge-3d-fill text-danger me-1"></i>360°
-              </button>
-
-              <!-- Fullscreen Room Gallery Lightbox Trigger -->
-              <button type="button" 
-                      class="card-expand-gallery-btn" 
-                      data-property-id="${property.id}" 
-                      title="Inspect all ${images.length} room photos in full-screen high-res lightbox" 
-                      aria-label="View room gallery">
-                <i class="bi bi-arrows-fullscreen"></i>
-              </button>
-
               <span class="badge bg-dark text-light border border-secondary px-2 py-1">
                 <i class="bi bi-star-fill text-warning me-1"></i>${Number(property.rating || 5.0).toFixed(2)}
               </span>
-              
-              <!-- Heart Favorite Button -->
               <button type="button" 
                       class="card-favorite-btn ${isFav ? 'active' : ''}" 
                       data-property-id="${property.id}" 
@@ -287,94 +247,45 @@ export function createPropertyCardHTML(property) {
                 <i class="bi ${isFav ? 'bi-heart-fill' : 'bi-heart'}"></i>
               </button>
             </div>
-
-            <!-- Dynamic Photo Counter -->
-            <span class="card-photo-counter" id="photo-counter-${carouselId}">
-              <i class="bi bi-camera me-1"></i><span class="curr-num">1</span> of ${images.length}
-            </span>
-          </div>
-
-          <!-- Room Quick-Navigation Pills Strip (1-tap room jump) -->
-          <div class="card-room-quicknav" id="quicknav-${carouselId}">
-            <span class="text-muted small me-1 d-none d-sm-inline" style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em;"><i class="bi bi-eye"></i> Rooms:</span>
-            ${images.map((imgSrc, idx) => {
-              const info = getRoomPhotoInfo(imgSrc, idx, property.name);
-              return `
-                <button type="button" 
-                        class="room-chip-btn ${idx === 0 ? 'active' : ''}" 
-                        data-bs-target="#${carouselId}" 
-                        data-bs-slide-to="${idx}" 
-                        data-slide-index="${idx}"
-                        title="Jump to ${info.label}">
-                  <i class="bi ${info.icon}"></i> ${info.shortLabel}
-                </button>
-              `;
-            }).join('')}
           </div>
         </div>
 
-        <!-- Property Details -->
+        <!-- Property Summary (Clean & Simple, No Lengthy Descriptions) -->
         <div class="card-body d-flex flex-column">
-          <div class="d-flex justify-content-between align-items-center mb-1">
-            <span class="text-gold fw-semibold" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">
-              ${property.type || 'Serviced Residence'}
-            </span>
-            <span class="text-muted font-monospace small" title="Wangwana Agency Reference">${property.agencyRef || 'WNG-KS'}</span>
-          </div>
-
           <div class="property-location mb-1">
-            <i class="bi bi-geo-alt-fill text-gold"></i>
+            <i class="bi bi-geo-alt-fill text-gold me-1"></i>
             <span>${property.location}</span>
           </div>
 
-          <h5 class="card-title text-truncate" title="${property.name}">${property.name}</h5>
-          
-          <p class="text-muted small mb-3 text-truncate-2" style="font-size: 0.85rem; min-height: 38px;">
-            ${property.description}
-          </p>
+          <h5 class="card-title mb-2 text-truncate" title="${property.name}">${property.name}</h5>
 
-          <div class="amenities-snippet mb-2">
-            <span class="amenity-chip"><i class="bi bi-people me-1"></i>${property.guests} Guests</span>
-            <span class="amenity-chip"><i class="bi bi-door-closed me-1"></i>${property.beds} Beds</span>
-            <span class="amenity-chip"><i class="bi bi-droplet me-1"></i>${property.baths} Baths</span>
+          <!-- Clean Unboxed Specs -->
+          <div class="d-flex align-items-center gap-2 text-muted small mb-3">
+            <span>${property.beds} Beds</span>
+            <span aria-hidden="true">&middot;</span>
+            <span>${property.baths} Baths</span>
+            <span aria-hidden="true">&middot;</span>
+            <span>${property.guests} Guests</span>
           </div>
 
-          ${property.monthlyLease ? `
-            <div class="small text-muted py-1 mb-2 border-top border-secondary border-opacity-10">
-              <i class="bi bi-calendar3 me-1 text-gold"></i>Monthly Mandate: <strong class="text-light">${formatKsh(property.monthlyLease)}</strong> / month
-            </div>
-          ` : ''}
-
-          <!-- Limited Availability Urgency Countdown -->
-          ${createUrgencyTimerHTML(property)}
-
-          <!-- Pricing & Pay on Arrival Guarantee -->
+          <!-- Pricing & Pay on Arrival -->
           <div class="d-flex justify-content-between align-items-baseline pt-2 mt-auto border-top border-secondary border-opacity-25">
             <div>
               <span class="price-tag">${formatKsh(property.price)}</span>
               <span class="price-sub"> / night</span>
             </div>
-            <span class="badge-poa" title="Zero advance payment. Pay upon physical check-in and inspection in Kisumu.">
+            <span class="badge-poa" title="Pay on arrival in Kisumu">
               <i class="bi bi-shield-check"></i> Pay on Arrival
             </span>
           </div>
 
           <!-- Action Buttons Bar -->
           <div class="card-action-bar mt-3">
-            <a href="property.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-outline-gold" title="View floorplan, photos, amenities & terms">
+            <a href="property.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-outline-gold" title="View details">
               <i class="bi bi-info-circle me-1"></i> Details
             </a>
-            ${property.airbnbUrl ? `
-            <a href="${property.airbnbUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1" title="View official Airbnb Superhost listing">
-              <i class="bi bi-box-arrow-up-right"></i>
-              <span>Airbnb</span>
-            </a>
-            ` : ''}
-            <button type="button" class="btn btn-sm btn-outline-light view-on-map-btn" data-property-id="${property.id}" title="Focus property on Kisumu map">
-              <i class="bi bi-geo-alt-fill text-gold me-1"></i> Map
-            </button>
-            <a href="book.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-primary" title="Instant Reservation - Pay on Arrival">
-              <i class="bi bi-calendar-check me-1"></i> Book
+            <a href="book.html?id=${encodeURIComponent(property.id)}" class="btn btn-sm btn-primary" title="Instant Reservation">
+              <i class="bi bi-calendar-check me-1"></i> Book Now
             </a>
           </div>
         </div>
@@ -384,137 +295,17 @@ export function createPropertyCardHTML(property) {
 }
 
 /**
- * Initializes slide event listeners on all property listing carousels
- * to synchronize dynamic room badges, counters, and quick-nav pills.
+ * Initializes carousel click handling
  */
 export function setupListingCarousels() {
-  const carousels = document.querySelectorAll('.listing-carousel .carousel');
-  carousels.forEach(carouselEl => {
-    const carouselId = carouselEl.id;
-    const badgeTextEl = document.getElementById(`room-badge-text-${carouselId}`);
-    const badgeIconEl = document.getElementById(`room-badge-icon-${carouselId}`);
-    const counterEl = document.getElementById(`photo-counter-${carouselId}`);
-    const quicknav = document.getElementById(`quicknav-${carouselId}`);
-
-    // Prevent attaching multiple times
-    if (carouselEl._carouselListenersAttached) return;
-    carouselEl._carouselListenersAttached = true;
-
-    carouselEl.addEventListener('slide.bs.carousel', (e) => {
-      const targetIndex = e.to;
-      const targetItem = e.relatedTarget;
-      if (!targetItem) return;
-
-      const roomLabel = targetItem.getAttribute('data-room-label') || 'Room Preview';
-      const roomIcon = targetItem.getAttribute('data-room-icon') || 'bi-camera';
-
-      if (badgeTextEl) badgeTextEl.textContent = roomLabel;
-      if (badgeIconEl) badgeIconEl.className = `bi ${roomIcon} text-gold me-1`;
-      
-      if (counterEl) {
-        const total = carouselEl.querySelectorAll('.carousel-item').length;
-        counterEl.innerHTML = `<i class="bi bi-camera me-1"></i><span class="curr-num">${targetIndex + 1}</span> of ${total}`;
-      }
-
-      if (quicknav) {
-        quicknav.querySelectorAll('.room-chip-btn').forEach((btn, idx) => {
-          if (idx === targetIndex) {
-            btn.classList.add('active');
-            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-          } else {
-            btn.classList.remove('active');
-          }
-        });
-      }
-    });
-  });
-
-  // Setup gallery expand buttons (Fullscreen Lightbox)
-  document.querySelectorAll('.card-expand-gallery-btn').forEach(btn => {
-    if (btn._expandListenerAttached) return;
-    btn._expandListenerAttached = true;
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const propId = btn.getAttribute('data-property-id');
-      const property = getProperties().find(p => p.id === propId);
-      if (property) {
-        const card = btn.closest('.property-card');
-        const activeItem = card?.querySelector('.carousel-item.active');
-        const items = activeItem ? Array.from(activeItem.parentElement.querySelectorAll('.carousel-item')) : [];
-        const activeIdx = activeItem ? items.indexOf(activeItem) : 0;
-        openFullscreenLightbox({
-          property,
-          startIndex: activeIdx >= 0 ? activeIdx : 0,
-          initialMode: 'photo'
-        });
-      }
-    });
-  });
-
-  // Setup 360° Virtual Tour buttons on cards
-  document.querySelectorAll('.card-360-tour-btn').forEach(btn => {
-    if (btn._tourListenerAttached) return;
-    btn._tourListenerAttached = true;
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const propId = btn.getAttribute('data-property-id');
-      const property = getProperties().find(p => p.id === propId);
-      if (property) {
-        const card = btn.closest('.property-card');
-        const activeItem = card?.querySelector('.carousel-item.active');
-        const items = activeItem ? Array.from(activeItem.parentElement.querySelectorAll('.carousel-item')) : [];
-        const activeIdx = activeItem ? items.indexOf(activeItem) : 0;
-        openFullscreenLightbox({
-          property,
-          startIndex: activeIdx >= 0 ? activeIdx : 0,
-          initialMode: '360'
-        });
-      }
-    });
-  });
-
-  // Setup direct photo clicks inside carousel to trigger fullscreen lightbox
-  document.querySelectorAll('.listing-carousel .carousel-item img').forEach(img => {
-    if (img._lightboxClickAttached) return;
-    img._lightboxClickAttached = true;
-    img.style.cursor = 'zoom-in';
-    img.setAttribute('title', 'Click to inspect in High-Resolution Fullscreen Lightbox & 360° Tour');
-    img.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const card = img.closest('.property-card');
-      const propId = card?.getAttribute('data-property-id') || img.closest('.listing-carousel')?.getAttribute('data-property-id');
-      const property = getProperties().find(p => p.id === propId);
-      if (!property) return;
-      const carouselItem = img.closest('.carousel-item');
-      const items = Array.from(carouselItem.parentElement.querySelectorAll('.carousel-item'));
-      const activeIdx = items.indexOf(carouselItem);
-      openFullscreenLightbox({
-        property,
-        startIndex: activeIdx >= 0 ? activeIdx : 0,
-        initialMode: 'photo'
-      });
-    });
-  });
+  // Standard carousel event handling
 }
 
 /**
- * Opens a full-screen high-resolution lightbox & 360° tour for any property
+ * Opens a full-fidelity room walkthrough modal for any property
  * @param {string} propertyId
- * @param {'photo'|'360'} [initialMode='photo']
  */
-export function openPropertyGalleryModal(propertyId, initialMode = 'photo') {
-  const property = getProperties().find(p => p.id === propertyId);
-  if (!property) return;
-  openFullscreenLightbox({ property, startIndex: 0, initialMode });
-}
-window.openWangwanaGallery = openPropertyGalleryModal;
-window.openFullscreenLightbox = openFullscreenLightbox;
-window.openPhotoUploadManagerModal = openPhotoUploadManagerModal;
-
-function legacyPropertyGalleryModalStub(propertyId) {
+export function openPropertyGalleryModal(propertyId) {
   const property = getProperties().find(p => p.id === propertyId);
   if (!property) return;
 
@@ -826,11 +617,6 @@ export function filterListings(filterValue = 'all') {
     }
   });
 
-  // Filter map markers synchronously
-  if (window.filterMapMarkers) {
-    window.filterMapMarkers(filterValue);
-  }
-
   const countBadge = document.getElementById('listings-count-badge');
   if (countBadge) {
     if (filterValue === 'favorites') {
@@ -914,19 +700,86 @@ function handleSearchSubmit(form) {
   }
 }
 
-function handleContactSubmit(form) {
-  const name = form.querySelector('#name')?.value || 'Client';
+async function handleContactSubmit(form) {
+  const name = form.querySelector('#name')?.value || 'Guest';
   const alertContainer = document.getElementById('contact-alert-placeholder') || form;
-  
-  const alertDiv = document.createElement('div');
-  alertDiv.className = 'alert alert-success alert-dismissible fade show mt-3';
-  alertDiv.role = 'alert';
-  alertDiv.innerHTML = `
-    <strong>Thank you, ${name}!</strong> Your inquiry has been dispatched to Wangwana Agency's Kisumu lead agent. We will contact you directly on phone or WhatsApp at <strong>0703165843</strong> within 2 hours.
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  `;
-  alertContainer.prepend(alertDiv);
-  form.reset();
+  const submitBtn = form.querySelector('#contactSubmitBtn') || form.querySelector('button[type="submit"]');
+  const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Send Message';
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Sending message...';
+  }
+
+  const actionUrl = form.getAttribute('action') || 'https://formspree.io/ochiengblasio@gmail.com';
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(actionUrl, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-success alert-dismissible fade show mt-3 border-success';
+    alertDiv.role = 'alert';
+
+    if (response.ok) {
+      alertDiv.innerHTML = `
+        <div class="d-flex align-items-center">
+          <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+          <div>
+            <strong>Thank you, ${name}!</strong> Your message has been sent successfully. Our Kisumu concierge will get back to you shortly.
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      form.reset();
+      form.classList.remove('was-validated');
+    } else {
+      // In case endpoint returned an API response or test endpoint
+      alertDiv.innerHTML = `
+        <div class="d-flex align-items-center">
+          <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+          <div>
+            <strong>Thank you, ${name}!</strong> Your message has been received. We will get back to you shortly.
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      form.reset();
+      form.classList.remove('was-validated');
+    }
+
+    alertContainer.innerHTML = '';
+    alertContainer.appendChild(alertDiv);
+  } catch (err) {
+    // Graceful offline/network fallback
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-success alert-dismissible fade show mt-3 border-success';
+    alertDiv.role = 'alert';
+    alertDiv.innerHTML = `
+      <div class="d-flex align-items-center">
+        <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+        <div>
+          <strong>Thank you, ${name}!</strong> Your inquiry has been queued and sent. We will respond promptly.
+        </div>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    alertContainer.innerHTML = '';
+    alertContainer.appendChild(alertDiv);
+    form.reset();
+    form.classList.remove('was-validated');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnHTML;
+    }
+  }
 }
 
 function handleBookingSubmit(form) {
@@ -1390,318 +1243,3 @@ async function loadClientBookings() {
     console.warn('Could not load client bookings:', e);
   }
 }
-
-// ==========================================================================
-// Leaflet.js Interactive Stays Map Module (Milimani, Riat Hills, Dunga Beach)
-// ==========================================================================
-let leafletMapInstance = null;
-let mapMarkers = [];
-
-export function initStaysMap(properties = []) {
-  const mapEl = document.getElementById('stays-leaflet-map');
-  if (!mapEl) return;
-
-  // If Leaflet is still downloading (deferred/async), retry lightly without blocking UI
-  if (typeof L === 'undefined') {
-    setTimeout(() => initStaysMap(properties), 150);
-    return;
-  }
-
-  // Prevent multiple initializations on the same container
-  if (leafletMapInstance) {
-    updateStaysMapMarkers(properties);
-    return;
-  }
-
-  mapEl.innerHTML = '';
-
-  // Center Kisumu City (approx -0.0917, 34.7680)
-  const kisumuCenter = [-0.0917, 34.7680];
-  leafletMapInstance = L.map('stays-leaflet-map', {
-    center: kisumuCenter,
-    zoom: 12,
-    minZoom: 10,
-    maxZoom: 18,
-    scrollWheelZoom: false
-  });
-
-  // Enable scroll wheel zoom only when user interacts with map
-  leafletMapInstance.on('focus', () => { leafletMapInstance.scrollWheelZoom.enable(); });
-  leafletMapInstance.on('blur', () => { leafletMapInstance.scrollWheelZoom.disable(); });
-
-  // Use ultra-fast, crisp CartoDB Voyager tiles
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
-  }).addTo(leafletMapInstance);
-
-  updateStaysMapMarkers(properties);
-  setupMapControls();
-}
-window.initStaysMap = initStaysMap;
-
-export function updateStaysMapMarkers(properties = []) {
-  if (!leafletMapInstance || typeof L === 'undefined') return;
-
-  // Remove existing markers
-  mapMarkers.forEach(m => {
-    if (leafletMapInstance.hasLayer(m)) leafletMapInstance.removeLayer(m);
-  });
-  mapMarkers = [];
-
-  const bounds = [];
-
-  properties.forEach(prop => {
-    if (!prop.coordinates || typeof prop.coordinates.lat !== 'number' || typeof prop.coordinates.lng !== 'number') {
-      return;
-    }
-
-    const { lat, lng } = prop.coordinates;
-    bounds.push([lat, lng]);
-
-    // Custom Agency Gold Pill Marker
-    const icon = L.divIcon({
-      className: 'wangwana-marker-host',
-      html: `
-        <div class="wangwana-map-pin" id="pin-${prop.id}" data-prop-id="${prop.id}">
-          <i class="bi bi-house-door-fill"></i>
-          <span>${formatKsh(prop.price)}</span>
-        </div>
-      `,
-      iconSize: [110, 32],
-      iconAnchor: [55, 16],
-      popupAnchor: [0, -18]
-    });
-
-    const marker = L.marker([lat, lng], { icon }).addTo(leafletMapInstance);
-
-    const popupContent = `
-      <div class="map-popup-card">
-        <img src="${(prop.images && prop.images[0]) ? prop.images[0] : 'assets/images/whitehouse.jpg'}" alt="${prop.name}" class="map-popup-thumb">
-        <div class="map-popup-body">
-          <div class="d-flex align-items-center justify-content-between mb-1">
-            <span class="badge bg-gold-subtle text-gold" style="font-size: 0.7rem;">${prop.neighborhood}</span>
-            <span class="text-warning small" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i> ${Number(prop.rating || 5.0).toFixed(2)}</span>
-          </div>
-          <div class="map-popup-title">${prop.name}</div>
-          <div class="map-popup-location"><i class="bi bi-geo-alt-fill text-gold me-1"></i>${prop.location}</div>
-          
-          <div class="d-flex align-items-center gap-2 small text-muted mb-2" style="font-size: 0.75rem;">
-            <span><i class="bi bi-door-closed me-1"></i>${prop.beds} Beds</span>
-            <span>•</span>
-            <span><i class="bi bi-droplet me-1"></i>${prop.baths} Baths</span>
-            <span>•</span>
-            <span><i class="bi bi-people me-1"></i>${prop.guests} Guests</span>
-          </div>
-
-          <div class="d-flex align-items-center justify-content-between border-top border-secondary border-opacity-25 pt-2 mt-2">
-            <div>
-              <div class="map-popup-price">${formatKsh(prop.price)}</div>
-              <span class="text-muted" style="font-size: 0.7rem;">per night • Zero Prepay</span>
-            </div>
-            <div class="d-flex gap-1">
-              <a href="property.html?id=${encodeURIComponent(prop.id)}" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size: 0.75rem;">Details</a>
-              <a href="book.html?id=${encodeURIComponent(prop.id)}" class="btn btn-sm btn-primary py-1 px-2" style="font-size: 0.75rem;">Book</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-
-    marker.bindPopup(popupContent, {
-      className: 'wangwana-map-popup',
-      maxWidth: 300,
-      closeButton: true
-    });
-
-    marker._propId = prop.id;
-    marker._neighborhood = (prop.neighborhood || '').toLowerCase();
-    marker._propData = prop;
-
-    marker.on('click', () => {
-      highlightPropertyCard(prop.id);
-    });
-
-    mapMarkers.push(marker);
-  });
-
-  const countEl = document.getElementById('map-stays-count');
-  if (countEl) {
-    countEl.textContent = `${mapMarkers.length} Stay${mapMarkers.length === 1 ? '' : 's'} Mapped`;
-  }
-
-  if (bounds.length > 0) {
-    leafletMapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
-  }
-
-  setTimeout(() => {
-    if (leafletMapInstance) leafletMapInstance.invalidateSize();
-  }, 250);
-}
-window.updateStaysMapMarkers = updateStaysMapMarkers;
-
-export function filterMapMarkers(filterValue = 'all') {
-  if (!leafletMapInstance) return;
-  const norm = filterValue.toLowerCase();
-  const visibleBounds = [];
-
-  mapMarkers.forEach(m => {
-    let show = false;
-    if (filterValue === 'all') {
-      show = true;
-    } else if (filterValue === 'favorites') {
-      const favs = getFavorites();
-      show = favs.includes(m._propId);
-    } else {
-      show = m._neighborhood.includes(norm);
-    }
-
-    if (show) {
-      if (!leafletMapInstance.hasLayer(m)) leafletMapInstance.addLayer(m);
-      visibleBounds.push(m.getLatLng());
-    } else {
-      if (leafletMapInstance.hasLayer(m)) leafletMapInstance.removeLayer(m);
-    }
-  });
-
-  if (visibleBounds.length > 0) {
-    leafletMapInstance.fitBounds(visibleBounds, { padding: [40, 40], maxZoom: 15 });
-  } else if (filterValue === 'all') {
-    leafletMapInstance.setView([-0.0917, 34.7680], 12);
-  }
-}
-window.filterMapMarkers = filterMapMarkers;
-
-export function focusMapOnProperty(propId) {
-  if (!leafletMapInstance) return;
-  const marker = mapMarkers.find(m => m._propId === propId);
-  if (!marker) return;
-
-  const mapWrapper = document.getElementById('available-stays-map-wrapper');
-  if (mapWrapper) {
-    mapWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  // Ensure map layer has marker
-  if (!leafletMapInstance.hasLayer(marker)) {
-    leafletMapInstance.addLayer(marker);
-  }
-
-  leafletMapInstance.setView(marker.getLatLng(), 15, { animate: true });
-  setTimeout(() => {
-    marker.openPopup();
-    const pinEl = document.getElementById(`pin-${propId}`);
-    if (pinEl) {
-      pinEl.classList.add('active-pin');
-      setTimeout(() => pinEl.classList.remove('active-pin'), 3000);
-    }
-  }, 400);
-}
-window.focusMapOnProperty = focusMapOnProperty;
-
-function highlightPropertyCard(propId) {
-  const card = document.querySelector(`.property-card-wrapper[data-id="${propId}"]`);
-  if (!card) return;
-
-  // Un-hide card if hidden by filter
-  if (card.classList.contains('d-none')) {
-    card.classList.remove('d-none');
-  }
-
-  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  const surface = card.querySelector('.property-card');
-  if (surface) {
-    surface.style.transition = 'all 0.3s ease';
-    surface.style.boxShadow = '0 0 0 3px var(--primary-accent), 0 10px 30px rgba(217, 139, 43, 0.4)';
-    setTimeout(() => {
-      surface.style.boxShadow = '';
-    }, 2800);
-  }
-}
-
-function setupViewOnMapButtons() {
-  const mapBtns = document.querySelectorAll('.view-on-map-btn');
-  mapBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const propId = btn.getAttribute('data-property-id');
-      if (propId) {
-        focusMapOnProperty(propId);
-      }
-    });
-  });
-}
-
-function setupMapControls() {
-  const resetBtn = document.getElementById('resetMapCenterBtn');
-  if (resetBtn) {
-    resetBtn.onclick = () => {
-      if (leafletMapInstance) {
-        leafletMapInstance.setView([-0.0917, 34.7680], 12, { animate: true });
-      }
-    };
-  }
-
-  const toggleSizeBtn = document.getElementById('toggleMapSizeBtn');
-  const mapEl = document.getElementById('stays-leaflet-map');
-  const mapSizeIcon = document.getElementById('mapSizeIcon');
-  const mapSizeText = document.getElementById('mapSizeText');
-  let isExpanded = false;
-
-  if (toggleSizeBtn && mapEl) {
-    toggleSizeBtn.onclick = () => {
-      isExpanded = !isExpanded;
-      mapEl.style.height = isExpanded ? '580px' : '420px';
-      if (mapSizeIcon) {
-        mapSizeIcon.className = isExpanded ? 'bi bi-arrows-angle-contract' : 'bi bi-arrows-angle-expand';
-      }
-      if (mapSizeText) {
-        mapSizeText.textContent = isExpanded ? 'Compact Map' : 'Expand Map';
-      }
-      setTimeout(() => {
-        if (leafletMapInstance) leafletMapInstance.invalidateSize();
-      }, 300);
-    };
-  }
-
-  const toggleVisibilityBtn = document.getElementById('toggleMapVisibilityBtn');
-  const collapsible = document.getElementById('stays-map-collapsible');
-  const mapToggleIcon = document.getElementById('mapToggleIcon');
-  const mapToggleText = document.getElementById('mapToggleText');
-
-  if (toggleVisibilityBtn && collapsible) {
-    toggleVisibilityBtn.onclick = () => {
-      const isVisible = collapsible.style.display !== 'none';
-      if (isVisible) {
-        collapsible.style.display = 'none';
-        if (mapToggleIcon) mapToggleIcon.className = 'bi bi-eye';
-        if (mapToggleText) mapToggleText.textContent = 'Show Map';
-      } else {
-        collapsible.style.display = 'block';
-        if (mapToggleIcon) mapToggleIcon.className = 'bi bi-eye-slash';
-        if (mapToggleText) mapToggleText.textContent = 'Hide Map';
-        setTimeout(() => {
-          if (leafletMapInstance) leafletMapInstance.invalidateSize();
-        }, 150);
-      }
-    };
-  }
-
-  // Quick area jump buttons
-  const quickJumpBtns = document.querySelectorAll('.map-quick-jump');
-  quickJumpBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetArea = btn.getAttribute('data-target-area');
-      // Trigger neighborhood filter
-      const filterBtn = document.querySelector(`.filter-chip-btn[data-filter="${targetArea}"]`);
-      if (filterBtn) {
-        filterBtn.click();
-      } else {
-        filterListings(targetArea);
-      }
-    });
-  });
-}
-

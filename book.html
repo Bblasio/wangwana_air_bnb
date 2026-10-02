@@ -13,33 +13,46 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="icon" href="assets/images/Logo.jpg">
 </head>
 <body>
+  <!-- Wangwana Brand Logo Loading Animation Screen -->
+  <div id="wangwana-loader" class="wangwana-loader-overlay" aria-label="Loading Wangwana Airbnb">
+    <div class="wangwana-loader-card">
+      <div class="wangwana-logo-wrap">
+        <img src="assets/images/Logo.jpg" alt="Wangwana Logo" class="wangwana-pulse-logo">
+        <div class="wangwana-halo-ring"></div>
+        <div class="wangwana-halo-glow"></div>
+      </div>
+      <div class="wangwana-loader-title">
+        Wangwana <span class="text-gold">Airbnb</span>
+      </div>
+      <div class="wangwana-loader-bar">
+        <div class="wangwana-loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
         <img src="assets/images/Logo.jpg" alt="Wangwana Logo">
         <span>Wangwana <span class="text-gold">Airbnb</span></span>
-        <span class="badge bg-gold-subtle text-gold d-none d-sm-inline-block small ms-1">Kisumu Only</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="listings.html">All Stays</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About Wangwana</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="listings.html">Stays</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item ms-lg-2">
-            <a href="tel:0703165843" class="btn btn-sm btn-outline-gold">
-              <i class="bi bi-telephone-fill me-1"></i> 0703165843
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="listings.html" class="btn btn-sm btn-primary">
               <i class="bi bi-search me-1"></i> Browse Stays
             </a>
@@ -67,21 +80,7 @@
             <h1 class="h3 mb-1">Confirm Your Stay</h1>
             <p class="text-muted small mb-4">Complete your details to secure your reservation at Wangwana Airbnb</p>
 
-            <form id="reservationForm" action="https://formspree.io/f/ochiengblasio@gmail.com" method="POST" novalidate>
-              <!-- Formspree Host Email Notification Endpoint -->
-              <input type="hidden" name="_to" value="ochiengblasio@gmail.com">
-              <input type="hidden" name="_subject" id="formspreeSubject" value="New Wangwana Airbnb Reservation">
-              <input type="hidden" name="agency" value="Wangwana Real Estate Agency Kisumu">
-
-              <!-- Email notification banner -->
-              <div class="d-flex align-items-center gap-2 p-2 px-3 rounded bg-dark-elevated border border-secondary mb-4 small">
-                <i class="bi bi-envelope-check-fill text-gold fs-5 flex-shrink-0"></i>
-                <div>
-                  <span class="text-light fw-semibold d-block">Host Booking Notification</span>
-                  <span class="text-muted">Instant reservation alerts are delivered to agency desk: <strong class="text-gold">ochiengblasio@gmail.com</strong></span>
-                </div>
-              </div>
-
+            <form id="reservationForm" novalidate>
               <!-- Step 1: Select or Confirm Property -->
               <div class="mb-4">
                 <label for="bookPropertySelect" class="form-label">Chosen Residence</label>
@@ -90,31 +89,90 @@
                 </select>
               </div>
 
-              <!-- Step 2: Dates and Guests -->
-              <div class="p-3 bg-dark-elevated rounded border border-secondary mb-4">
-                <h6 class="text-gold mb-3"><i class="bi bi-calendar-event me-1"></i> Dates & Guests</h6>
-                <div class="row g-3">
+              <!-- Step 2: Calendar Date Range & Guests -->
+              <div class="p-3 bg-dark-elevated rounded border border-secondary mb-4" id="stepDatesGuests">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="text-gold mb-0"><i class="bi bi-calendar-range me-2"></i> Dates & Duration</h6>
+                  <span id="bookingDurationBadge" class="badge bg-gold text-dark fw-bold px-2 py-1">
+                    <i class="bi bi-moon-stars-fill me-1"></i> <span id="displayNightsCount">2 Nights</span>
+                  </span>
+                </div>
+
+                <!-- Calendar Date Range Interactive Input -->
+                <div class="mb-3">
+                  <label for="bookDateRangePicker" class="form-label small fw-semibold text-light mb-1 d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-calendar3 me-1 text-gold"></i> Calendar Date Range (Check-in &amp; Check-out)</span>
+                    <span class="text-muted small" style="font-size: 0.75rem;"><i class="bi bi-mouse me-1"></i> Click to pick dates</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary text-gold">
+                      <i class="bi bi-calendar-check fs-6"></i>
+                    </span>
+                    <input type="text" id="bookDateRangePicker" class="form-control bg-dark text-light border-secondary fw-semibold cursor-pointer" placeholder="Click to choose check-in &amp; check-out dates on calendar..." readonly style="cursor: pointer;">
+                    <button type="button" class="btn btn-outline-gold d-flex align-items-center gap-1" id="btnOpenCalendar">
+                      <i class="bi bi-calendar-event"></i> Open Calendar
+                    </button>
+                  </div>
+                  <div class="invalid-feedback d-block text-danger small mt-1 d-none" id="dateRangeError">Please select both check-in and check-out dates.</div>
+                </div>
+
+                <!-- Visual Interactive Date Cards -->
+                <div class="row g-2 mb-3">
                   <div class="col-sm-6">
-                    <label for="bookCheckIn" class="form-label small">Check-in Date</label>
-                    <input type="date" id="bookCheckIn" class="form-control" required>
-                    <div class="invalid-feedback">Please select a valid check-in date.</div>
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50 date-card cursor-pointer" id="cardCheckIn" style="cursor: pointer;" title="Click to change check-in date">
+                      <div class="d-flex justify-content-between align-items-center text-muted text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">
+                        <span><i class="bi bi-box-arrow-in-right text-success me-1"></i> Check-in Date</span>
+                        <span class="badge bg-success bg-opacity-25 text-success" style="font-size: 0.65rem;">From 2:00 PM</span>
+                      </div>
+                      <div class="fw-bold text-light fs-6 mt-1" id="displayCheckInDate">
+                        Selecting...
+                      </div>
+                      <div class="text-muted" style="font-size: 0.72rem;">Self check-in or host welcome</div>
+                    </div>
                   </div>
                   <div class="col-sm-6">
-                    <label for="bookCheckOut" class="form-label small">Check-out Date</label>
-                    <input type="date" id="bookCheckOut" class="form-control" required>
-                    <div class="invalid-feedback">Check-out must be after check-in.</div>
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-50 date-card cursor-pointer" id="cardCheckOut" style="cursor: pointer;" title="Click to change check-out date">
+                      <div class="d-flex justify-content-between align-items-center text-muted text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">
+                        <span><i class="bi bi-box-arrow-right text-warning me-1"></i> Check-out Date</span>
+                        <span class="badge bg-warning bg-opacity-25 text-warning" style="font-size: 0.65rem;">Until 11:00 AM</span>
+                      </div>
+                      <div class="fw-bold text-light fs-6 mt-1" id="displayCheckOutDate">
+                        Selecting...
+                      </div>
+                      <div class="text-muted" style="font-size: 0.72rem;">Flexible checkout on request</div>
+                    </div>
                   </div>
-                  <div class="col-12">
-                    <label for="bookGuests" class="form-label small">Number of Guests</label>
-                    <select id="bookGuests" class="form-select">
-                      <option value="1">1 Guest</option>
-                      <option value="2" selected>2 Guests</option>
-                      <option value="3">3 Guests</option>
-                      <option value="4">4 Guests</option>
-                      <option value="5">5 Guests</option>
-                      <option value="6">6 Guests</option>
-                    </select>
+                </div>
+
+                <!-- Quick Stay Presets -->
+                <div class="mb-3">
+                  <div class="text-muted small mb-2 d-flex align-items-center justify-content-between">
+                    <span><i class="bi bi-lightning-charge-fill text-gold me-1"></i> Quick Stay Presets:</span>
+                    <span class="text-muted" style="font-size: 0.72rem;">1-click date selection</span>
                   </div>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary date-preset-btn" data-preset="tonight">Tonight (1 Nt)</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary date-preset-btn" data-preset="2nights">2 Nights</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary date-preset-btn" data-preset="weekend">This Weekend (Fri–Sun)</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary date-preset-btn" data-preset="week">1 Full Week (7 Nts)</button>
+                  </div>
+                </div>
+
+                <!-- Hidden inputs synchronized for form validation and backend payload -->
+                <input type="date" id="bookCheckIn" class="d-none" required>
+                <input type="date" id="bookCheckOut" class="d-none" required>
+
+                <!-- Guests Selector -->
+                <div class="pt-2 border-top border-secondary border-opacity-25">
+                  <label for="bookGuests" class="form-label small">Number of Guests</label>
+                  <select id="bookGuests" class="form-select">
+                    <option value="1">1 Guest</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option>
+                    <option value="6">6 Guests</option>
+                  </select>
                 </div>
               </div>
 
@@ -124,60 +182,70 @@
                 <div class="row g-3">
                   <div class="col-sm-12">
                     <label for="guestFullName" class="form-label small">Full Name</label>
-                    <input type="text" id="guestFullName" class="form-control" placeholder="e.g. Achieng Odhiambo" required>
+                    <input type="text" id="guestFullName" class="form-control" required>
                     <div class="invalid-feedback">Please enter your full name.</div>
                   </div>
                   <div class="col-sm-6">
                     <label for="guestEmail" class="form-label small">Email Address</label>
-                    <input type="email" id="guestEmail" class="form-control" placeholder="name@domain.com" required>
+                    <input type="email" id="guestEmail" class="form-control" required>
                     <div class="invalid-feedback">Please enter a valid email address.</div>
                   </div>
                   <div class="col-sm-6">
                     <label for="guestPhone" class="form-label small">Phone / WhatsApp</label>
-                    <input type="tel" id="guestPhone" class="form-control" placeholder="0703165843" required>
+                    <input type="tel" id="guestPhone" class="form-control" required>
                     <div class="invalid-feedback">Please provide your mobile contact.</div>
                   </div>
                   <div class="col-12">
                     <label for="guestNotes" class="form-label small">Special Requests or Arrival Notes (Optional)</label>
-                    <textarea id="guestNotes" class="form-control" rows="2" placeholder="e.g. Arriving on evening flight from Nairobi, request late check-in"></textarea>
+                    <textarea id="guestNotes" class="form-control" rows="2"></textarea>
                   </div>
                 </div>
               </div>
 
-              <!-- Step 4: Pay on Arrival Policy & Payment Mode -->
+              <!-- Step 4: Payment Method & M-Pesa STK Push -->
               <div class="p-3 bg-dark-elevated rounded border border-secondary mb-4">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                  <h6 class="text-gold mb-0"><i class="bi bi-wallet2 me-1"></i> Payment on Arrival</h6>
-                  <span class="badge-poa"><i class="bi bi-shield-check"></i> Zero Prepayment</span>
-                </div>
-                
-                <div class="alert alert-dark border border-secondary p-3 mb-3 small">
-                  <div class="d-flex gap-2">
-                    <i class="bi bi-patch-check-fill text-success fs-5"></i>
-                    <div>
-                      <strong class="text-light">Wangwana Kisumu Guarantee:</strong>
-                      <p class="mb-0 text-muted">No money is deducted now. You inspect the property upon arrival, receive keys, and pay the host directly.</p>
-                    </div>
-                  </div>
+                  <h6 class="text-gold mb-0"><i class="bi bi-wallet2 me-1"></i> Payment Options</h6>
+                  <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-1 small fw-semibold">
+                    <i class="bi bi-phone-fill me-1"></i> Instant STK Push Available
+                  </span>
                 </div>
 
-                <label class="form-label small text-muted">Preferred Payment Method:</label>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="payMpesa" value="Lipa Na M-Pesa Online (STK Push)" checked>
-                  <label class="form-check-label text-light small" for="payMpesa">
-                    <strong><i class="bi bi-phone-vibrate text-success me-1"></i>Lipa Na M-Pesa Online (STK Push)</strong> — Instant prompt sent to your phone
+                <label class="form-label small text-muted">Select Payment Method:</label>
+                
+                <!-- Option 1: Lipa Na M-Pesa STK Push -->
+                <div class="form-check p-3 rounded border border-success border-opacity-50 mb-3 bg-dark" style="background: rgba(37, 211, 102, 0.06) !important;">
+                  <input class="form-check-input ms-0 me-2" type="radio" name="paymentMethod" id="payMpesaStk" value="mpesa_stk" checked>
+                  <label class="form-check-label text-light w-100 ps-1" for="payMpesaStk">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <strong class="text-success fs-6"><i class="bi bi-phone-vibrate me-1"></i> Lipa Na M-Pesa (STK Push to Handset)</strong>
+                      <span class="badge bg-success text-white">Instant PIN Prompt</span>
+                    </div>
+                    <p class="text-muted small mb-2">We send an instant prompt directly to your phone. Simply enter your M-Pesa PIN on your screen to complete payment.</p>
+                    
+                    <!-- M-Pesa Phone Number Input -->
+                    <div id="mpesaStkPhoneBox" class="mt-2 pt-2 border-top border-secondary border-opacity-25">
+                      <label for="mpesaPhone" class="form-label small text-light fw-semibold">
+                        <i class="bi bi-sim me-1 text-success"></i> Phone Number for M-Pesa PIN Prompt:
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-dark border-secondary text-light fw-bold">+254</span>
+                        <input type="tel" id="mpesaPhone" class="form-control bg-dark border-secondary text-light" maxlength="12">
+                        <button type="button" id="btnTestStk" class="btn btn-success d-flex align-items-center gap-1 px-3">
+                          <i class="bi bi-send-fill"></i> Trigger STK
+                        </button>
+                      </div>
+                      <small class="text-muted mt-1 d-block">Supports 07XXXXXXXX, 01XXXXXXXX, or 254XXXXXXXXX</small>
+                    </div>
                   </label>
                 </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="payPoa" value="Pay on Arrival (M-Pesa / Cash)">
-                  <label class="form-check-label text-light small" for="payPoa">
-                    <strong><i class="bi bi-shield-check text-gold me-1"></i>Pay on Arrival (Zero Prepayment)</strong> — Inspect home in Kisumu first, pay upon keys
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="Bank Transfer / Card">
-                  <label class="form-check-label text-light small" for="payCard">
-                    <strong>Bank Transfer / Debit Card</strong> — On-site handover
+
+                <!-- Option 2: Pay on Arrival -->
+                <div class="form-check p-3 rounded border border-secondary mb-2 bg-dark">
+                  <input class="form-check-input ms-0 me-2" type="radio" name="paymentMethod" id="payArrival" value="pay_arrival">
+                  <label class="form-check-label text-light w-100 ps-1" for="payArrival">
+                    <strong class="text-light"><i class="bi bi-shield-check text-success me-1"></i> Pay on Arrival (Inspect First)</strong>
+                    <p class="text-muted small mb-0">Arrive at the property in Kisumu, inspect the home with the host, then pay via M-Pesa Till or Cash at key handover.</p>
                   </label>
                 </div>
               </div>
@@ -186,19 +254,14 @@
               <div class="form-check mb-4">
                 <input class="form-check-input" type="checkbox" id="termsCheck" required checked>
                 <label class="form-check-label text-muted small" for="termsCheck">
-                  I agree to inspect the home upon arrival, follow Kisumu house rules, and verify stay details with Wangwana Agency.
+                  I agree to follow Kisumu house rules and respect check-in / check-out schedules.
                 </label>
                 <div class="invalid-feedback">You must agree before submitting.</div>
               </div>
 
-              <div class="d-flex flex-column gap-2">
-                <button type="submit" id="btnSubmitBooking" class="btn btn-mpesa w-100 py-3 fs-6 d-flex align-items-center justify-content-center gap-2">
-                  <i class="bi bi-phone-vibrate fs-5"></i> Confirm Stay & Initiate M-Pesa STK Push
-                </button>
-                <button type="button" id="btnQuickPoa" class="btn btn-outline-light w-100 py-2 small d-flex align-items-center justify-content-center gap-2">
-                  <i class="bi bi-shield-check text-gold"></i> Confirm with 100% Pay on Arrival (Zero Deduction)
-                </button>
-              </div>
+              <button type="submit" id="submitBookingBtn" class="btn btn-success w-100 py-3 fs-6 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-phone-vibrate fs-5"></i> Send M-Pesa STK Push & Book
+              </button>
             </form>
           </div>
         </div>
@@ -253,23 +316,11 @@
               <span class="fs-4 fw-bold text-gold" id="summary-grand-total">KSH 22,500</span>
             </div>
 
-            <div class="p-3 bg-dark-elevated rounded border border-secondary small text-muted mb-3">
+            <div class="p-3 bg-dark-elevated rounded border border-secondary small text-muted">
               <div class="d-flex align-items-center gap-2 mb-1 text-light">
-                <i class="bi bi-shield-lock-fill text-gold"></i> 100% Pay on Arrival Guarantee
+                <i class="bi bi-shield-lock-fill text-gold"></i> Free Cancellation
               </div>
-              Zero advance payment required. Inspect property upon arrival in Kisumu, then settle via M-Pesa or Cash.
-            </div>
-
-            <!-- Direct Airbnb Alternative Link -->
-            <div id="summary-airbnb-box" class="p-3 bg-dark-elevated rounded border border-danger border-opacity-50 text-center">
-              <div class="small text-muted mb-2 d-flex align-items-center justify-content-center gap-1">
-                <i class="bi bi-shield-fill-check text-danger"></i>
-                <span>Also listed on Airbnb by Superhost Blasio</span>
-              </div>
-              <a href="#" id="summary-airbnb-link" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-box-arrow-up-right"></i>
-                <span>View on Official Airbnb</span>
-              </a>
+              Cancel up to 48 hours before check-in for a 100% full refund with no hidden penalties.
             </div>
           </div>
         </div>
@@ -338,7 +389,7 @@
         </div>
       </div>
       <div class="border-top border-secondary pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
-        <p class="mb-0">&copy; 2025 Wangwana Airbnb. Exclusively in Kisumu City, Kenya.</p>
+        <p class="mb-0">&copy; <span class="auto-year">2025</span> Wangwana Airbnb.</p>
         <div class="d-flex gap-3 mt-2 mt-sm-0">
           <a href="about.html">Terms & Conditions</a>
           <a href="about.html">Privacy Policy</a>
@@ -348,260 +399,26 @@
     </div>
   </footer>
 
-  <!-- M-Pesa STK Push Simulation Modal -->
-  <div class="modal fade" id="mpesaStkModal" tabindex="-1" aria-labelledby="mpesaStkModalLabel" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content surface-card border border-secondary" style="border-radius: 20px; overflow: hidden;">
-        <!-- Modal Header -->
-        <div class="modal-header bg-dark-elevated border-secondary border-opacity-25 px-4 py-3">
-          <div class="d-flex align-items-center gap-3">
-            <span class="mpesa-badge-safaricom">
-              <i class="bi bi-phone-fill me-1"></i> Lipa Na M-PESA
-            </span>
-            <h5 class="modal-title h6 mb-0 text-light" id="mpesaStkModalLabel">
-              Wangwana Agency • M-Pesa Payment Portal
-            </h5>
+  <!-- M-Pesa STK Push Interactive Modal -->
+  <div class="modal fade" id="mpesaStkModal" tabindex="-1" aria-labelledby="mpesaStkModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-light border border-success">
+        <div class="modal-header border-secondary border-opacity-25" style="background: rgba(37, 211, 102, 0.1);">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-success p-2 rounded-circle"><i class="bi bi-phone-fill fs-6 text-white"></i></span>
+            <h5 class="modal-title h6 mb-0 text-success fw-bold" id="mpesaStkModalLabel">Lipa Na M-Pesa Online STK Push</h5>
           </div>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" id="btnCancelStk"></button>
         </div>
-
-        <!-- Modal Body: Interactive Multi-Step States -->
-        <div class="modal-body p-4" id="mpesaModalBody">
-          <!-- Step 1: Confirmation & Prompt Initiation Screen -->
-          <div id="mpesaStepInitiate" class="mpesa-flow-step">
-            <div class="row g-4">
-              <!-- Left Col: Stay Details -->
-              <div class="col-md-6 border-end-md border-secondary border-opacity-25 pe-md-4">
-                <span class="text-gold small fw-bold text-uppercase tracking-wider d-block mb-1">Stay Details</span>
-                <h5 class="text-light mb-1" id="modalStayName">White House Serviced Residence</h5>
-                <p class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-gold me-1"></i><span id="modalStayLocation">Milimani, Kisumu City</span></p>
-
-                <div class="bg-dark-elevated p-3 rounded border border-secondary mb-3 small">
-                  <div class="d-flex justify-content-between text-muted mb-1">
-                    <span>Agency Ref:</span>
-                    <span class="text-gold font-monospace fw-bold" id="modalAgencyRef">WNG-MLM-01</span>
-                  </div>
-                  <div class="d-flex justify-content-between text-muted mb-1">
-                    <span>Guest Name:</span>
-                    <span class="text-light fw-semibold" id="modalGuestName">Guest</span>
-                  </div>
-                  <div class="d-flex justify-content-between text-muted mb-1">
-                    <span>Dates:</span>
-                    <span class="text-light" id="modalDates">Selected Dates</span>
-                  </div>
-                  <div class="d-flex justify-content-between text-muted mb-1">
-                    <span>Guests:</span>
-                    <span class="text-light" id="modalGuests">2 Guests</span>
-                  </div>
-                  <div class="d-flex justify-content-between text-muted pt-2 border-top border-secondary border-opacity-25">
-                    <span class="fw-bold text-light">Total Payable:</span>
-                    <span class="text-gold fw-bold fs-6" id="modalTotalPayable">KSH 22,500</span>
-                  </div>
-                </div>
-
-                <div class="alert alert-dark border border-secondary p-2 mb-0 small text-muted">
-                  <i class="bi bi-shield-check text-success me-1"></i> <strong>Pay on Arrival Option:</strong> You can either complete an instant STK push simulation now, or keep your reservation on <em>Pay on Arrival</em> with zero advance deduction.
-                </div>
-              </div>
-
-              <!-- Right Col: M-Pesa STK Push Form -->
-              <div class="col-md-6 ps-md-4">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <span class="text-success fw-bold small text-uppercase tracking-wider">
-                    <i class="bi bi-sim-fill me-1"></i> STK Push Prompt
-                  </span>
-                  <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-1 small">
-                    Till: 843165
-                  </span>
-                </div>
-
-                <div class="mb-3">
-                  <label for="mpesaPromptPhone" class="form-label small text-muted">Safaricom M-Pesa Phone Number</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-dark-elevated text-gold border-secondary border-opacity-50 fw-bold">🇰🇪 +254</span>
-                    <input type="tel" id="mpesaPromptPhone" class="form-control bg-dark border-secondary border-opacity-50 text-light fw-bold" placeholder="703165843">
-                  </div>
-                  <div class="form-text text-muted small">We will send an instant M-Pesa SIM prompt to this phone.</div>
-                </div>
-
-                <div class="p-3 bg-dark-elevated rounded border border-secondary mb-3 small">
-                  <div class="d-flex justify-content-between text-muted mb-1">
-                    <span>Paybill / Till:</span>
-                    <strong class="text-light">843165 (Wangwana Agency)</strong>
-                  </div>
-                  <div class="d-flex justify-content-between text-muted mb-1">
-                    <span>Account Ref:</span>
-                    <strong class="text-gold font-monospace" id="modalAccountRef">WNG-MLM-01</strong>
-                  </div>
-                  <div class="d-flex justify-content-between text-muted">
-                    <span>Payable Amount:</span>
-                    <strong class="text-success fs-6" id="modalPromptAmount">KSH 22,500</strong>
-                  </div>
-                </div>
-
-                <button type="button" id="btnTriggerStkPush" class="btn btn-mpesa w-100 py-3 mb-2 d-flex align-items-center justify-content-center gap-2">
-                  <i class="bi bi-phone-vibrate fs-5"></i>
-                  <span>Send M-Pesa Prompt to Phone</span>
-                </button>
-
-                <button type="button" id="btnSkipToPayOnArrival" class="btn btn-outline-light w-100 py-2 small">
-                  <i class="bi bi-shield-check text-gold me-1"></i> Pay on Arrival Instead (Zero Prepayment)
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 2: Realistic Animated Phone STK Prompt Screen -->
-          <div id="mpesaStepSimulating" class="mpesa-flow-step d-none">
-            <div class="text-center mb-3">
-              <span class="badge bg-warning bg-opacity-25 text-warning border border-warning px-3 py-1 mb-2">
-                <i class="bi bi-broadcast me-1"></i> SIM Toolkit Prompt Active
-              </span>
-              <p class="text-muted small mb-0">Simulating authentic Safaricom M-Pesa STK prompt on the guest handset</p>
-            </div>
-
-            <div class="stk-phone-mockup">
-              <div class="stk-phone-notch"></div>
-              <div class="stk-phone-screen">
-                <div class="d-flex justify-content-between small text-muted mb-4 px-2">
-                  <span id="phoneSimTime">9:41</span>
-                  <span><i class="bi bi-reception-4 me-1"></i>4G <i class="bi bi-battery-full ms-1"></i></span>
-                </div>
-
-                <!-- STK Dialog -->
-                <div class="stk-sim-dialog my-auto">
-                  <div class="d-flex align-items-center gap-2 mb-2">
-                    <div class="badge bg-success py-1 px-2 fw-bold" style="font-size: 0.72rem;">M-PESA</div>
-                    <span class="small text-light fw-bold">SIM ToolKit</span>
-                  </div>
-                  <div class="text-light small mb-2" id="simPromptMessage">
-                    Do you want to pay <strong id="stkDialogAmount">KSH 22,500</strong> to <strong>WANGWANA REAL ESTATE AGENCY</strong>?<br>
-                    <span class="text-muted">Till: 843165 | Ref: <span id="stkDialogRef">WNG-MLM-01</span></span>
-                  </div>
-
-                  <div class="small text-muted mb-1 text-center">Enter M-Pesa PIN:</div>
-                  
-                  <!-- PIN Dots -->
-                  <div class="stk-pin-dots">
-                    <span class="stk-pin-dot" id="pindot-1"></span>
-                    <span class="stk-pin-dot" id="pindot-2"></span>
-                    <span class="stk-pin-dot" id="pindot-3"></span>
-                    <span class="stk-pin-dot" id="pindot-4"></span>
-                  </div>
-
-                  <!-- Optional direct PIN input for typing -->
-                  <div class="mb-2">
-                    <input type="password" id="simDirectPinInput" maxlength="4" class="form-control form-control-sm text-center bg-dark border-secondary text-light font-monospace" placeholder="4-digit PIN (e.g. 1234)" style="letter-spacing: 0.4em; font-size: 1rem;">
-                  </div>
-
-                  <!-- Keypad -->
-                  <div class="stk-keypad">
-                    <button type="button" class="stk-key-btn" data-key="1">1</button>
-                    <button type="button" class="stk-key-btn" data-key="2">2</button>
-                    <button type="button" class="stk-key-btn" data-key="3">3</button>
-                    <button type="button" class="stk-key-btn" data-key="4">4</button>
-                    <button type="button" class="stk-key-btn" data-key="5">5</button>
-                    <button type="button" class="stk-key-btn" data-key="6">6</button>
-                    <button type="button" class="stk-key-btn" data-key="7">7</button>
-                    <button type="button" class="stk-key-btn" data-key="8">8</button>
-                    <button type="button" class="stk-key-btn" data-key="9">9</button>
-                    <button type="button" class="stk-key-btn text-danger small" data-key="clear" title="Clear">CLR</button>
-                    <button type="button" class="stk-key-btn" data-key="0">0</button>
-                    <button type="button" class="stk-key-btn text-warning" data-key="back" title="Backspace"><i class="bi bi-backspace"></i></button>
-                  </div>
-
-                  <div class="d-flex gap-2 mt-3">
-                    <button type="button" id="btnCancelStkPrompt" class="btn btn-sm btn-outline-secondary w-50 py-2">
-                      Cancel
-                    </button>
-                    <button type="button" id="btnSubmitStkPin" class="btn btn-sm btn-success w-50 py-2 fw-bold">
-                      <span id="btnSubmitPinSpinner" class="spinner-border spinner-border-sm me-1 d-none" role="status"></span>
-                      Send PIN
-                    </button>
-                  </div>
-                </div>
-
-                <div class="text-center text-muted small mt-3" style="font-size: 0.7rem;">
-                  <i class="bi bi-shield-lock-fill text-success me-1"></i> Safaricom 256-Bit Encrypted
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 3: Success Confirmation & Safaricom SMS Voucher -->
-          <div id="mpesaStepSuccess" class="mpesa-flow-step d-none">
-            <div class="text-center mb-3">
-              <div class="d-inline-flex p-3 rounded-circle bg-success bg-opacity-25 text-success mb-2">
-                <i class="bi bi-check-circle-fill fs-1"></i>
-              </div>
-              <h4 class="text-success mb-1">M-Pesa Payment Confirmed!</h4>
-              <p class="text-muted small mb-0">Lipa Na M-Pesa Online transaction accepted and verified</p>
-            </div>
-
-            <!-- Authentic Safaricom SMS Card -->
-            <div class="mpesa-receipt-card mb-3">
-              <div class="d-flex align-items-center justify-content-between mb-2 border-bottom border-success border-opacity-25 pb-2">
-                <span class="text-success fw-bold"><i class="bi bi-chat-left-dots-fill me-1"></i> SAFARICOM_MPESA_ALERT</span>
-                <span class="badge bg-success" id="smsReceiptNumber">RE94KJ280P</span>
-              </div>
-              <p class="text-light small mb-0" id="smsReceiptMessage" style="line-height: 1.6; font-size: 0.85rem;">
-                M-PESA Confirmed. Receipt: RE94KJ280P.
-                KES 22,500.00 sent to WANGWANA REAL ESTATE AGENCY (Till 843165)
-                on 21/09/2026 at 12:45 PM.
-                New M-PESA balance is KES 48,250.00.
-                Transaction cost: KES 0.00.
-              </p>
-            </div>
-
-            <!-- Booking Summary -->
-            <div class="bg-dark-elevated p-3 rounded border border-secondary mb-3 small">
-              <div class="row g-2">
-                <div class="col-sm-6 text-muted">Property: <strong class="text-light" id="successPropName">White House Serviced Residence</strong></div>
-                <div class="col-sm-6 text-muted">Agency Ref: <strong class="text-gold font-monospace" id="successAgencyRef">WNG-MLM-01</strong></div>
-                <div class="col-sm-6 text-muted">Guest: <strong class="text-light" id="successGuestName">Guest</strong></div>
-                <div class="col-sm-6 text-muted">Phone: <strong class="text-light" id="successGuestPhone">254703165843</strong></div>
-                <div class="col-sm-6 text-muted">Dates: <strong class="text-light" id="successDates">Selected Dates</strong></div>
-                <div class="col-sm-6 text-muted">Payment: <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Paid via Lipa Na M-Pesa</span></div>
-              </div>
-            </div>
-
-            <div class="d-flex flex-column flex-sm-row gap-2">
-              <button type="button" id="btnDownloadPrintPdf" class="btn btn-gold text-dark fw-bold flex-grow-1 py-2 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-file-earmark-pdf-fill text-danger fs-5"></i>
-                <span>Download / Print Booking PDF</span>
-              </button>
-              <a href="#" id="successWhatsAppConcierge" target="_blank" class="btn btn-success flex-grow-1 py-2">
-                <i class="bi bi-whatsapp me-1"></i> Concierge WhatsApp
-              </a>
-              <button type="button" id="btnFinishMpesaModal" class="btn btn-primary py-2 px-4" data-bs-dismiss="modal">
-                View Reservation
-              </button>
-            </div>
-
-            <!-- Stay Assurance & Invoice Note -->
-            <div class="p-3 mt-3 rounded bg-dark-surface border border-secondary border-opacity-30 small">
-              <div class="d-flex align-items-center justify-content-between mb-1">
-                <span class="text-light fw-semibold">
-                  <i class="bi bi-shield-check text-gold me-1"></i> Official Stay Assurance & Invoice
-                </span>
-                <span class="badge bg-gold-subtle text-gold">PDF Guaranteed</span>
-              </div>
-              <p class="text-muted mb-0" style="font-size: 0.8rem;">
-                Your booking document serves as an official Wangwana accommodation invoice with registered business seals, itemized pricing, and gate pass verification for check-in.
-              </p>
-            </div>
-          </div>
+        <div class="modal-body p-4 text-center" id="mpesaStkModalBody">
+          <!-- Populated dynamically by js/book.js -->
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Dedicated Print & PDF Invoice Sheet for Clean Export -->
-  <div id="print-invoice-sheet" aria-hidden="true"></div>
-
-  <!-- html2pdf for Direct Client-Side PDF Generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/book.js"></script>
 </body>

@@ -584,6 +584,9 @@ function setupBookingCalculator(property) {
   const subtotalEl = document.getElementById('calc-subtotal');
   const grandTotalEl = document.getElementById('calc-grand-total');
   const bookBtn = document.getElementById('calc-submit-book-btn');
+  const rangePicker = document.getElementById('propDateRangePicker');
+  const openCalBtn = document.getElementById('btnPropOpenCalendar');
+  const rangeNightsBadge = document.getElementById('prop-range-nights');
 
   if (!checkIn || !checkOut) return;
 
@@ -597,9 +600,40 @@ function setupBookingCalculator(property) {
     if (subtotalEl) subtotalEl.textContent = formatKsh(subtotal);
     if (grandTotalEl) grandTotalEl.textContent = formatKsh(grandTotal);
 
+    if (rangePicker && checkIn.value && checkOut.value) {
+      rangePicker.value = `${checkIn.value}  ➔  ${checkOut.value} (${nights} night${nights === 1 ? '' : 's'})`;
+    }
+    if (rangeNightsBadge) {
+      rangeNightsBadge.textContent = `${nights} Night${nights === 1 ? '' : 's'}`;
+    }
+
     if (bookBtn) {
       const selectedGuests = guests ? guests.value : 2;
       bookBtn.href = `book.html?id=${encodeURIComponent(property.id)}&checkIn=${checkIn.value}&checkOut=${checkOut.value}&guests=${selectedGuests}&nights=${nights}`;
+    }
+  }
+
+  // Initialize Flatpickr range picker on property details page if available
+  if (typeof window.flatpickr === 'function' && rangePicker) {
+    const propPicker = window.flatpickr(rangePicker, {
+      mode: 'range',
+      minDate: 'today',
+      dateFormat: 'Y-m-d',
+      defaultDate: [checkIn.value, checkOut.value],
+      onChange: (selectedDates, dateStr, instance) => {
+        if (selectedDates.length === 2) {
+          checkIn.value = instance.formatDate(selectedDates[0], 'Y-m-d');
+          checkOut.value = instance.formatDate(selectedDates[1], 'Y-m-d');
+          recalculate();
+        }
+      }
+    });
+
+    if (openCalBtn) {
+      openCalBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        propPicker.open();
+      });
     }
   }
 
