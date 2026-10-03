@@ -16,14 +16,22 @@ const LANDLORDS_FILE = path.join(DATA_DIR, 'landlord-inquiries.json');
 const BOOKINGS_FILE = path.join(DATA_DIR, 'bookings.json');
 
 // Ensure data folder and files exist
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+try {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+} catch (err) {
+  // Read-only filesystem in serverless environments
 }
 
 function readJSONFile(filePath, fallback = []) {
   try {
     if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, JSON.stringify(fallback, null, 2), 'utf8');
+      try {
+        fs.writeFileSync(filePath, JSON.stringify(fallback, null, 2), 'utf8');
+      } catch (writeErr) {
+        // Ignore write failures in read-only environments
+      }
       return fallback;
     }
     const data = fs.readFileSync(filePath, 'utf8');
@@ -613,6 +621,11 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, HOST, () => {
-  console.log(`Wangwana Real Estate Agency Server running at http://${HOST}:${PORT}`);
-});
+// Export app for serverless platforms (e.g. Vercel) and testing
+module.exports = app;
+
+if (!process.env.VERCEL) {
+  app.listen(PORT, HOST, () => {
+    console.log(`Wangwana Real Estate Agency Server running at http://${HOST}:${PORT}`);
+  });
+}

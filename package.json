@@ -5,9 +5,9 @@
   "main": "index.html",
   "scripts": {
     "dev": "node server.js",
-    "build": "echo 'Build complete'",
+    "build": "node build.js",
     "start": "node server.js",
-    "lint": "node -c server.js js/main.js js/utils.js js/properties.js js/property-detail.js js/book.js js/favorites.js js/lightbox-360.js"
+    "lint": "node -c server.js build.js api/index.js js/main.js js/utils.js js/properties.js js/property-detail.js js/book.js js/favorites.js js/lightbox-360.js"
   },
   "dependencies": {
     "express": "^5.2.1"
